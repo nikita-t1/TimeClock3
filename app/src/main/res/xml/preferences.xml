@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="Main Settings">
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="isNotificationVisible"
+            android:title="Notification"
+            android:summary="Show  Notification"/>
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="isNotificationPersistant"
+            android:visibility="invisible"
+            android:title="Persistant"
+            android:summary="Make the Notification persistant"/>
+    </PreferenceCategory>
+
+
+
+    <PreferenceCategory android:title="About">
+        <Preference
+            android:selectable="false"
+            android:summary="Developed by lovely morons in Hamburg &lt;3"/>
+        <Preference
+            android:selectable="false"
+            android:title="Version"
+            android:summary="0.4-ALPHA"/>
+    </PreferenceCategory>
+
+</PreferenceScreen>

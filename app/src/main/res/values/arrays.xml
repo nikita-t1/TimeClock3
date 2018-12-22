@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="features">
+        <item> • Professional Settings Screen</item>
+        <item> • About App Page</item>
+        <item> • Finalize ConstrainLayout HomeScreen</item>
+        <item> • Add Animations</item>
+        <item> • Systemwide Ripple Effect</item>
+        <item> • Catch Fragments Lifecycle End</item>
+        <item> • Intro Screen with Working Time and Pause Input</item>
+        <item> • SQLite Database for ClockInTime, ClockOutTime and Pause</item>
+        <item> • Create RecyclerView in Listing Screen</item>
+        <item> • Many Many Bugfixes</item>
+    </string-array>
+</resources>

@@ -1,0 +1,55 @@
+<changelog>
+
+    <release versionCode="92" versionName="0.9.2-alpha" date="23-12-2018">
+        <exp>Added About App Page</exp>
+    </release>
+
+    <release versionCode="91" versionName="0.9.1-alpha" date="21-12-2018">
+        <new>Created "Future Feature" List (Internal)</new>
+        <exp>Added Calculator View to BottomSheet (No Funct)</exp>
+        <update>Migrated Code from "android.support" to "androidx" (Jetpack)</update>
+        <bug>Fragment gets destroyed on switch -> Thread reference to null -> App Crash</bug>
+    </release>
+
+    <release versionCode="90" versionName="0.9-alpha" date="19-12-2018">
+        <new>ProgressBar Animation with start, stop, pause and resume functionality (standart work time set to 15s)</new>
+        <update>Improved LogCat</update>
+        <update>Improved Toast functionality</update>
+        <fix>ProgressBar Deviation (max of 1% if System is overloaded)</fix>
+        <fix>some bugfixes</fix>
+    </release>
+
+    <!--
+    <release versionCode="xx" versionName="changelog_test" date="19-12-2018">
+        <change>
+        <exp>
+        <new>
+        <bug>
+        <fix>
+        <update>
+        <info>
+        <remove>
+    </release>
+    -->
+
+    <release versionCode="81" versionName="0.8.1-alpha" date="18-12-2018">
+        <exp>Progressbar Animations in connection with chosen Time</exp>
+        <bug>Progressbar has a Deviation of 3%</bug>
+        <bug>App crashes because of Toast at 100%</bug>
+    </release>
+
+    <release versionCode="80" versionName="0.8-alpha" date="17-12-2018">
+        <new>Added Changelog</new>
+        <change>Changed the Layout-Style form appCompat.v7 to android.material</change>
+    </release>
+
+    <!-- simple example - no version name => will be generated based on verionCode: 100 => v1.00 -->
+    <release versionCode="70" versionName="0.7-alpha" date="16-12-2018">
+        <new>Added Animation for 'Pause' Button</new>
+        <new>Created Counting Method for the time</new>
+        <new>Added pause, resume and reset functionality to the time</new>
+        <new>Added second timeclock to show the time during pause</new>
+        <fix>Some bugfix</fix>
+    </release>
+
+</changelog>

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_options"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#ffffff"
+    android:orientation="vertical"
+    app:behavior_hideable="true"
+    app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
+
+    <com.google.android.material.button.MaterialButton
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:text="Settings"
+        android:onClick="settingsbutton"
+        android:textSize="16sp"
+        android:textAlignment="textStart"
+        android:textAllCaps="false"
+        app:backgroundTint="@color/white"
+        android:minWidth="200dp"
+        android:textColor="@color/black"
+
+        app:icon="@drawable/ic_settings_black_24dp"
+        app:iconTint="@color/black"
+        app:iconSize="26dp"
+        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:iconPadding="24dp"
+        android:layout_marginHorizontal="10dp"
+        android:paddingVertical="2dp"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:text="Calculator"
+        android:textSize="16sp"
+        android:onClick="calculatorView"
+        android:textAlignment="textStart"
+        android:textAllCaps="false"
+        app:backgroundTint="@color/white"
+        android:minWidth="200dp"
+        android:textColor="@color/black"
+        app:icon="@drawable/ic_calculator_black_24dp"
+        app:iconTint="@color/black"
+        app:iconSize="26dp"
+        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:iconPadding="24dp"
+        android:layout_marginHorizontal="10dp"
+        android:paddingVertical="10dp"
+        style="@style/Widget.MaterialComponents.Button.TextButton" />
+
+    <com.google.android.material.button.MaterialButton
+        android:text="About"
+        android:textSize="16sp"
+        android:onClick="aboutButton"
+        android:textAlignment="textStart"
+        android:textAllCaps="false"
+        app:backgroundTint="@color/white"
+        android:minWidth="200dp"
+        android:textColor="@color/black"
+        app:icon="@drawable/ic_about_outline_black_24dp"
+        app:iconTint="@color/black"
+        app:iconSize="26dp"
+        android:layout_centerInParent="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:iconPadding="24dp"
+        android:layout_marginHorizontal="10dp"
+        android:paddingVertical="2dp"
+        style="@style/Widget.MaterialComponents.Button.TextButton" />
+
+
+</LinearLayout>
