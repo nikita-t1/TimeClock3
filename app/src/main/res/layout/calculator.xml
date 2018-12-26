@@ -14,56 +14,64 @@
         android:textAlignment="viewEnd"/>
     <TableRow
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
         <androidx.appcompat.widget.AppCompatButton
             style="?android:attr/borderlessButtonStyle"
             android:id="@+id/button1"
+            android:layout_height="60dp"
             android:text="1"
             android:layout_weight="1"
             android:textSize="20sp"/>
         <androidx.appcompat.widget.AppCompatButton
             style="?android:attr/borderlessButtonStyle"
             android:id="@+id/button2"
+            android:layout_height="60dp"
             android:text="2"
             android:layout_weight="1"
             android:textSize="20sp"/>
         <androidx.appcompat.widget.AppCompatButton
             style="?android:attr/borderlessButtonStyle"
             android:id="@+id/button3"
+            android:layout_height="60dp"
             android:text="3"
             android:layout_weight="1"
             android:textSize="20sp"/>
         <androidx.appcompat.widget.AppCompatButton
             style="?android:attr/borderlessButtonStyle"
             android:id="@+id/buttonAdd"
+            android:layout_height="60dp"
             android:text="+"
             android:layout_weight="1"
             android:textSize="20sp"/>
     </TableRow>
     <TableRow
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
         <androidx.appcompat.widget.AppCompatButton
             style="?android:attr/borderlessButtonStyle"
             android:id="@+id/button4"
+            android:layout_height="60dp"
             android:text="4"
             android:layout_weight="1"
             android:textSize="20sp"/>
         <androidx.appcompat.widget.AppCompatButton
             style="?android:attr/borderlessButtonStyle"
             android:id="@+id/button5"
+            android:layout_height="60dp"
             android:text="5"
             android:layout_weight="1"
             android:textSize="20sp"/>
         <androidx.appcompat.widget.AppCompatButton
             style="?android:attr/borderlessButtonStyle"
             android:id="@+id/button6"
+            android:layout_height="60dp"
             android:text="6"
             android:layout_weight="1"
             android:textSize="20sp"/>
         <androidx.appcompat.widget.AppCompatButton
             style="?android:attr/borderlessButtonStyle"
             android:id="@+id/buttonSub"
+            android:layout_height="60dp"
             android:text="-"
             android:layout_weight="1"
             android:textSize="20sp"/>
@@ -71,56 +79,64 @@
 
     <TableRow
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
         <androidx.appcompat.widget.AppCompatButton
             style="?android:attr/borderlessButtonStyle"
             android:id="@+id/button7"
+            android:layout_height="60dp"
             android:text="7"
             android:layout_weight="1"
             android:textSize="20sp"/>
         <androidx.appcompat.widget.AppCompatButton
             style="?android:attr/borderlessButtonStyle"
             android:id="@+id/button8"
+            android:layout_height="60dp"
             android:text="8"
             android:layout_weight="1"
             android:textSize="20sp"/>
         <androidx.appcompat.widget.AppCompatButton
             style="?android:attr/borderlessButtonStyle"
             android:id="@+id/button9"
+            android:layout_height="60dp"
             android:text="9"
             android:layout_weight="1"
             android:textSize="20sp"/>
         <androidx.appcompat.widget.AppCompatButton
             style="?android:attr/borderlessButtonStyle"
             android:id="@+id/buttonMul"
+            android:layout_height="60dp"
             android:text="C"
             android:layout_weight="1"
             android:textSize="20sp"/>
     </TableRow>
     <TableRow
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
         <androidx.appcompat.widget.AppCompatButton
             style="?android:attr/borderlessButtonStyle"
             android:id="@+id/buttonClear"
+            android:layout_height="60dp"
             android:text="."
             android:layout_weight="1"
             android:textSize="20sp"/>
         <androidx.appcompat.widget.AppCompatButton
             style="?android:attr/borderlessButtonStyle"
             android:id="@+id/button0"
+            android:layout_height="60dp"
             android:text="0"
             android:layout_weight="1"
             android:textSize="20sp"/>
         <androidx.appcompat.widget.AppCompatButton
             style="?android:attr/borderlessButtonStyle"
             android:id="@+id/buttonEqual"
+            android:layout_height="60dp"
             android:text="="
             android:layout_weight="1"
             android:textSize="20sp"/>
         <androidx.appcompat.widget.AppCompatImageButton
             style="?android:attr/borderlessButtonStyle"
             android:id="@+id/buttonDiv"
+            android:layout_height="60dp"
             android:src="@drawable/ic_switch_black_24dp"
             android:layout_weight="1"
             android:textSize="20sp"/>

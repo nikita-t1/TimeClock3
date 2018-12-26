@@ -2,7 +2,6 @@
 <resources>
     <string-array name="features">
         <item> • Professional Settings Screen</item>
-        <item> • About App Page</item>
         <item> • Finalize ConstrainLayout HomeScreen</item>
         <item> • Add Animations</item>
         <item> • Systemwide Ripple Effect</item>

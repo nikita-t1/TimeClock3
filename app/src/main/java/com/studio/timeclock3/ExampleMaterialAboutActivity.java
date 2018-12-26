@@ -1,9 +1,17 @@
 package com.studio.timeclock3;
 
+import android.app.Activity;
+import android.app.Application;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Resources;
+import android.net.Uri;
 import android.os.Build;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.danielstone.materialaboutlibrary.MaterialAboutActivity;
@@ -12,7 +20,13 @@ import com.danielstone.materialaboutlibrary.items.MaterialAboutItem;
 import com.danielstone.materialaboutlibrary.items.MaterialAboutItemOnClickAction;
 import com.danielstone.materialaboutlibrary.model.MaterialAboutCard;
 import com.danielstone.materialaboutlibrary.model.MaterialAboutList;
+
+import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
+import com.github.javiersantos.materialstyleddialogs.enums.Style;
 import com.michaelflisar.changelog.ChangelogBuilder;
+import com.michaelflisar.changelog.internal.ChangelogDialogFragment;
+import com.mikepenz.aboutlibraries.Libs;
+import com.mikepenz.aboutlibraries.LibsBuilder;
 
 import java.util.logging.Logger;
 
@@ -21,6 +35,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import es.dmoral.toasty.Toasty;
 
 import static android.widget.Toast.*;
+import static com.studio.timeclock3.R.mipmap.ic_launcher;
 
 public class ExampleMaterialAboutActivity extends MaterialAboutActivity {
 
@@ -89,9 +104,10 @@ public class ExampleMaterialAboutActivity extends MaterialAboutActivity {
                 .setOnClickAction(new MaterialAboutItemOnClickAction() {
                     @Override
                     public void onClick() {
-                        Toasty.warning(getApplicationContext(), "Working on it right now!", Toast.LENGTH_LONG, true).show();
-
-                    }
+                        ChangelogDialogFragment builder = new ChangelogBuilder()
+                                .withUseBulletList(true)
+                                .buildAndShowDialog(ExampleMaterialAboutActivity.this, false); // second parameter defines, if the dialog has a dark or light theme
+                                            }
                 })
                 .build());
 
@@ -101,14 +117,54 @@ public class ExampleMaterialAboutActivity extends MaterialAboutActivity {
                 .setOnClickAction(new MaterialAboutItemOnClickAction() {
                     @Override
                     public void onClick() {
-                        Toasty.info(getApplicationContext(), "Feature will be added later", LENGTH_SHORT, true).show();
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setData(Uri.parse("https://github.com/nikita-t1/TimeClock3"));
+                        PendingIntent pi = PendingIntent.getActivity(ExampleMaterialAboutActivity.this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT );
+                        try {
+                            pi.send();
+                        } catch (PendingIntent.CanceledException e) {
+                            e.printStackTrace();
+                        }
                     }
                 })
                 .build());
 
         aboutCardBuilder.addItem(new MaterialAboutActionItem.Builder()
-                .text("Support")
-                .icon(R.drawable.github_circle)
+                .text("Future")
+                .icon(R.drawable.ic_future_black_24dp)
+                .setOnClickAction(new MaterialAboutItemOnClickAction() {
+                    @Override
+                    public void onClick() {
+                        String[] some_array = getResources().getStringArray(R.array.features);
+
+                        com.orhanobut.logger.Logger.i("QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ");
+
+                        com.orhanobut.logger.Logger.i("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
+
+                        String str = String.join(",", some_array);
+                        str=str.replaceAll(",", "\n\n");
+
+                        new MaterialStyledDialog.Builder(ExampleMaterialAboutActivity.this)
+                                .setHeaderScaleType(ImageView.ScaleType.CENTER_CROP)
+                                .setIcon(R.drawable.ic_future_black_24dp)
+                                .setTitle("Future:")
+                                .setHeaderColor(R.color.blue)
+                                .setDescription(str)
+                                .setStyle(Style.HEADER_WITH_ICON)
+                                .withDialogAnimation(false)
+                                .setPositiveText("OK")
+                                .withDivider(false)
+                                .withIconAnimation(false)
+                                .build()
+                                .show();
+                    }
+                })
+                .build());
+
+
+        aboutCardBuilder.addItem(new MaterialAboutActionItem.Builder()
+                .text("Support Us")
+                .icon(R.drawable.ic_attach_money_black_24dp)
                 .setOnClickAction(new MaterialAboutItemOnClickAction() {
                     @Override
                     public void onClick() {
@@ -126,6 +182,26 @@ public class ExampleMaterialAboutActivity extends MaterialAboutActivity {
                         Toasty.info(getApplicationContext(), "Feature will be added later", LENGTH_SHORT, true).show();
                     }
                 })
+                .build());
+
+
+        aboutCardBuilder.addItem(new MaterialAboutActionItem.Builder()
+                .text("Open Source Libraries")
+                .icon(R.drawable.open_source_initiative)
+                .setOnClickAction(new MaterialAboutItemOnClickAction() {
+                    @Override
+                    public void onClick() {
+                                 new LibsBuilder()
+                                //provide a style (optional) (LIGHT, DARK, LIGHT_DARK_TOOLBAR)
+                                .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
+                                .withAboutAppName(ExampleMaterialAboutActivity.this.getString(R.string.app_name) )
+                                .withAboutIconShown(true)
+                                .withAboutVersionShown(true)
+                                .withAutoDetect(true)
+                                .start(ExampleMaterialAboutActivity.this);
+                    }
+                })
+
                 .build());
 
 

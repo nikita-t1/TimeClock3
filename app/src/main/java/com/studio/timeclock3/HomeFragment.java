@@ -17,10 +17,16 @@ import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.BaseInterpolator;
+import android.view.animation.Interpolator;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.OvershootInterpolator;
 import android.widget.Button;
 import android.widget.Chronometer;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.daasuu.ei.Ease;
@@ -78,12 +84,12 @@ public class HomeFragment extends Fragment {
 
     private long startOffset;   // <-- dont overthink this on too much
 
-
-    public boolean isStartPressed = false;
-    public boolean isPausePressed = false;
+    public boolean isStartPressed;
+    public boolean isPausePressed;
 
 
     public HomeFragment() {
+        Logger.e("HOME FRAGMENT");
         // Required empty public constructor
     }
 
@@ -97,6 +103,7 @@ public class HomeFragment extends Fragment {
      */
     // TODO: Rename and change types and number of parameters
     public static Fragment newInstance(String param1, String param2) {
+        Logger.e("newInstance");
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
@@ -108,11 +115,28 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+        Logger.e("onCreate");
+
+        if (savedInstanceState != null) {
+            if (savedInstanceState.getSerializable("isStartPressed") != null) {
+                isStartPressed = (Boolean) savedInstanceState.getSerializable("isStartPressed");
+                if (isStartPressed) {
+                    //startButtonClick();
+                }
+            }
+            if (savedInstanceState.getSerializable("isPausePressed") != null) {
+                isPausePressed = (Boolean) savedInstanceState.getSerializable("isPausePressed");
+                if (isPausePressed) {
+                    //pauseButtonClick();
+                }
+            }
+            if (getArguments() != null) {
+                mParam1 = getArguments().getString(ARG_PARAM1);
+                mParam2 = getArguments().getString(ARG_PARAM2);
+            }
         }
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -120,7 +144,7 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        Logger.i("onCreateView");
+        Logger.e("onCreateView");
 
         startButton = (Button) view.findViewById(R.id.startButton);
         pauseButton = (Button) view.findViewById(R.id.pauseButton);
@@ -174,21 +198,17 @@ public class HomeFragment extends Fragment {
             chronometer.start();
 
 
-            ObjectAnimator startButtonAnimator = ObjectAnimator.ofFloat(startButton, "translationX", 0, -150);
-            startButtonAnimator.setInterpolator(new EasingInterpolator(Ease.BACK_IN));
-            //animator.setStartDelay(500);
-            startButtonAnimator.setDuration(2000);
-            startButtonAnimator.start();
+            startButton.animate().translationX(-150f).setInterpolator(new OvershootInterpolator()).setDuration(1200).start();
             startButton.setText("STOP");
-
             startButton.getBackground().setTint(getResources().getColor(R.color.red, null));
 
 
-            ObjectAnimator pauseButtonAnimator = ObjectAnimator.ofFloat(pauseButton, "translationX", -0, 270);
-            pauseButtonAnimator.setInterpolator(new EasingInterpolator(Ease.BACK_IN));
-            //animator.setStartDelay(500);
-            pauseButtonAnimator.setDuration(2000);
-            pauseButtonAnimator.start();
+            //ObjectAnimator pauseButtonAnimator = ObjectAnimator.ofFloat(pauseButton, "translationX", -0, 270);
+            //pauseButtonAnimator.setInterpolator(new EasingInterpolator(Ease.BACK_IN));
+            //pauseButtonAnimator.setDuration(2000);
+            //pauseButtonAnimator.start();
+            pauseButton.animate().setInterpolator(new LinearInterpolator()).scaleX(1f).scaleY(1f).setDuration(1200).start();
+            pauseButton.animate().translationX(290f).alpha(1f).setInterpolator(new AccelerateDecelerateInterpolator()).setDuration(1200).start();
 
         } else {
 
@@ -198,6 +218,8 @@ public class HomeFragment extends Fragment {
             Logger.w("warning");
             Logger.i("information");
             Logger.wtf("What a Terrible Failure");
+
+            isPausePressed = false;
 
             progressBar.setProgressWithAnimation(0);
             progressBarPercent = 0;
@@ -213,21 +235,13 @@ public class HomeFragment extends Fragment {
             chronometerPause.setVisibility(View.GONE);
             Toast.makeText(getActivity(), "ELSE", Toast.LENGTH_SHORT).show();
 
-            ObjectAnimator startButtonAnimator = ObjectAnimator.ofFloat(startButton, "translationX", -150, 0);
-            startButtonAnimator.setInterpolator(new EasingInterpolator(Ease.BACK_IN));
-            //animator.setStartDelay(500);
-            startButtonAnimator.setDuration(2000);
-            startButtonAnimator.start();
             startButton.setText("Start");
             startButton.getBackground().setTint(getResources().getColor(R.color.green, null));
+            startButton.animate().translationX(0f).setInterpolator(new OvershootInterpolator()).setDuration(1200).start();
 
+            pauseButton.animate().setInterpolator(new LinearInterpolator()).scaleX(0f).scaleY(0f).setDuration(1200).start();
+            pauseButton.animate().translationX(0f).alpha(0f).setInterpolator(new AccelerateDecelerateInterpolator()).setDuration(1200).start();
 
-
-            ObjectAnimator pauseButtonAnimator = ObjectAnimator.ofFloat(pauseButton, "translationX", 270, -0);
-            pauseButtonAnimator.setInterpolator(new EasingInterpolator(Ease.BACK_IN));
-            //animator.setStartDelay(500);
-            pauseButtonAnimator.setDuration(2000);
-            pauseButtonAnimator.start();
 
             chronometerPause.setVisibility(View.GONE);
 
@@ -285,62 +299,6 @@ public class HomeFragment extends Fragment {
         return array.get(0).getValue();
     }
 
-    public void test() {
-
-        if (false) {
-
-            ValueAnimator widthAnimator = ValueAnimator.ofInt(10, 500);
-            widthAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    int animatedValue = (int) animation.getAnimatedValue();
-                    startButton.getLayoutParams().width = animatedValue;
-                    startButton.requestLayout();
-                }
-            });
-        }
-        if (false) {
-
-            ObjectAnimator animator = ObjectAnimator.ofFloat(startButton, "translationX", 0, -150);
-            animator.setInterpolator(new EasingInterpolator(Ease.BACK_IN));
-            animator.setStartDelay(500);
-            animator.setDuration(2000);
-            animator.start();
-        }
-        if (false) {
-
-            AnimatorSet buttonAnimator = new AnimatorSet();
-
-            /**
-             * ValueAnimator to update x position of a button
-             */
-            ValueAnimator buttonAnimatorX = ValueAnimator.ofFloat(500, 650);
-            buttonAnimatorX.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    startButton.setX((float) animation.getAnimatedValue() - startButton.getLayoutParams().width / 2);
-                    startButton.requestLayout();
-                }
-            });
-
-            ValueAnimator buttonSizeAnimator = ValueAnimator.ofInt(5, 300);
-            buttonSizeAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
-                @Override
-                public void onAnimationUpdate(ValueAnimator animation) {
-                    startButton.getLayoutParams().width = (int) animation.getAnimatedValue();
-                    startButton.getLayoutParams().height = (int) animation.getAnimatedValue();
-                    startButton.requestLayout();
-                }
-            });
-
-            //startButton.setBackgroundResource(R.drawable.rounded_button_start);
-            buttonAnimatorX.setDuration(1000);
-            buttonAnimator.play(buttonAnimatorX).with(buttonSizeAnimator);
-            buttonAnimator.start();
-            //startButton.setBackgroundResource(R.drawable.rounded_button_start);
-
-        }
-    }
 
     public void progressBarUpdateThread() {
         final Handler mHandler = new Handler();
@@ -364,7 +322,7 @@ public class HomeFragment extends Fragment {
                     //progressBarPercent = getProgressBarValue();
                     //android.os.SystemClock.sleep(1000);
                     android.os.SystemClock.sleep((long) WORKING_TIME_1PERCENT_MILLISECONDS); // Thread.sleep() doesn't guarantee 1000 msec sleep, it can be interrupted before
-                }   UIThreadHandler("ProgressBar Update Completed");
+                }   //UIThreadHandler("ProgressBar Update Completed");
             }
         });
 
@@ -389,6 +347,7 @@ public class HomeFragment extends Fragment {
 
     @Override
     public void onAttach(Context context) {
+        Logger.e("onAttach");
         super.onAttach(context);
         if (context instanceof OnFragmentInteractionListener) {
             mListener = (OnFragmentInteractionListener) context;
@@ -404,6 +363,9 @@ public class HomeFragment extends Fragment {
         long chronometerBase = chronometer.getBase();
 
         Logger.i("**********************************************");
+        Logger.e("onDetach");
+        Logger.e("StartButton: " + Boolean.toString(isStartPressed));
+        Logger.e("StopButton: " + Boolean.toString(isPausePressed));
 
         Logger.i(String.valueOf(chronometerBase));
 
@@ -412,12 +374,38 @@ public class HomeFragment extends Fragment {
         mListener = null;
     }
 
+
+    @Override
+    public void onSaveInstanceState(Bundle state) {
+        super.onSaveInstanceState(state);
+        state.putSerializable("isStartPressed", isStartPressed);
+        state.putSerializable("isPausePressed", isPausePressed);
+        state.putBoolean("isStartPressed", isStartPressed);
+
+
+    }
     @Override
     public void onResume() {
+        Logger.e("onResume");
+        Logger.e("StartButton: " + Boolean.toString(isStartPressed));
+        Logger.e("StopButton: " + Boolean.toString(isPausePressed));
+        if (isStartPressed) {
+            startButtonClick();
+        }
+        if (isPausePressed) {
+            pauseButtonClick();
+        }
         super.onResume();
         chronometerPersist.resumeState();
 
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Logger.e("onPause");
+    }
+
 
     /**
      * This interface must be implemented by activities that contain this

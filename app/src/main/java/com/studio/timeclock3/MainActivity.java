@@ -8,7 +8,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -28,9 +28,14 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 
+import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.irozon.sneaker.Sneaker;
+import com.irozon.sneaker.interfaces.OnSneakerClickListener;
+import com.irozon.sneaker.interfaces.OnSneakerDismissListener;
 import com.michaelflisar.changelog.ChangelogBuilder;
 import com.michaelflisar.changelog.ChangelogSetup;
 import com.michaelflisar.changelog.internal.ChangelogDialogFragment;
@@ -42,19 +47,13 @@ import com.orhanobut.logger.PrettyFormatStrategy;
 import java.io.StringWriter;
 import java.util.ArrayList;
 
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-
 import es.dmoral.toasty.Toasty;
 
 
 public class MainActivity extends AppCompatActivity implements
 HomeFragment.OnFragmentInteractionListener ,
 StatisticsFragment.OnFragmentInteractionListener ,
-ListingFragment.OnFragmentInteractionListener {
+ListingFragment.OnFragmentInteractionListener, OnSneakerClickListener {
 
     private static String DEFAULT_CHANNEL_ID = "default_channel";
     private static String DEFAULT_CHANNEL_NAME = "Default";
@@ -84,19 +83,25 @@ ListingFragment.OnFragmentInteractionListener {
                 case R.id.navigation_home:
                     FragmentTransaction transaction1 = getSupportFragmentManager().beginTransaction();
                     selectedFragment = HomeFragment.newInstance("Param1", "Param2");
+                    transaction1.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
                     transaction1.replace(R.id.main_fragment_container, selectedFragment);
+                    transaction1.addToBackStack(null);
                     transaction1.commit();
                     return true;
                 case R.id.navigation_dashboard:
                     FragmentTransaction transaction2 = getSupportFragmentManager().beginTransaction();
                     selectedFragment = StatisticsFragment.newInstance("Param1", "Param2");
+                    transaction2.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
                     transaction2.replace(R.id.main_fragment_container, selectedFragment);
+                    transaction2.addToBackStack(null);
                     transaction2.commit();
                     return true;
                 case R.id.navigation_notifications:
                     FragmentTransaction transaction3 = getSupportFragmentManager().beginTransaction();
                     selectedFragment = ListingFragment.newInstance("Param1", "Param2");
+                    transaction3.setCustomAnimations(R.anim.fade_in, R.anim.fade_out);
                     transaction3.replace(R.id.main_fragment_container, selectedFragment);
+                    transaction3.addToBackStack(null);
                     transaction3.commit();
                     return true;
             }
@@ -104,13 +109,16 @@ ListingFragment.OnFragmentInteractionListener {
         }
     };
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         initializeLogger();
-        initializeChangelog();
+        //initializeChangelog();
+        SneakerAlert(500);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.main_fragment_container, HomeFragment.newInstance("What", "Ever"));
@@ -178,7 +186,22 @@ ListingFragment.OnFragmentInteractionListener {
 
 
         Toasty.info(this, "App started", Toast.LENGTH_LONG, true).show();
-     }
+    }
+
+    private void SneakerAlert(int i) {
+        //this.getWindow().getDecorView().setSystemUiVisibility(1);
+        Sneaker.with(this)
+                .setTitle("Start", R.color.white) // Title and title color
+                .setMessage("Preparing App", R.color.white) // Message and message color
+                .setDuration(i) // Time duration to show
+                .autoHide(true) // Auto hide Sneaker view
+                .setHeight(ViewGroup.LayoutParams.WRAP_CONTENT) // Height of the Sneaker layout
+                .setIcon(R.drawable.timer, R.color.white, false) // Icon, icon tint color and circular icon view
+                .setOnSneakerClickListener(this) // Click listener for Sneaker
+                //.setCornerRadius(radius, margin) // Radius and margin for round corner Sneaker. - Version 1.0.2
+                .sneak(R.color.colorPrimaryDark); // Sneak with background color
+
+    }
 
     public void initializeChangelog() {
         ChangelogSetup.get().clearTags();
@@ -195,9 +218,9 @@ ListingFragment.OnFragmentInteractionListener {
         ChangelogDialogFragment builder = new ChangelogBuilder()
                 .withUseBulletList(true)
                 .buildAndShowDialog(this, false); // second parameter defines, if the dialog has a dark or light theme
-    }
+            }
 
-    private void initializeFutureFeature() {
+    public void initializeFutureFeature() {
 
 
         String[] some_array = getResources().getStringArray(R.array.features);
@@ -260,7 +283,6 @@ ListingFragment.OnFragmentInteractionListener {
     }
 
     public void bottomSheetView(View view) {
-
         mainOptionsBottomSheetDialogFragment = MainOptionsBottomSheetDialogFragment.newInstance();
         mainOptionsBottomSheetDialogFragment.show(getSupportFragmentManager(), "MainOptionsBottomSheetDialogFragment");
     }
@@ -286,5 +308,10 @@ ListingFragment.OnFragmentInteractionListener {
                 ));
             }
         }
+    }
+
+    @Override
+    public void onSneakerClick(View view) {
+
     }
 }

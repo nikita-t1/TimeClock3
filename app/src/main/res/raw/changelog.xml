@@ -1,6 +1,13 @@
 <changelog>
 
-    <release versionCode="92" versionName="0.9.2-alpha" date="23-12-2018">
+    <release versionCode="93" versionName="0.9.3-alpha" date="26-12-2018">
+        <update>Added Github, Changelog, Future Shortcut to About Page</update>
+        <update>Better looking Start- and Stopbutton Animations</update>
+        <new>Added a Page for used Third_Party-Libraries</new>
+        <info>How the Fuck do I save the State of a Fragment??</info>
+    </release>
+
+    <release versionCode="92" versionName="0.9.2-alpha" date="22-12-2018">
         <new>Version Control System</new>
         <exp>Added About App Page</exp>
     </release>
