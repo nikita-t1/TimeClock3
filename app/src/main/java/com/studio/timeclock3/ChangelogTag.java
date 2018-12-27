@@ -124,3 +124,15 @@ class ChangelogTagFuture implements IChangelogTag {
         return prefix + changeText;
     }
 }
+class ChangelogTagRefactor implements IChangelogTag {
+    @Override
+    public String getXMLTagName() {
+        return "refactor";
+    }
+
+    @Override
+    public String formatChangelogRow(Context context, String changeText) {
+        String prefix = "<font color=\"#9c27b0\"><b>Refactor: </b></font>";
+        return prefix + changeText;
+    }
+}

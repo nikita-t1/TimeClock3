@@ -25,5 +25,18 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="Theme.App.Light" parent="Theme.IssueReporter.Light">
+        <item name="colorPrimary">@color/colorPrimary</item><!-- required -->
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item><!-- required -->
+        <item name="colorAccent">@color/colorAccent</item><!-- required -->
+    </style>
 
+    <style name="Theme.SplashTheme" parent="android:Theme">
+        <item name="android:windowBackground">@drawable/splash</item>
+    </style>
+
+    <style name="Theme.Shelves" parent="android:Theme">
+        <item name="android:windowBackground">@color/cyan</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
 </resources>

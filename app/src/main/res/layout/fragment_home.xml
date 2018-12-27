@@ -87,7 +87,7 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <Chronometer
-        android:id="@+id/chronometer"
+        android:id="@+id/chronometerWork"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="24dp"
@@ -123,18 +123,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
-
-    <Chronometer
-        android:id="@+id/chronometerHelper"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="16dp"
-        app:layout_constraintBottom_toBottomOf="@+id/pbar"
-        app:layout_constraintEnd_toEndOf="@+id/pbar"
-        app:layout_constraintHorizontal_bias="0.494"
-        app:layout_constraintStart_toStartOf="@+id/pbar"
-        app:layout_constraintTop_toTopOf="@+id/pbar"
-        app:layout_constraintVertical_bias="0.2" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
