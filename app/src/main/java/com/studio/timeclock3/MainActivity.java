@@ -37,6 +37,9 @@ import android.widget.Toast;
 import com.irozon.sneaker.Sneaker;
 import com.irozon.sneaker.interfaces.OnSneakerClickListener;
 import com.irozon.sneaker.interfaces.OnSneakerDismissListener;
+import com.kakai.materialpreferencesheaders.SettingsCategory;
+import com.kakai.materialpreferencesheaders.SettingsHeader;
+import com.kakai.materialpreferencesheaders.SettingsView;
 import com.krishna.debug_tools.activity.ActivityDebugTools;
 import com.michaelflisar.changelog.ChangelogBuilder;
 import com.michaelflisar.changelog.ChangelogSetup;
@@ -91,7 +94,7 @@ ListingFragment.OnFragmentInteractionListener, OnSneakerClickListener {
 
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    fm.beginTransaction().hide(active).show(fragment1).commit();
+                    fm.beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).hide(active).show(fragment1).commit();
                     active = fragment1;
                     Logger.e("HOME");
                     return true;
@@ -100,7 +103,7 @@ ListingFragment.OnFragmentInteractionListener, OnSneakerClickListener {
                 //    active = fragment2;
                 //    return true;
                 case R.id.navigation_listing:
-                    fm.beginTransaction().hide(active).show(fragment3).commit();
+                    fm.beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).hide(active).show(fragment3).commit();
                     active = fragment3;
                     Logger.e("LISTINGS");
                     return true;
@@ -139,7 +142,6 @@ ListingFragment.OnFragmentInteractionListener, OnSneakerClickListener {
 
             Once.markDone(changelog);
         }
-
 
         SharedPreferences mSharedPreferences = getSharedPreferences("", Context.MODE_PRIVATE);
         SharedPreferences.Editor mEditor = mSharedPreferences.edit();
