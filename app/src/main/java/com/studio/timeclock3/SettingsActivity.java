@@ -23,6 +23,7 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(view);
         Button button = (Button) findViewById(R.id.schritt);
 
+
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Perform action on click

@@ -130,11 +130,11 @@ public class HomeFragment extends Fragment {
         mEditor = mSharedPreferences.edit();
 
         if (mSharedPreferences.getBoolean("isStartPressed", false)) {
-            startButton.animate().translationX(-150f).setInterpolator(new OvershootInterpolator()).setDuration(1200).start();
+            startButton.animate().translationX(-150f).setInterpolator(new OvershootInterpolator()).setDuration(1).start();
             startButton.setText("STOP");
             startButton.getBackground().setTint(getResources().getColor(R.color.red, null));
-            pauseButton.animate().setInterpolator(new LinearInterpolator()).scaleX(1f).scaleY(1f).setDuration(1200).start();
-            pauseButton.animate().translationX(290f).alpha(1f).setInterpolator(new AccelerateDecelerateInterpolator()).setDuration(1200).start();
+            pauseButton.animate().setInterpolator(new LinearInterpolator()).scaleX(1f).scaleY(1f).setDuration(1).start();
+            pauseButton.animate().translationX(290f).alpha(1f).setInterpolator(new AccelerateDecelerateInterpolator()).setDuration(1).start();
 
         } else {
             startButton.setText("Start");

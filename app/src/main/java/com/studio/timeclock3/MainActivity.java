@@ -8,7 +8,6 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -18,6 +17,8 @@ import androidx.annotation.NonNull;
 import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
 import com.github.javiersantos.materialstyleddialogs.enums.Style;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -25,22 +26,18 @@ import androidx.core.app.NotificationCompat;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 
 import android.view.ViewGroup;
-import android.view.WindowManager;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.irozon.sneaker.Sneaker;
 import com.irozon.sneaker.interfaces.OnSneakerClickListener;
-import com.irozon.sneaker.interfaces.OnSneakerDismissListener;
-import com.kakai.materialpreferencesheaders.SettingsCategory;
-import com.kakai.materialpreferencesheaders.SettingsHeader;
-import com.kakai.materialpreferencesheaders.SettingsView;
-import com.krishna.debug_tools.activity.ActivityDebugTools;
 import com.michaelflisar.changelog.ChangelogBuilder;
 import com.michaelflisar.changelog.ChangelogSetup;
 import com.michaelflisar.changelog.internal.ChangelogDialogFragment;
@@ -49,9 +46,7 @@ import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
 
-import java.io.StringWriter;
-import java.util.ArrayList;
-
+import androidx.viewpager.widget.ViewPager;
 import es.dmoral.toasty.Toasty;
 import jonathanfinerty.once.Once;
 
@@ -69,12 +64,7 @@ ListingFragment.OnFragmentInteractionListener, OnSneakerClickListener {
     public boolean isNotificationPersistant = false;
 
 
-    final Fragment fragment1 = new HomeFragment();
-    final Fragment fragment2 = new StatisticsFragment();
-    final Fragment fragment3 = new ListingFragment();
-    final FragmentManager fm = getSupportFragmentManager();
-    Fragment active = fragment1;
-
+    private ViewPager viewPager;
 
 
     MainOptionsBottomSheetDialogFragment mainOptionsBottomSheetDialogFragment;
@@ -94,17 +84,28 @@ ListingFragment.OnFragmentInteractionListener, OnSneakerClickListener {
 
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    fm.beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).hide(active).show(fragment1).commit();
-                    active = fragment1;
+
                     Logger.e("HOME");
+                    FragmentTransaction transaction1 = getSupportFragmentManager().beginTransaction();
+                    selectedFragment = HomeFragment.newInstance("Param1", "Param2");
+                    transaction1.replace(R.id.main_fragment_container, selectedFragment);
+                    transaction1.commit();
                     return true;
-                //case R.id.navigation_dashboard:
-                //    fm.beginTransaction().hide(active).show(fragment2).commit();
-                //    active = fragment2;
-                //    return true;
+                case R.id.navigation_dashboard:
+                    //fm.beginTransaction().hide(active).show(fragment2).commit();
+                    //active = fragment2;
+                    FragmentTransaction transaction2 = getSupportFragmentManager().beginTransaction();
+                    selectedFragment = StatisticsFragment.newInstance("Param1", "Param2");
+                    transaction2.replace(R.id.main_fragment_container, selectedFragment);
+                    transaction2.commit();
+                    return true;
                 case R.id.navigation_listing:
-                    fm.beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).hide(active).show(fragment3).commit();
-                    active = fragment3;
+                    //fm.beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).hide(active).show(fragment3).commit();
+                    //active = fragment3;
+                    FragmentTransaction transaction3 = getSupportFragmentManager().beginTransaction();
+                    selectedFragment = ListingFragment.newInstance("Param1", "Param2");
+                    transaction3.replace(R.id.main_fragment_container, selectedFragment);
+                    transaction3.commit();
                     Logger.e("LISTINGS");
                     return true;
             }
@@ -127,19 +128,12 @@ ListingFragment.OnFragmentInteractionListener, OnSneakerClickListener {
         String recreateFragment = "recreateFragment";
         String changelog = "changelog";
 
-        if (!Once.beenDone(Once.THIS_APP_SESSION, recreateFragment)) {
-            fm.beginTransaction().add(R.id.main_fragment_container, fragment3, "3").hide(fragment3).commit();
-            fm.beginTransaction().add(R.id.main_fragment_container, fragment2, "2").hide(fragment2).commit();
-            fm.beginTransaction().add(R.id.main_fragment_container, fragment1, "1").commit();
-
-            Logger.e("THIS APP SESSION");
-
-            Once.markDone(recreateFragment);
-        }
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.main_fragment_container, HomeFragment.newInstance("What", "Ever"));
+        transaction.commit();
 
         if (!Once.beenDone(Once.THIS_APP_VERSION, changelog)) {
-            initializeChangelog();
-
+            //initializeChangelog();
             Once.markDone(changelog);
         }
 
@@ -158,8 +152,30 @@ ListingFragment.OnFragmentInteractionListener, OnSneakerClickListener {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.decor_content_parent);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.action_bar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        toolbar.setTitle("Title");
+        toolbar.setNavigationIcon(R.drawable.ic_menu_black_24dp);
+        TextView mTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
+        toolbar.setNavigationOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                bottomSheetView(view);
+            }
+        });
+
+//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+//        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        //CoordinatorLayout coordinator = (CoordinatorLayout) findViewById(R.id.coordinator);
+        //coordinator.setScaleY(-1f);
+        //TextView textView = (TextView) findViewById(R.id.toolbar_title);
+        //textView.setScaleY(-1f);
+        //floatingActionButton = (FloatingActionButton) findViewById(R.id.fab);
+        //floatingActionButton.hide();
+        //FrameLayout frameLayout = (FrameLayout) findViewById(R.id.main_fragment_container);
+        //frameLayout.setScaleY(-1f);
 
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
@@ -218,6 +234,7 @@ ListingFragment.OnFragmentInteractionListener, OnSneakerClickListener {
 
         Toasty.info(this, "App started", Toast.LENGTH_LONG, true).show();
     }
+
 
     private void SneakerAlert(int i, String title, String message) {
         //this.getWindow().getDecorView().setSystemUiVisibility(1);
