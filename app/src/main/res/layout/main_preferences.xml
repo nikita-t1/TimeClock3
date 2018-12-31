@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/linear"
+    android:background="@color/orange"
+    android:orientation="vertical">
+
+    <Button
+        android:id="@+id/settings_button1"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:layout_marginHorizontal="8dp"
+        android:text="Settings Button1" />
+
+    <Button
+        android:id="@+id/settings_button2"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:layout_marginHorizontal="8dp"
+        android:text="Settings Button2" />
+
+    <Button
+        android:id="@+id/settings_button3"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:layout_width="match_parent"
+        android:layout_height="64dp"
+        android:layout_marginHorizontal="8dp"
+        android:text="Settings Button3" />
+
+</LinearLayout>
+
+
