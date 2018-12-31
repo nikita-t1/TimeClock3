@@ -47,7 +47,7 @@ public class HomeFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    public static final double WORKING_TIME_HOURS = 0.00416667;
+    public static final double WORKING_TIME_HOURS = 0.01;
     public static final double WORKING_TIME_MILLISECONDS = WORKING_TIME_HOURS *3.6e+6; //Stunden *3,6e+6 um auf Millisekunden zu kommen
     public static final double WORKING_TIME_1PERCENT_MILLISECONDS = WORKING_TIME_MILLISECONDS/100;
 
@@ -135,7 +135,7 @@ public class HomeFragment extends Fragment {
             startButton.getBackground().setTint(getResources().getColor(R.color.red, null));
             pauseButton.animate().setInterpolator(new LinearInterpolator()).scaleX(1f).scaleY(1f).setDuration(1).start();
             pauseButton.animate().translationX(290f).alpha(1f).setInterpolator(new AccelerateDecelerateInterpolator()).setDuration(1).start();
-
+            progressBarUpdateThread();
         } else {
             startButton.setText("Start");
             startButton.getBackground().setTint(getResources().getColor(R.color.green, null));
@@ -352,8 +352,6 @@ public class HomeFragment extends Fragment {
         super.onResume();
         // Neue Rechnung benötigt
         //progressBar.setProgressWithAnimation((float) (SystemClock.elapsedRealtime() - chronometerWork.getBase()/WORKING_TIME_1PERCENT_MILLISECONDS));
-
-        // TODO: Check if Fragments stays hidden when the RAM is full!!
 
 
         chronometerPersistWork.resumeState();

@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" android:iconSpaceReserved="false">
 
-    <PreferenceCategory android:title="Time">
-        <EditTextPreference
-            android:title="s"/>
-    </PreferenceCategory>
-
-    <PreferenceCategory android:title="Notification">
+    <PreferenceCategory android:title="Notification" android:iconSpaceReserved="false">
         <SwitchPreference
+            android:iconSpaceReserved="false"
             android:defaultValue="false"
             android:key="isNotificationVisible"
             android:title="Notification"
             android:summary="Show  Notification"/>
-        <CheckBoxPreference
+        <SwitchPreference
+            android:iconSpaceReserved="false"
+            android:id="@+id/persistant_notification_checkbox"
             android:defaultValue="false"
             android:key="isNotificationPersistant"
             android:visibility="invisible"
@@ -20,13 +18,33 @@
             android:summary="Make the Notification persistant"/>
     </PreferenceCategory>
 
-    <PreferenceCategory android:title="Backup">
-        <SwitchPreference
-            android:defaultValue="false"
-            android:key="isNotificationVisible"
-            android:title="Notification"
-            android:summary="Show  Notification"/>
-
+    <PreferenceCategory android:title="Time" android:iconSpaceReserved="false">
+        <Preference
+            android:key="working_time_hours"
+            android:iconSpaceReserved="false"
+            android:title="Working Hours"
+            android:summary="Set default working hours per day"/>
+        <Preference
+            android:iconSpaceReserved="false"
+            android:title="Pause"
+            android:summary="Set default pause time per day"/>
     </PreferenceCategory>
 
+    <PreferenceCategory android:title="Data" android:iconSpaceReserved="false">
+        <Preference
+            android:iconSpaceReserved="false"
+            android:title="Backup"
+            android:summary="Backup your times"/>
+        <Preference
+            android:iconSpaceReserved="false"
+            android:title="Import"
+            android:summary="Import your times"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Experimental Development Tools" android:iconSpaceReserved="false">
+        <Preference
+            android:iconSpaceReserved="false"
+            android:title="View Stored Data"
+            android:key="experimental_setting"/>
+    </PreferenceCategory>
 </PreferenceScreen>

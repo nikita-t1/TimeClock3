@@ -1,6 +1,7 @@
 package com.studio.timeclock3;
 
 
+import android.app.Dialog;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -18,6 +19,7 @@ import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
 import com.github.javiersantos.materialstyleddialogs.enums.Style;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import androidx.appcompat.widget.ToolbarWidgetWrapper;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
@@ -33,6 +35,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -51,10 +54,7 @@ import es.dmoral.toasty.Toasty;
 import jonathanfinerty.once.Once;
 
 
-public class MainActivity extends AppCompatActivity implements
-HomeFragment.OnFragmentInteractionListener ,
-StatisticsFragment.OnFragmentInteractionListener ,
-ListingFragment.OnFragmentInteractionListener, OnSneakerClickListener {
+public class MainActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener , StatisticsFragment.OnFragmentInteractionListener , ListingFragment.OnFragmentInteractionListener, OnSneakerClickListener {
 
     private static String DEFAULT_CHANNEL_ID = "default_channel";
     private static String DEFAULT_CHANNEL_NAME = "Default";
@@ -69,7 +69,6 @@ ListingFragment.OnFragmentInteractionListener, OnSneakerClickListener {
 
     MainOptionsBottomSheetDialogFragment mainOptionsBottomSheetDialogFragment;
     CalculatorBottomSheetDialogFragment calculatorBottomSheetDialogFragment;
-
 
 
     public void onFragmentInteraction(Uri uri){
@@ -122,20 +121,27 @@ ListingFragment.OnFragmentInteractionListener, OnSneakerClickListener {
         setContentView(R.layout.activity_main);
 
         initializeLogger();
-
         Once.initialise(this);
 
+
+        String intro = "intro";
         String recreateFragment = "recreateFragment";
         String changelog = "changelog";
+
+        if (!Once.beenDone(Once.THIS_APP_INSTALL, intro)) {
+            Intent intent156 = new Intent(MainActivity.this, IntroActivity.class);
+            startActivity(intent156);
+            Once.markDone(intro);
+        }
+
+        if (!Once.beenDone(Once.THIS_APP_VERSION, changelog)) {
+            initializeChangelog();
+            Once.markDone(changelog);
+        }
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.main_fragment_container, HomeFragment.newInstance("What", "Ever"));
         transaction.commit();
-
-        if (!Once.beenDone(Once.THIS_APP_VERSION, changelog)) {
-            //initializeChangelog();
-            Once.markDone(changelog);
-        }
 
         SharedPreferences mSharedPreferences = getSharedPreferences("", Context.MODE_PRIVATE);
         SharedPreferences.Editor mEditor = mSharedPreferences.edit();
@@ -155,9 +161,9 @@ ListingFragment.OnFragmentInteractionListener, OnSneakerClickListener {
         Toolbar toolbar = (Toolbar) findViewById(R.id.action_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbar.setTitle("Title");
         toolbar.setNavigationIcon(R.drawable.ic_menu_black_24dp);
         TextView mTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
+        mTitle.setText("Title");
         toolbar.setNavigationOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -231,8 +237,9 @@ ListingFragment.OnFragmentInteractionListener, OnSneakerClickListener {
             mNotificationManager.cancel(nId);
         }
 
+//        TimePicker picker= (TimePicker) findViewById(R.id.timePicker1);
+//        picker.setIs24HourView(true);
 
-        Toasty.info(this, "App started", Toast.LENGTH_LONG, true).show();
     }
 
 
@@ -299,6 +306,7 @@ ListingFragment.OnFragmentInteractionListener, OnSneakerClickListener {
     }
 
     public void calculatorView(View view) {
+
         calculatorBottomSheetDialogFragment = CalculatorBottomSheetDialogFragment.newInstance();
         calculatorBottomSheetDialogFragment.show(getSupportFragmentManager(), "CalculatorBottomSheetDialogFragment");
         mainOptionsBottomSheetDialogFragment.dismiss();
@@ -348,7 +356,6 @@ ListingFragment.OnFragmentInteractionListener, OnSneakerClickListener {
         Intent intent = new Intent(this, ExampleMaterialAboutActivity.class);
         mainOptionsBottomSheetDialogFragment.dismiss();
         intent.putExtra(ExampleMaterialAboutActivity.THEME_EXTRA, 2);
-        Toasty.info(this, "SHIT", Toast.LENGTH_LONG, true).show();
         startActivity(intent);    }
 
     public static void createNotificationChannel(NotificationManager notificationManager) {

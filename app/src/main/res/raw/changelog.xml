@@ -1,5 +1,17 @@
 <changelog>
 
+
+    <release versionCode="101" versionName="0.10.1-alpha" date="30-12-2018">
+        <update>Improved Settings Activity</update>
+        <refactor>Toolbar ViewGroup changed</refactor>
+        <change>Fragment State is replaced and recreated with booleans in SharedPref and fast Animation</change>
+        <exp>Intro Screen</exp>
+        <exp>Added BottomAppBar as Toolbar possibility</exp>
+        <exp>Set working time in Settings Screen</exp>
+        <fix>Bugfixes</fix>
+        <bug>Settings Screen has left padding for settings icons</bug>
+    </release>
+
     <release versionCode="100" versionName="0.10-alpha" date="27-12-2018">
         <new>Persistant Fragment -> State is hidden not replaced</new>
         <new>Persistant Buttons and Time -> Stays after App is closed</new>

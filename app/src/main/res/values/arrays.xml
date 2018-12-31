@@ -3,6 +3,7 @@
     <string-array name="features">
         <item> • Professional Settings Screen</item>
         <item> • Finalize ConstrainLayout HomeScreen</item>
+        <item> • Calculator</item>
         <item> • Add Animations</item>
         <item> • Systemwide Ripple Effect</item>
         <item> • Catch Fragments Lifecycle End</item>

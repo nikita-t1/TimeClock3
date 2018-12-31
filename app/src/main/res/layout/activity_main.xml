@@ -8,24 +8,9 @@
     tools:context=".MainActivity">
 
 
-    <androidx.appcompat.widget.Toolbar
+    <include
         android:id="@+id/action_bar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:contentInsetLeft="0dp"
-        app:contentInsetStart="0dp"
-        android:theme="@style/Widget.MaterialComponents.Toolbar.Primary">
-
-    </androidx.appcompat.widget.Toolbar>
-
-    <androidx.appcompat.widget.ActionBarContextView
-        android:theme="?attr/actionBarTheme"
-        android:id="@+id/action_context_bar"
-        android:visibility="gone"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="?attr/actionModeStyle"/>
-
+        layout="@layout/toolbar"/>
 
 
     <FrameLayout

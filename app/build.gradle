@@ -26,7 +26,7 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'androidx.appcompat:appcompat:1.1.0-alpha01'
     implementation 'com.google.android.material:material:1.1.0-alpha02'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha2'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.0-alpha3'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'androidx.preference:preference:1.1.0-alpha02'
     testImplementation 'junit:junit:4.12'
@@ -52,6 +52,7 @@ dependencies {
     implementation 'com.jonathanfinerty.once:once:1.2.2'
     implementation 'com.github.kk121:Android-Debug-Tools:1.0'
     implementation 'com.kakai:material-preferences-headers:1.0.7'
+    implementation 'com.github.paolorotolo:appintro:v5.1.0'
 
     implementation "androidx.appcompat:appcompat:1.0.2"
     implementation "androidx.cardview:cardview:1.0.0"
