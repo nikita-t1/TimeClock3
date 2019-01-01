@@ -16,41 +16,61 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
         android:layout_marginTop="64dp"
-        android:layout_marginBottom="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/cardEndTime"
+        android:layout_marginBottom="2dp"
+        app:layout_constraintBottom_toTopOf="@+id/cardEndTimeText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/pbar">
 
         <TextView
-            android:id="@+id/textViewStartTime"
+            android:id="@+id/textViewStartTimeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="16dp"
             android:text="Arbeitsbeginn: "
             android:textAlignment="center" />
 
+        <TextView
+            android:id="@+id/textViewStartTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:layout_marginEnd="32dp"
+            android:layout_gravity="right"
+            android:textSize="18sp"
+            android:text="_____" />
+
     </com.google.android.material.card.MaterialCardView>
 
 
     <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardEndTime"
+        android:id="@+id/cardEndTimeText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="24dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="16dp"
         app:layout_constraintBottom_toTopOf="@+id/startButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardStartTime">
 
         <TextView
-            android:id="@+id/textViewEndTime"
+            android:id="@+id/textViewEndTimeText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="16dp"
             android:text="verbleibend:"
             android:textAlignment="center" />
+
+        <TextView
+            android:id="@+id/textViewEndTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:layout_marginEnd="32dp"
+            android:layout_gravity="right"
+            android:textSize="18sp"
+            android:text="_____" />
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.button.MaterialButton
@@ -59,7 +79,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="88dp"
-        android:layout_marginBottom="52dp"
+        android:layout_marginBottom="40dp"
         android:backgroundTint="@color/blue"
         android:text="Pause"
         android:textColor="@color/white"
@@ -76,7 +96,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
         android:layout_marginEnd="100dp"
-        android:layout_marginBottom="52dp"
+        android:layout_marginBottom="40dp"
         android:backgroundTint="@color/green"
         android:text="@string/title_startbutton"
         android:textColor="@color/white"
@@ -112,7 +132,7 @@
         android:layout_width="230dp"
         android:layout_height="230dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="52dp"
         android:layout_marginEnd="8dp"
         app:backgroundThickness="18dp"
         app:maxValue="100"

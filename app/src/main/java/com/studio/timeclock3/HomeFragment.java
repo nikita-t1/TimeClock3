@@ -2,6 +2,7 @@ package com.studio.timeclock3;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.icu.text.SimpleDateFormat;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -20,6 +21,7 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.Button;
 import android.widget.Chronometer;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.orhanobut.logger.Logger;
@@ -28,6 +30,7 @@ import net.futuredrama.jomaceld.circularpblib.BarComponent;
 import net.futuredrama.jomaceld.circularpblib.CircularProgressBarView;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import es.dmoral.toasty.Toasty;
 import library.minimize.com.chronometerpersist.ChronometerPersist;
@@ -47,7 +50,7 @@ public class HomeFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    public static final double WORKING_TIME_HOURS = 0.01;
+    public static final double WORKING_TIME_HOURS = 7.6;
     public static final double WORKING_TIME_MILLISECONDS = WORKING_TIME_HOURS *3.6e+6; //Stunden *3,6e+6 um auf Millisekunden zu kommen
     public static final double WORKING_TIME_1PERCENT_MILLISECONDS = WORKING_TIME_MILLISECONDS/100;
 
@@ -69,6 +72,7 @@ public class HomeFragment extends Fragment {
     public long chronometerTime;
     public ChronometerPersist chronometerPersistWork;
     public ChronometerPersist chronometerPersistPause;
+    private TextView textViewStartTime;
 
 
     public boolean isStartPressed;
@@ -125,9 +129,14 @@ public class HomeFragment extends Fragment {
 
         startButton = (Button) view.findViewById(R.id.startButton);
         pauseButton = (Button) view.findViewById(R.id.pauseButton);
+        textViewStartTime = (TextView) view.findViewById(R.id.textViewStartTime);
+
 
         mSharedPreferences = getActivity().getSharedPreferences("", Context.MODE_PRIVATE);
         mEditor = mSharedPreferences.edit();
+
+
+        textViewStartTime.setText(mSharedPreferences.getString("timey", "_____"));
 
         if (mSharedPreferences.getBoolean("isStartPressed", false)) {
             startButton.animate().translationX(-150f).setInterpolator(new OvershootInterpolator()).setDuration(1).start();
@@ -186,6 +195,13 @@ public class HomeFragment extends Fragment {
 
             chronometerPersistWork.startChronometer();
 
+            SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+            String timey = sdf.format(new Date());
+            textViewStartTime.setText(timey);
+            mEditor.putString("timey",timey);
+            mEditor.apply();
+
+
             progressBarUpdateThread();
 
             startButton.animate().translationX(-150f).setInterpolator(new OvershootInterpolator()).setDuration(1200).start();
@@ -202,6 +218,10 @@ public class HomeFragment extends Fragment {
             mEditor.putBoolean("isStartPressed",false);
             mEditor.apply();
             mEditor.putBoolean("isPausePressed",false);
+            mEditor.apply();
+
+            textViewStartTime.setText("_____");
+            mEditor.putString("timey","_____");
             mEditor.apply();
 
 

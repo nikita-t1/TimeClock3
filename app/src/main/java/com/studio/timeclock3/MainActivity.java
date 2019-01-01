@@ -128,6 +128,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
         String recreateFragment = "recreateFragment";
         String changelog = "changelog";
 
+
         if (!Once.beenDone(Once.THIS_APP_INSTALL, intro)) {
             Intent intent156 = new Intent(MainActivity.this, IntroActivity.class);
             startActivity(intent156);
@@ -314,6 +315,8 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
         //startActivity(new Intent(this, ActivityDebugTools.class));
 
     }
+
+
 
     private void initializeLogger() {
         FormatStrategy formatStrategy = PrettyFormatStrategy.newBuilder()

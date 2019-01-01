@@ -29,8 +29,8 @@ public class IntroActivity extends AppIntro {
         // Just create a `SliderPage` and provide title, description, background and image.
         // AppIntro will do the rest.
         SliderPage sliderPage = new SliderPage();
-        sliderPage.setTitle("Welcome");
-        sliderPage.setDescription("Description");
+        sliderPage.setTitle("Welcome to\n TimeClock");
+        sliderPage.setDescription("This App will track your Working Time \n\n Unfortunately it is in Alpha State and not recommended for everyday use\n\n Please be patient\n\n New Features and Bugfixes will be provided regularly");
         sliderPage.setBgColor(Color.parseColor("#008577"));
         addSlide(AppIntroFragment.newInstance(sliderPage));
 

@@ -5,16 +5,19 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+import es.dmoral.toasty.Toasty;
 
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 public class SettingsActivity extends AppCompatActivity {
 
     public static final String KEY_PREF_NOTIFICATION_VISIBLE = "isNotificationVisible";
     public static final String KEY_PREF_NOTIFICATION_PERSISTANT = "isNotificationPersistant";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +39,8 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
 
+
+
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.settings_fragment_main, new SettingsFragment())
                 .commit();
@@ -49,6 +54,12 @@ public class SettingsActivity extends AppCompatActivity {
 //                        .commit();
 //            }
 //        });
+    }
+
+    public void test(View view) {
+
+
+        Toasty.info(this, "YES").show();
     }
 }
 
