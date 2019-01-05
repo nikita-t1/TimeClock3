@@ -1,6 +1,10 @@
 <changelog>
 
 
+    <release versionCode="102" versionName="0.10.2-alpha" date="05-01-2019">
+        <exp>Expand Intro Screen with Time Input Functionality</exp>
+    </release>
+
     <release versionCode="101" versionName="0.10.1-alpha" date="30-12-2018">
         <update>Improved Settings Activity</update>
         <refactor>Toolbar ViewGroup changed</refactor>
