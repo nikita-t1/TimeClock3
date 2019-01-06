@@ -59,6 +59,9 @@ dependencies {
     implementation 'com.github.paolorotolo:appintro:v5.1.0'
     implementation 'io.github.dreierf:material-intro-screen:0.0.6'
     implementation 'com.github.k0shk0sh:RetainedDateTimePickers:1.0.2'
+    implementation 'com.borax12.materialdaterangepicker:library:1.9'
+    implementation 'com.github.ch-muhammad-adil:MaterialPickerDialog:1.0.3'
+    implementation 'com.borax12.materialdaterangepicker:library:1.9'
 
     implementation "androidx.appcompat:appcompat:1.0.2"
     implementation "androidx.cardview:cardview:1.0.0"
