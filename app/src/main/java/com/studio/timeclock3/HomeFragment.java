@@ -31,6 +31,7 @@ import net.futuredrama.jomaceld.circularpblib.CircularProgressBarView;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import es.dmoral.toasty.Toasty;
 import library.minimize.com.chronometerpersist.ChronometerPersist;
@@ -50,9 +51,9 @@ public class HomeFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    public static final double WORKING_TIME_HOURS = 7.6;
-    public static final double WORKING_TIME_MILLISECONDS = WORKING_TIME_HOURS *3.6e+6; //Stunden *3,6e+6 um auf Millisekunden zu kommen
-    public static final double WORKING_TIME_1PERCENT_MILLISECONDS = WORKING_TIME_MILLISECONDS/100;
+    public static float WORKING_TIME_HOURS;
+    public static double WORKING_TIME_MILLISECONDS; //Stunden *3,6e+6 um auf Millisekunden zu kommen
+    public static double WORKING_TIME_1PERCENT_MILLISECONDS;
 
 
     // TODO: Rename and change types of parameters
@@ -73,6 +74,7 @@ public class HomeFragment extends Fragment {
     public ChronometerPersist chronometerPersistWork;
     public ChronometerPersist chronometerPersistPause;
     private TextView textViewStartTime;
+    private TextView textViewRemainingTime;
 
 
     public boolean isStartPressed;
@@ -130,13 +132,25 @@ public class HomeFragment extends Fragment {
         startButton = (Button) view.findViewById(R.id.startButton);
         pauseButton = (Button) view.findViewById(R.id.pauseButton);
         textViewStartTime = (TextView) view.findViewById(R.id.textViewStartTime);
+        textViewRemainingTime = (TextView) view.findViewById(R.id.textViewEndTime);
+
 
 
         mSharedPreferences = getActivity().getSharedPreferences("", Context.MODE_PRIVATE);
         mEditor = mSharedPreferences.edit();
 
+        WORKING_TIME_HOURS = mSharedPreferences.getFloat("WORKING_TIME_HOURS",0.1f);
+//        WORKING_TIME_HOURS = 0.07f;
+        Logger.i("WORKING_TIME_HOURS: " + WORKING_TIME_HOURS);
+        WORKING_TIME_MILLISECONDS = WORKING_TIME_HOURS *3.6e+6;
+        Logger.i("WORKING_TIME_MILLISECONDS: " + WORKING_TIME_MILLISECONDS);
+        WORKING_TIME_1PERCENT_MILLISECONDS = WORKING_TIME_MILLISECONDS/100;
+        Logger.i("WORKING_TIME_1PERCENT_MILLISECONDS: "+ WORKING_TIME_1PERCENT_MILLISECONDS);
+
 
         textViewStartTime.setText(mSharedPreferences.getString("timey", "_____"));
+        textViewRemainingTime.setText("_____");
+
 
         if (mSharedPreferences.getBoolean("isStartPressed", false)) {
             startButton.animate().translationX(-150f).setInterpolator(new OvershootInterpolator()).setDuration(1).start();
@@ -190,6 +204,12 @@ public class HomeFragment extends Fragment {
 
         if (!mSharedPreferences.getBoolean("isStartPressed", false)) {
 
+            Logger.i("WORKING_TIME_HOURS: " + WORKING_TIME_HOURS);
+            Logger.i("WORKING_TIME_MILLISECONDS: " + WORKING_TIME_MILLISECONDS);
+            Logger.i("WORKING_TIME_1PERCENT_MILLISECONDS: "+ WORKING_TIME_1PERCENT_MILLISECONDS);
+
+            Toasty.warning(getActivity(), "Working Time: " +  Math.round(WORKING_TIME_HOURS*0.6*100) + "min (" + WORKING_TIME_HOURS + ")", Toast.LENGTH_LONG , true).show();
+
             mEditor.putBoolean("isStartPressed",true);
             mEditor.apply();
 
@@ -221,6 +241,7 @@ public class HomeFragment extends Fragment {
             mEditor.apply();
 
             textViewStartTime.setText("_____");
+            textViewRemainingTime.setText("_____");
             mEditor.putString("timey","_____");
             mEditor.apply();
 
@@ -233,9 +254,6 @@ public class HomeFragment extends Fragment {
 
             progressBar.setProgressWithAnimation(0);
             progressBarPercent = 0;
-
-
-            Toast.makeText(getActivity(), "ELSE", Toast.LENGTH_SHORT).show();
 
             startButton.setText("Start");
             pauseButton.setText("PAUSE");
@@ -256,7 +274,6 @@ public class HomeFragment extends Fragment {
 
         final Animation out = new AlphaAnimation(1.0f, 0.0f);
         out.setDuration(3000);
-
 
         if (!mSharedPreferences.getBoolean("isPausePressed", false)) {
 
@@ -305,16 +322,27 @@ public class HomeFragment extends Fragment {
                     mHandler.post(new Runnable() {
                         public void run() {
 
-                            Logger.i(Long.toString(SystemClock.elapsedRealtime() - chronometerWork.getBase()) + "ms\t\t" + (Long.toString((SystemClock.elapsedRealtime() - chronometerWork.getBase())/1000 % 60))+"s");
+                            Logger.i("Abgelaufene Zeit: " + Long.toString(SystemClock.elapsedRealtime() - chronometerWork.getBase()) + "ms\t\t" + (Long.toString((SystemClock.elapsedRealtime() - chronometerWork.getBase())/1000 % 60))+"s");
                             chronometerTime = SystemClock.elapsedRealtime() - chronometerWork.getBase();
 
                             progressBar.setProgressWithAnimation((float) (chronometerTime/WORKING_TIME_1PERCENT_MILLISECONDS));
 
                             progressBarPercent = getProgressBarValue();
+
+                            Logger.i(String.valueOf(Math.round(WORKING_TIME_MILLISECONDS)));
+                            Logger.i(String.valueOf(chronometerTime));
+                            Logger.i(String.valueOf(Math.round((Math.round(WORKING_TIME_MILLISECONDS)-chronometerTime)/1000)));
+
+                            long min = (Math.round((Math.round(WORKING_TIME_MILLISECONDS)-chronometerTime)/1000/60));
+                            Logger.e("MIN" + String.valueOf(min));
+                            long sec = (Math.round((Math.round(WORKING_TIME_MILLISECONDS)-chronometerTime)/1000% 60));
+                            Logger.e(String.valueOf(sec));
+                            //TODO
+                            textViewRemainingTime.setText(String.format(min + "min"));
                         }
                     });
                     //progressBarPercent++;
-                    Logger.e(String.valueOf(progressBarPercent));
+                    Logger.e("progressBarPercent: " + String.valueOf(progressBarPercent));
                     //progressBarPercent = getProgressBarValue();
                     //android.os.SystemClock.sleep(1000);
                     android.os.SystemClock.sleep((long) WORKING_TIME_1PERCENT_MILLISECONDS); // Thread.sleep() doesn't guarantee 1000 msec sleep, it can be interrupted before
@@ -369,6 +397,12 @@ public class HomeFragment extends Fragment {
     @Override
     public void onResume() {
         Logger.e("onResume");
+
+        Logger.i("WORKING_TIME_HOURS: " + WORKING_TIME_HOURS);
+        Logger.i("WORKING_TIME_MILLISECONDS: " + WORKING_TIME_MILLISECONDS);
+        Logger.i("WORKING_TIME_1PERCENT_MILLISECONDS: "+ WORKING_TIME_1PERCENT_MILLISECONDS);
+
+
         super.onResume();
         // Neue Rechnung benötigt
         //progressBar.setProgressWithAnimation((float) (SystemClock.elapsedRealtime() - chronometerWork.getBase()/WORKING_TIME_1PERCENT_MILLISECONDS));

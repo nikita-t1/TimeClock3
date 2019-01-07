@@ -1,5 +1,14 @@
 <changelog>
 
+
+    <release versionCode="104" versionName="0.10.4-alpha" date="06-01-2019">
+        <new>Intro Screen with Working Time Input</new>
+        <new>TimeClock + ProgressBar utilizing User Time</new>
+        <bug>FUCKING EVERYTHING</bug>
+        <bug>Rounding Errors wiht Milliseconds Time</bug>
+        <bug>Need to replace Fragment after first Time Set</bug>
+    </release>
+
     <release versionCode="103" versionName="0.10.3-alpha" date="06-01-2019">
         <exp>Expand Intro Screen with Time Input Functionality</exp>
         <bug>Time is saved in 12h format</bug>

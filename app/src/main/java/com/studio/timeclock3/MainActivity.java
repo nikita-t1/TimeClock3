@@ -128,8 +128,8 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
         String changelog = "changelog";
 
 
-        Intent intent1456 = new Intent(MainActivity.this, IntroActivity.class);
-        startActivity(intent1456);
+//        Intent intent1456 = new Intent(MainActivity.this, IntroActivity.class);
+//        startActivity(intent1456);
 
 
         if (!Once.beenDone(Once.THIS_APP_INSTALL, intro)) {
