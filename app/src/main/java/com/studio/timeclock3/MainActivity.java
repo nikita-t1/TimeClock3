@@ -139,7 +139,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
         }
 
         if (!Once.beenDone(Once.THIS_APP_VERSION, changelog)) {
-            initializeChangelog();
+//            initializeChangelog();
             Once.markDone(changelog);
         }
 
@@ -149,14 +149,6 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
 
         SharedPreferences mSharedPreferences = getSharedPreferences("", Context.MODE_PRIVATE);
         SharedPreferences.Editor mEditor = mSharedPreferences.edit();
-
-        Logger.e("+++++++++++++++++++++++++++++++++++++++++++++++++");
-        if (mSharedPreferences.getBoolean("isStartPressed", false)) {
-            Logger.e("IST AUF TRUE");
-        } else {
-            Logger.e("IST AUF FALSE");
-        }Logger.e("+++++++++++++++++++++++++++++++++++++++++++++++++");
-
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);

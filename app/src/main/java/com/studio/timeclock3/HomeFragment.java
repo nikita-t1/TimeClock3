@@ -14,9 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.Button;
@@ -31,7 +28,6 @@ import net.futuredrama.jomaceld.circularpblib.CircularProgressBarView;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
 
 import es.dmoral.toasty.Toasty;
 import library.minimize.com.chronometerpersist.ChronometerPersist;
@@ -64,6 +60,7 @@ public class HomeFragment extends Fragment {
 
     public Button startButton;
     public Button pauseButton;
+    public Button cancelButton;
     public Chronometer chronometerPause;
     public Chronometer chronometerWork;
 
@@ -129,64 +126,32 @@ public class HomeFragment extends Fragment {
 
         Logger.e("onCreateView");
 
-        startButton = (Button) view.findViewById(R.id.startButton);
-        pauseButton = (Button) view.findViewById(R.id.pauseButton);
-        textViewStartTime = (TextView) view.findViewById(R.id.textViewStartTime);
-        textViewRemainingTime = (TextView) view.findViewById(R.id.textViewEndTime);
-
-
-
         mSharedPreferences = getActivity().getSharedPreferences("", Context.MODE_PRIVATE);
         mEditor = mSharedPreferences.edit();
 
-        WORKING_TIME_HOURS = mSharedPreferences.getFloat("WORKING_TIME_HOURS",0.1f);
-//        WORKING_TIME_HOURS = 0.07f;
-        Logger.i("WORKING_TIME_HOURS: " + WORKING_TIME_HOURS);
-        WORKING_TIME_MILLISECONDS = WORKING_TIME_HOURS *3.6e+6;
-        Logger.i("WORKING_TIME_MILLISECONDS: " + WORKING_TIME_MILLISECONDS);
-        WORKING_TIME_1PERCENT_MILLISECONDS = WORKING_TIME_MILLISECONDS/100;
-        Logger.i("WORKING_TIME_1PERCENT_MILLISECONDS: "+ WORKING_TIME_1PERCENT_MILLISECONDS);
-
-
-        textViewStartTime.setText(mSharedPreferences.getString("timey", "_____"));
-        textViewRemainingTime.setText("_____");
-
-
-        if (mSharedPreferences.getBoolean("isStartPressed", false)) {
-            startButton.animate().translationX(-150f).setInterpolator(new OvershootInterpolator()).setDuration(1).start();
-            startButton.setText("STOP");
-            startButton.getBackground().setTint(getResources().getColor(R.color.red, null));
-            pauseButton.animate().setInterpolator(new LinearInterpolator()).scaleX(1f).scaleY(1f).setDuration(1).start();
-            pauseButton.animate().translationX(290f).alpha(1f).setInterpolator(new AccelerateDecelerateInterpolator()).setDuration(1).start();
-            progressBarUpdateThread();
-        } else {
-            startButton.setText("Start");
-            startButton.getBackground().setTint(getResources().getColor(R.color.green, null));
-            startButton.animate().translationX(0f).setInterpolator(new OvershootInterpolator()).setDuration(1200).start();
-
-            pauseButton.animate().setInterpolator(new LinearInterpolator()).scaleX(0f).scaleY(0f).setDuration(1200).start();
-            pauseButton.animate().translationX(0f).alpha(0f).setInterpolator(new AccelerateDecelerateInterpolator()).setDuration(1200).start();
-        }
-
-
-        chronometerWork = (Chronometer) view.findViewById(R.id.chronometerWork);
-        chronometerPersistWork = ChronometerPersist.getInstance(chronometerWork, mSharedPreferences);
-
-        chronometerPause = (Chronometer) view.findViewById(R.id.chronometerPause);
-        chronometerPersistPause = ChronometerPersist.getInstance(chronometerPause, mSharedPreferences);
-
+        startButton = (Button) view.findViewById(R.id.startButton);
+        pauseButton = (Button) view.findViewById(R.id.pauseButton);
+        cancelButton = (Button) view.findViewById(R.id.cancelButton);
+        textViewStartTime = (TextView) view.findViewById(R.id.textViewStartTime);
+        textViewRemainingTime = (TextView) view.findViewById(R.id.textViewEndTime);
 
         progressBar = (CircularProgressBarView) view.findViewById(R.id.pbar);
+
+        chronometerWork = (Chronometer) view.findViewById(R.id.chronometerWork);
+        chronometerPause = (Chronometer) view.findViewById(R.id.chronometerPause);
+
+        chronometerPersistWork = ChronometerPersist.getInstance(chronometerWork, mSharedPreferences);
+        chronometerPersistPause = ChronometerPersist.getInstance(chronometerPause, mSharedPreferences);
 
         progressBar.setNumberOfBars(1);
         progressBar.setBarsColors(new int[]{ getResources().getColor(R.color.green, null) });
 
-        System.out.println("YEEEEESSSS!!!!");
+        textViewStartTime.setText(mSharedPreferences.getString("timey", "_____"));
+        textViewRemainingTime.setText("_____");
+
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //test();
-                //isStartPressed=true;
                 startButtonClick();
             }
         });
@@ -197,12 +162,26 @@ public class HomeFragment extends Fragment {
                 pauseButtonClick();
             }
         });
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cancelButtonClick();
+            }
+        });
         return view;
     }
 
     private void startButtonClick() {
 
-        if (!mSharedPreferences.getBoolean("isStartPressed", false)) {
+        /**
+         * 0 == Start Screen (nur StartButton)
+         * 1 == Tracking Screen (Start- und PauseButton)
+         * 2 == Saving Screen (Cancel, Save, Resume)
+         */
+
+        if (0 == mSharedPreferences.getInt("isStartPressed", 0)) {
+
+            //Geht zu Tracking Screen
 
             Logger.i("WORKING_TIME_HOURS: " + WORKING_TIME_HOURS);
             Logger.i("WORKING_TIME_MILLISECONDS: " + WORKING_TIME_MILLISECONDS);
@@ -210,8 +189,9 @@ public class HomeFragment extends Fragment {
 
             Toasty.warning(getActivity(), "Working Time: " +  Math.round(WORKING_TIME_HOURS*0.6*100) + "min (" + WORKING_TIME_HOURS + ")", Toast.LENGTH_LONG , true).show();
 
-            mEditor.putBoolean("isStartPressed",true);
+            mEditor.putInt("isStartPressed", 1);
             mEditor.apply();
+            Toasty.info(getActivity(), "1", Toast.LENGTH_SHORT, true).show();
 
             chronometerPersistWork.startChronometer();
 
@@ -221,103 +201,123 @@ public class HomeFragment extends Fragment {
             mEditor.putString("timey",timey);
             mEditor.apply();
 
-
             progressBarUpdateThread();
 
-            startButton.animate().translationX(-150f).setInterpolator(new OvershootInterpolator()).setDuration(1200).start();
-            startButton.setText("STOP");
-            startButton.getBackground().setTint(getResources().getColor(R.color.red, null));
+            layoutToTrackingScreen(1200);
 
-            pauseButton.animate().setInterpolator(new LinearInterpolator()).scaleX(1f).scaleY(1f).setDuration(1200).start();
-            pauseButton.animate().translationX(290f).alpha(1f).setInterpolator(new AccelerateDecelerateInterpolator()).setDuration(1200).start();
+        } else if (1 == mSharedPreferences.getInt("isStartPressed", 0)) {
+
+            //Geht zu Saving Screen
+
+            mEditor.putInt("isStartPressed",2);
+            mEditor.apply();
+
+            if (!mSharedPreferences.getBoolean("isPausePressed", false)) {
+                chronometerPersistWork.pauseChronometer();
+            } else {
+                chronometerPersistPause.pauseChronometer();
+            }
+
+            pauseButton.setText("RESUME");
+            layoutToSavingScreen(1200);
+
+            Toasty.warning(getActivity(), "2", Toast.LENGTH_LONG, true).show();
+
+        } else if (2== mSharedPreferences.getInt("isStartPressed", 0)) {
+
+            //For Goto Start Screen, see -> cancelButtonClick()
+
+            Toasty.info(getActivity(), "Speichern oder so", Toast.LENGTH_LONG , true).show();
+
+
+            final Handler handler = new Handler();
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    //Do something after 1500ms
+                    cancelButtonClick();
+                }
+            }, 1500);
 
         } else {
 
-            chronometerPause.animate().translationY(-40f).alpha(0f).setInterpolator(new LinearInterpolator()).setDuration(1200);
-
-            mEditor.putBoolean("isStartPressed",false);
-            mEditor.apply();
-            mEditor.putBoolean("isPausePressed",false);
-            mEditor.apply();
-
-            textViewStartTime.setText("_____");
-            textViewRemainingTime.setText("_____");
-            mEditor.putString("timey","_____");
-            mEditor.apply();
-
-
-            chronometerPersistWork.stopChronometer();
-            chronometerPersistPause.stopChronometer();
-
-
-            isPausePressed = false;
-
-            progressBar.setProgressWithAnimation(0);
-            progressBarPercent = 0;
-
-            startButton.setText("Start");
-            pauseButton.setText("PAUSE");
-
-            startButton.getBackground().setTint(getResources().getColor(R.color.green, null));
-            startButton.animate().translationX(0f).setInterpolator(new OvershootInterpolator()).setDuration(1200).start();
-
-            pauseButton.animate().setInterpolator(new LinearInterpolator()).scaleX(0f).scaleY(0f).setDuration(1200).start();
-            pauseButton.animate().translationX(0f).alpha(0f).setInterpolator(new AccelerateDecelerateInterpolator()).setDuration(1200).start();
+            Toasty.error(getActivity(), "BIG BUTTON ERROR", Toast.LENGTH_LONG, true).show();
         }
 
     }
 
     private void pauseButtonClick() {
 
-        final Animation in = new AlphaAnimation(0.0f, 1.0f);
-        in.setDuration(3000);
+        if (2 != mSharedPreferences.getInt("isStartPressed", 0)) {
+            //Normale Pause Button Funktion
 
-        final Animation out = new AlphaAnimation(1.0f, 0.0f);
-        out.setDuration(3000);
+            if (!mSharedPreferences.getBoolean("isPausePressed", false)) {
 
-        if (!mSharedPreferences.getBoolean("isPausePressed", false)) {
+                mEditor.putBoolean("isPausePressed", true);
+                mEditor.apply();
+                chronometerPause.animate().translationY(0f).alpha(1f).setInterpolator(new LinearInterpolator()).setDuration(1200);
 
-            mEditor.putBoolean("isPausePressed",true);
-            mEditor.apply();
-            chronometerPause.animate().translationY(0f).alpha(1f).setInterpolator(new LinearInterpolator()).setDuration(1200);
+                chronometerPersistWork.pauseChronometer();
+                chronometerPersistPause.startChronometer();
 
-            chronometerPersistWork.pauseChronometer();
-            chronometerPersistPause.startChronometer();
+                pauseButton.setText("Resume");
 
-            pauseButton.setText("Resume");
+            } else {
+
+                mEditor.putBoolean("isPausePressed", false);
+                mEditor.apply();
+
+                chronometerPersistWork.startChronometer();
+                chronometerPersistPause.pauseChronometer();
+
+
+                progressBarUpdateThread();
+
+                pauseButton.setText("PAUSE");
+
+            }
 
         } else {
-
-            mEditor.putBoolean("isPausePressed",false);
-            mEditor.apply();
-
+            //Pause Button im Saving Screen
             chronometerPersistWork.startChronometer();
-            chronometerPersistPause.pauseChronometer();
-
-
-            progressBarUpdateThread();
-
-            pauseButton.setText("PAUSE");
-
+            layoutToTrackingScreen(1200);
+            mEditor.putInt("isStartPressed",1);
+            mEditor.apply();
         }
     }
 
-    public float getProgressBarValue() {
-        ArrayList<BarComponent> array = progressBar.getBarComponentsArray();
-        //Log.i("+","********************************************************");
-        for (BarComponent element:array) {
-            //Log.i("INFO", String.valueOf(element.getValue()));
-        }
-        //Log.i("+","********************************************************");
-        return array.get(0).getValue();
+    private void cancelButtonClick() {
+
+        chronometerPause.animate().translationY(-40f).alpha(0f).setInterpolator(new LinearInterpolator()).setDuration(1200);
+
+        mEditor.putInt("isStartPressed",0);
+        mEditor.apply();
+        mEditor.putBoolean("isPausePressed",false);
+        mEditor.apply();
+        Toasty.info(getActivity(), "0", Toast.LENGTH_SHORT, true).show();
+
+        textViewStartTime.setText("_____");
+        textViewRemainingTime.setText("_____");
+        mEditor.putString("timey","_____");
+        mEditor.apply();
+
+        chronometerPersistWork.stopChronometer();
+        chronometerPersistPause.stopChronometer();
+
+
+        isPausePressed = false;
+
+        progressBar.setProgressWithAnimation(0);
+        progressBarPercent = 0;
+
+        layoutToStartScreen(1200);
     }
 
-
-    public void progressBarUpdateThread() {
+    private void progressBarUpdateThread() {
         final Handler mHandler = new Handler();
         Thread progressThread = new Thread(new Runnable() {
             public void run() {
-                while (progressBarPercent <= 100 && !mSharedPreferences.getBoolean("isPausePressed", false) && mSharedPreferences.getBoolean("isStartPressed", false)) {
+                while (progressBarPercent <= 100 && !mSharedPreferences.getBoolean("isPausePressed", false) && 1 == mSharedPreferences.getInt("isStartPressed", 0)) {
                     // Update the progress bar
                     mHandler.post(new Runnable() {
                         public void run() {
@@ -351,6 +351,54 @@ public class HomeFragment extends Fragment {
         });
 
         progressThread.start();
+    }
+
+    private void layoutToStartScreen(int duration) {
+        startButton.setText("Start");
+        pauseButton.setText("PAUSE");
+
+        startButton.getBackground().setTint(getResources().getColor(R.color.green, null));
+        startButton.animate().translationX(0f).setInterpolator(new OvershootInterpolator()).setDuration(duration).start();
+
+        pauseButton.animate().setInterpolator(new LinearInterpolator()).scaleX(0f).scaleY(0f).setDuration(duration).start();
+        pauseButton.animate().translationX(-400f).alpha(0f).setInterpolator(new AccelerateDecelerateInterpolator()).setDuration(duration).start();
+
+        cancelButton.animate().setInterpolator(new LinearInterpolator()).scaleX(0f).scaleY(0f).setDuration(duration).start();
+        cancelButton.animate().translationX(400f).alpha(0f).setInterpolator(new AccelerateDecelerateInterpolator()).setDuration(duration).start();
+    }
+
+    private void layoutToSavingScreen(int duration) {
+        startButton.animate().translationX(0f).setInterpolator(new AccelerateDecelerateInterpolator()).setDuration(duration).start();
+        startButton.setText("Save");
+        startButton.getBackground().setTint(getResources().getColor(R.color.amber, null));
+
+        pauseButton.animate().setInterpolator(new LinearInterpolator()).scaleX(1f).scaleY(1f).setDuration(duration).start();
+        pauseButton.animate().translationX(0f).alpha(1f).setInterpolator(new AccelerateDecelerateInterpolator()).setDuration(duration).start();
+
+        cancelButton.animate().setInterpolator(new LinearInterpolator()).scaleX(1f).scaleY(1f).setDuration(duration).start();
+        cancelButton.animate().translationX(0f).alpha(1f).setInterpolator(new AccelerateDecelerateInterpolator()).setDuration(duration).start();
+    }
+
+    private void layoutToTrackingScreen(int duration) {
+        startButton.animate().translationX(-150f).setInterpolator(new OvershootInterpolator()).setDuration(duration).start();
+        startButton.setText("STOP");
+        startButton.getBackground().setTint(getResources().getColor(R.color.red, null));
+
+        pauseButton.animate().setInterpolator(new LinearInterpolator()).scaleX(1f).scaleY(1f).setDuration(duration).start();
+        pauseButton.animate().translationX(-50f).alpha(1f).setInterpolator(new AccelerateDecelerateInterpolator()).setDuration(duration).start();
+
+        cancelButton.animate().setInterpolator(new LinearInterpolator()).scaleX(0f).scaleY(0f).setDuration(duration).start();
+        cancelButton.animate().translationX(150f).alpha(0f).setInterpolator(new AccelerateDecelerateInterpolator()).setDuration(duration).start();
+    }
+
+    private float getProgressBarValue() {
+        ArrayList<BarComponent> array = progressBar.getBarComponentsArray();
+        //Log.i("+","********************************************************");
+        for (BarComponent element:array) {
+            //Log.i("INFO", String.valueOf(element.getValue()));
+        }
+        //Log.i("+","********************************************************");
+        return array.get(0).getValue();
     }
 
     private void UIThreadHandler(final String string) {
@@ -388,7 +436,6 @@ public class HomeFragment extends Fragment {
         mListener = null;
     }
 
-
     @Override
     public void onSaveInstanceState(Bundle state) {
         super.onSaveInstanceState(state);
@@ -398,15 +445,38 @@ public class HomeFragment extends Fragment {
     public void onResume() {
         Logger.e("onResume");
 
+        WORKING_TIME_HOURS = mSharedPreferences.getFloat("WORKING_TIME_HOURS",0.1f);
+        WORKING_TIME_MILLISECONDS = WORKING_TIME_HOURS *3.6e+6;
         Logger.i("WORKING_TIME_HOURS: " + WORKING_TIME_HOURS);
         Logger.i("WORKING_TIME_MILLISECONDS: " + WORKING_TIME_MILLISECONDS);
+        WORKING_TIME_1PERCENT_MILLISECONDS = WORKING_TIME_MILLISECONDS/100;
         Logger.i("WORKING_TIME_1PERCENT_MILLISECONDS: "+ WORKING_TIME_1PERCENT_MILLISECONDS);
+
+        //ATTENTION  !!!
+        // Beispiel:
+        //Arbeitszeit = 5Std 7min = 5.12
+        //Arbeitszeit in Millisekunden = 1.8431999588012695E7
+        //Millisekunden zurück in Std min Google = 5.1199998855590820313
+        // 5.1199998855590820313 < 5.12
+        //Arbeitszeit in Millisekunden 1% = 184319.99588012695
+        //Millisekunden 1% zurück in Std min Google = 5.11666667
+        //Abweichung von 4min
 
 
         super.onResume();
-        // Neue Rechnung benötigt
-        //progressBar.setProgressWithAnimation((float) (SystemClock.elapsedRealtime() - chronometerWork.getBase()/WORKING_TIME_1PERCENT_MILLISECONDS));
 
+        if (0 == mSharedPreferences.getInt("isStartPressed", 0)) {
+
+            layoutToStartScreen(1);
+
+        } else if (1 == mSharedPreferences.getInt("isStartPressed", 0)) {
+
+            layoutToTrackingScreen(1);
+            progressBarUpdateThread();
+
+        } else if (2 == mSharedPreferences.getInt("isStartPressed", 0)) {
+            layoutToSavingScreen(1);
+        }
 
         chronometerPersistWork.resumeState();
         chronometerPersistPause.resumeState();
@@ -418,7 +488,6 @@ public class HomeFragment extends Fragment {
         super.onPause();
         Logger.e("onPause");
     }
-
 
     /**
      * This interface must be implemented by activities that contain this

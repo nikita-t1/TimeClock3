@@ -1,7 +1,14 @@
 <changelog>
 
+    <release versionCode="110" versionName="0.11.0-alpha" date="12-01-2019">
+        <new>Save and Cancel Button</new>
+        <refactor>StartButton Preference State Bool-->Int</refactor>
+        <refactor>HomeFragment Structure</refactor>
+        <bug>Rounding Errors with Milliseconds Time</bug>
+        <bug>Need to replace Fragment after first Time Set</bug>
+    </release>
 
-    <release versionCode="104" versionName="0.10.4-alpha" date="06-01-2019">
+    <release versionCode="104" versionName="0.10.4-alpha" date="07-01-2019">
         <new>Intro Screen with Working Time Input</new>
         <new>TimeClock + ProgressBar utilizing User Time</new>
         <bug>FUCKING EVERYTHING</bug>

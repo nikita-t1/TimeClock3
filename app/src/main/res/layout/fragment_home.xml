@@ -34,11 +34,11 @@
             android:id="@+id/textViewStartTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:layout_marginEnd="32dp"
             android:layout_gravity="right"
-            android:textSize="18sp"
-            android:text="_____" />
+            android:layout_marginEnd="32dp"
+            android:padding="16dp"
+            android:text="_____"
+            android:textSize="18sp" />
 
     </com.google.android.material.card.MaterialCardView>
 
@@ -66,19 +66,18 @@
             android:id="@+id/textViewEndTime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:layout_marginEnd="32dp"
             android:layout_gravity="right"
-            android:textSize="18sp"
-            android:text="_____" />
+            android:layout_marginEnd="32dp"
+            android:padding="16dp"
+            android:text="_____"
+            android:textSize="18sp" />
     </com.google.android.material.card.MaterialCardView>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/pauseButton"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="88dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="40dp"
         android:backgroundTint="@color/blue"
         android:text="Pause"
@@ -87,15 +86,29 @@
         app:cornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.678"
+        app:layout_constraintStart_toEndOf="@id/startButton" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/cancelButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginBottom="40dp"
+        android:backgroundTint="@color/red"
+        android:text="Cancel"
+        android:textColor="@color/white"
+        android:textStyle="normal"
+        app:cornerRadius="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/startButton"
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/startButton"
-        android:layout_width="match_parent"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
-        android:layout_marginEnd="100dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="40dp"
         android:backgroundTint="@color/green"
         android:text="@string/title_startbutton"
@@ -103,8 +116,8 @@
         android:textStyle="normal"
         app:cornerRadius="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintEnd_toStartOf="@id/pauseButton"
+        app:layout_constraintStart_toEndOf="@id/cancelButton" />
 
     <Chronometer
         android:id="@+id/chronometerWork"
@@ -134,15 +147,15 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="52dp"
         android:layout_marginEnd="8dp"
+        app:backgroundColor="#E0E0E0"
         app:backgroundThickness="18dp"
-        app:maxValue="100"
-        app:minValue="0"
         app:barCapStyle="round"
         app:barThickness="16dp"
-        app:backgroundColor="#E0E0E0"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:maxValue="100"
+        app:minValue="0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
