@@ -1,5 +1,11 @@
 <changelog>
 
+
+    <release versionCode="111" versionName="0.11.1-alpha" date="14-01-2019">
+        <info>Started Collection Data to write in SQL</info>
+        <fix>Fragment recreates after Intro Time Set (@onRestart)</fix>
+    </release>
+
     <release versionCode="110" versionName="0.11.0-alpha" date="12-01-2019">
         <new>Save and Cancel Button</new>
         <refactor>StartButton Preference State Bool-->Int</refactor>

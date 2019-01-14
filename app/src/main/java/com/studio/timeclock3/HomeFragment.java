@@ -27,7 +27,9 @@ import net.futuredrama.jomaceld.circularpblib.BarComponent;
 import net.futuredrama.jomaceld.circularpblib.CircularProgressBarView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Locale;
 
 import es.dmoral.toasty.Toasty;
 import library.minimize.com.chronometerpersist.ChronometerPersist;
@@ -191,7 +193,6 @@ public class HomeFragment extends Fragment {
 
             mEditor.putInt("isStartPressed", 1);
             mEditor.apply();
-            Toasty.info(getActivity(), "1", Toast.LENGTH_SHORT, true).show();
 
             chronometerPersistWork.startChronometer();
 
@@ -221,13 +222,27 @@ public class HomeFragment extends Fragment {
             pauseButton.setText("RESUME");
             layoutToSavingScreen(1200);
 
-            Toasty.warning(getActivity(), "2", Toast.LENGTH_LONG, true).show();
-
         } else if (2== mSharedPreferences.getInt("isStartPressed", 0)) {
 
             //For Goto Start Screen, see -> cancelButtonClick()
 
             Toasty.info(getActivity(), "Speichern oder so", Toast.LENGTH_LONG , true).show();
+
+            Calendar calender = Calendar.getInstance();
+            Logger.i(  "Kalenderwoche: " + calender.get(Calendar.WEEK_OF_YEAR) +"\n"+
+                                "Wochentag: " + calender.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) +" " + (calender.get(Calendar.DAY_OF_WEEK)-1) + "\n"+
+                                "Tag: " + calender.get(Calendar.DAY_OF_MONTH) + "\n"+
+                                "Monat: " + calender.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()) +" " + (calender.get(Calendar.MONTH)+1) + "\n"+
+                                "Eingestempelt: " + "\n"+               //TODO
+                                "Ausgestempelt: " + "\n"+               //TODO
+                                "Pause: " + "\n"+                       //TODO
+                                "Stunden (Brutto): " + "\n"+            //TODO
+                                "Stunden (Netto): " + "\n"+             //TODO
+                                "Überstunden: " + "\n"+                 //TODO
+                                "Anwesenheit: " + "true" + "\n"+
+                                "Notiz: " + "null" + "\n"+
+                                "Zusatz 1: " + "null" + "\n"+
+                                "Zusatz 2: " + "null" + "\n");
 
 
             final Handler handler = new Handler();
@@ -294,7 +309,6 @@ public class HomeFragment extends Fragment {
         mEditor.apply();
         mEditor.putBoolean("isPausePressed",false);
         mEditor.apply();
-        Toasty.info(getActivity(), "0", Toast.LENGTH_SHORT, true).show();
 
         textViewStartTime.setText("_____");
         textViewRemainingTime.setText("_____");

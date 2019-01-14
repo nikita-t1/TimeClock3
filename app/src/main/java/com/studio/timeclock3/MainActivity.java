@@ -65,6 +65,8 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
 
 
     private ViewPager viewPager;
+    String intro = "intro";
+    String changelog = "changelog";
 
 
     MainOptionsBottomSheetDialogFragment mainOptionsBottomSheetDialogFragment;
@@ -122,30 +124,19 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
         initializeLogger();
         Once.initialise(this);
 
-
-        String intro = "intro";
         String recreateFragment = "recreateFragment";
-        String changelog = "changelog";
 
 
 //        Intent intent1456 = new Intent(MainActivity.this, IntroActivity.class);
 //        startActivity(intent1456);
 
 
-        if (!Once.beenDone(Once.THIS_APP_INSTALL, intro)) {
-            Intent intent156 = new Intent(MainActivity.this, IntroActivity.class);
-            startActivity(intent156);
-            Once.markDone(intro);
-        }
-
         if (!Once.beenDone(Once.THIS_APP_VERSION, changelog)) {
 //            initializeChangelog();
             Once.markDone(changelog);
         }
 
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.main_fragment_container, HomeFragment.newInstance("What", "Ever"));
-        transaction.commit();
+        setMainStartFragment();
 
         SharedPreferences mSharedPreferences = getSharedPreferences("", Context.MODE_PRIVATE);
         SharedPreferences.Editor mEditor = mSharedPreferences.edit();
@@ -237,7 +228,6 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
 //        picker.setIs24HourView(true);
 
     }
-
 
     private void SneakerAlert(int i, String title, String message) {
         //this.getWindow().getDecorView().setSystemUiVisibility(1);
@@ -370,5 +360,24 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
     @Override
     public void onSneakerClick(View view) {
 
+    }
+
+    public void setMainStartFragment() {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.main_fragment_container, HomeFragment.newInstance("What", "Ever"));
+        transaction.commit();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        Logger.i("onStart");
+        if (!Once.beenDone(Once.THIS_APP_INSTALL, intro)) {
+            Intent intent156 = new Intent(MainActivity.this, IntroActivity.class);
+            startActivity(intent156);
+            Once.markDone(intro);
+        } else {
+            setMainStartFragment();
+        }
     }
 }
