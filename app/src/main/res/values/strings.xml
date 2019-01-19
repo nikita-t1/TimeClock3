@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">TimeClock3</string>
-    <string name="title_home">Home</string>
+    <string name="title_home">Timer</string>
     <string name="title_statistics">Statistiken</string>
     <string name="title_listing">Auflistung</string>
     <string name="title_startbutton">Start</string>

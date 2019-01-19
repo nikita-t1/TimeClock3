@@ -8,17 +8,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.TimePicker;
-
-import com.orhanobut.logger.AndroidLogAdapter;
-import com.orhanobut.logger.FormatStrategy;
-import com.orhanobut.logger.Logger;
-import com.orhanobut.logger.PrettyFormatStrategy;
 
 import androidx.annotation.Nullable;
 import io.github.dreierf.materialintroscreen.SlideFragment;
 
-public class IntroSlideWorkingTime extends SlideFragment {
+
+public class IntroSlidePauseTime extends SlideFragment {
 
     private TimePicker timePicker;
     public Button setButton;
@@ -42,8 +39,10 @@ public class IntroSlideWorkingTime extends SlideFragment {
         timePicker = (TimePicker) view.findViewById(R.id.timePicker1);
         timePicker.setIs24HourView(true);
 
-        timePicker.setScaleX(1.3f);
-        timePicker.setScaleY(1.3f);
+        TextView mainText = (TextView) view.findViewById(R.id.timePickerMainText);
+        mainText.setText("Pause Time");
+        TextView descriptionText = (TextView) view.findViewById(R.id.timePickerMainDescription);
+        descriptionText.setText("Please enter your daily pause hours");
 
         setButton = (Button) view.findViewById(R.id.setButton);
         setButton.setOnClickListener(new View.OnClickListener() {
@@ -54,7 +53,6 @@ public class IntroSlideWorkingTime extends SlideFragment {
                 hour = timePicker.getHour();
                 minute = timePicker.getMinute();
 
-
                 Log.i("TAG", "Ausgewählt Metrisch--> Stunden: " + hour + "Minuten: " + minute);
                 Log.i(". ", " .\n");
                 Log.i("", "Mnuten als Float (Typecasting): "+ ((int) (minute*1.666666666666667)));
@@ -62,18 +60,14 @@ public class IntroSlideWorkingTime extends SlideFragment {
                 Log.i(". ", " .\n");
 
                 long decimalMinutes = Math.round(minute*1.666666666666667);
-                String workingTimeInDecimalString = hour + "." + decimalMinutes;
-                Float workingTimeInDecimalFoat = Float.valueOf(workingTimeInDecimalString);
+                String pauseTimeInDecimalString = hour + "." + decimalMinutes;
+                Float pauseTimeInDecimalFoat = Float.valueOf(pauseTimeInDecimalString);
 
                 isButtonClicked = true;
 
-                mEditor.putFloat("WORKING_TIME_HOURS", workingTimeInDecimalFoat);
+                mEditor.putFloat("PAUSE_TIME_HOURS", pauseTimeInDecimalFoat);
                 mEditor.apply();
-
-                mEditor.putInt("WORKING_MIN_INT_NO-HOUR", minute);
-                mEditor.apply();
-                Log.i("TAG", String.valueOf(workingTimeInDecimalFoat));
-
+                Log.i("TAG", String.valueOf(pauseTimeInDecimalFoat));
             }
         });
 
@@ -97,7 +91,7 @@ public class IntroSlideWorkingTime extends SlideFragment {
 
     @Override
     public String cantMoveFurtherErrorMessage() {
-        return "Please enter your Working Time";
+        return "Please enter your Pause Time";
     }
 
 }

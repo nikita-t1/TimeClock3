@@ -15,6 +15,8 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import androidx.annotation.NonNull;
 
+import com.ashokvarma.bottomnavigation.BottomNavigationBar;
+import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
 import com.github.javiersantos.materialstyleddialogs.enums.Style;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -41,13 +43,20 @@ import android.widget.Toast;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.irozon.sneaker.Sneaker;
 import com.irozon.sneaker.interfaces.OnSneakerClickListener;
+import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
+import com.michaelflisar.changelog.Changelog;
 import com.michaelflisar.changelog.ChangelogBuilder;
 import com.michaelflisar.changelog.ChangelogSetup;
 import com.michaelflisar.changelog.internal.ChangelogDialogFragment;
 import com.orhanobut.logger.AndroidLogAdapter;
+import com.orhanobut.logger.DiskLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import androidx.viewpager.widget.ViewPager;
 import es.dmoral.toasty.Toasty;
@@ -76,63 +85,73 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
     public void onFragmentInteraction(Uri uri){
     }
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+//    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+//            = new BottomNavigationView.OnNavigationItemSelectedListener() {
+//
+//        @Override
+//        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//            Fragment selectedFragment = null;
+//
+//            switch (item.getItemId()) {
+//                case R.id.navigation_home:
+//
+//                    Logger.i("MainActivity: @onNavigationItemSelected -> Home");
+//                    FragmentTransaction transaction1 = getSupportFragmentManager().beginTransaction();
+//                    selectedFragment = HomeFragment.newInstance("Param1", "Param2");
+//                    transaction1.replace(R.id.main_fragment_container, selectedFragment);
+//                    transaction1.commit();
+//                    return true;
+//                case R.id.navigation_dashboard:
+//                    //fm.beginTransaction().hide(active).show(fragment2).commit();
+//                    //active = fragment2;
+//                    Logger.i("MainActivity: @onNavigationItemSelected -> Statistics");
+//                    FragmentTransaction transaction2 = getSupportFragmentManager().beginTransaction();
+//                    selectedFragment = StatisticsFragment.newInstance("Param1", "Param2");
+//                    transaction2.replace(R.id.main_fragment_container, selectedFragment);
+//                    transaction2.commit();
+//                    return true;
+//                case R.id.navigation_listing:
+//                    //fm.beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).hide(active).show(fragment3).commit();
+//                    //active = fragment3;
+//                    Logger.i("MainActivity: @onNavigationItemSelected -> Listing");
+//                    FragmentTransaction transaction3 = getSupportFragmentManager().beginTransaction();
+//                    selectedFragment = ListingFragment.newInstance("Param1", "Param2");
+//                    transaction3.replace(R.id.main_fragment_container, selectedFragment);
+//                    transaction3.commit();
+//                    return true;
+//            }
+//            return false;
+//        }
+//    };
 
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            Fragment selectedFragment = null;
-
-            switch (item.getItemId()) {
-                case R.id.navigation_home:
-
-                    Logger.e("HOME");
-                    FragmentTransaction transaction1 = getSupportFragmentManager().beginTransaction();
-                    selectedFragment = HomeFragment.newInstance("Param1", "Param2");
-                    transaction1.replace(R.id.main_fragment_container, selectedFragment);
-                    transaction1.commit();
-                    return true;
-                case R.id.navigation_dashboard:
-                    //fm.beginTransaction().hide(active).show(fragment2).commit();
-                    //active = fragment2;
-                    FragmentTransaction transaction2 = getSupportFragmentManager().beginTransaction();
-                    selectedFragment = StatisticsFragment.newInstance("Param1", "Param2");
-                    transaction2.replace(R.id.main_fragment_container, selectedFragment);
-                    transaction2.commit();
-                    return true;
-                case R.id.navigation_listing:
-                    //fm.beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).hide(active).show(fragment3).commit();
-                    //active = fragment3;
-                    FragmentTransaction transaction3 = getSupportFragmentManager().beginTransaction();
-                    selectedFragment = ListingFragment.newInstance("Param1", "Param2");
-                    transaction3.replace(R.id.main_fragment_container, selectedFragment);
-                    transaction3.commit();
-                    Logger.e("LISTINGS");
-                    return true;
-            }
-            return false;
-        }
-    };
 
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+//        setTheme(R.style.AppThemeMint);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         initializeLogger();
         Once.initialise(this);
 
+        Logger.e(String.valueOf(Integer.valueOf(70/60)));
+
+
+        Logger.i("LogCat Info");
+        Logger.w("LogCat Warning");
+        Logger.wtf("LogCat WTF");
+        Logger.e("LogCat Error");
+
+
         String recreateFragment = "recreateFragment";
-
-
-//        Intent intent1456 = new Intent(MainActivity.this, IntroActivity.class);
-//        startActivity(intent1456);
-
+        Log.i("TimeClock", "STARTED");
 
         if (!Once.beenDone(Once.THIS_APP_VERSION, changelog)) {
-//            initializeChangelog();
+            initializeChangelog();
             Once.markDone(changelog);
         }
 
@@ -141,8 +160,71 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
         SharedPreferences mSharedPreferences = getSharedPreferences("", Context.MODE_PRIVATE);
         SharedPreferences.Editor mEditor = mSharedPreferences.edit();
 
-        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+//        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+//        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+
+
+
+
+
+
+
+
+        BottomNavigationBar bottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_navigation_bar);
+
+        bottomNavigationBar
+                .addItem(new BottomNavigationItem(R.drawable.ic_home_black_24dp, "Home"))
+                .addItem(new BottomNavigationItem(R.drawable.ic_statistics_black_24dp, "Statistics"))
+                .addItem(new BottomNavigationItem(R.drawable.calendar_clock, "Listing"))
+                .addItem(new BottomNavigationItem(R.drawable.ic_menu_black_24dp, "Menu"))
+                .setFirstSelectedPosition(0)
+                .setBarBackgroundColor(R.color.colorPrimary)
+                .setActiveColor(R.color.white)
+                .setInActiveColor(R.color.blue_grey)
+                .setMode(BottomNavigationBar.MODE_SHIFTING)
+                .initialise();
+
+
+        bottomNavigationBar.setTabSelectedListener(new BottomNavigationBar.OnTabSelectedListener(){
+            Fragment selectedFragment = null;
+
+            @Override
+            public void onTabSelected(int position) {
+                Logger.i("onTabSelected:" + position);
+
+                if (position == 0) {
+                    Logger.i("MainActivity: @onNavigationItemSelected -> Home");
+                    FragmentTransaction transaction1 = getSupportFragmentManager().beginTransaction();
+                    selectedFragment = HomeFragment.newInstance("Param1", "Param2");
+                    transaction1.replace(R.id.main_fragment_container, selectedFragment);
+                    transaction1.commit();
+                } else if (position == 1) {
+                    Logger.i("MainActivity: @onNavigationItemSelected -> Statistics");
+                    FragmentTransaction transaction2 = getSupportFragmentManager().beginTransaction();
+                    selectedFragment = StatisticsFragment.newInstance("Param1", "Param2");
+                    transaction2.replace(R.id.main_fragment_container, selectedFragment);
+                    transaction2.commit();
+                } else if (position == 2) {
+                    Logger.i("MainActivity: @onNavigationItemSelected -> Listing");
+                    FragmentTransaction transaction3 = getSupportFragmentManager().beginTransaction();
+                    selectedFragment = ListingFragment.newInstance("Param1", "Param2");
+                    transaction3.replace(R.id.main_fragment_container, selectedFragment);
+                    transaction3.commit();
+                }else if (position == 3) {
+                    Toasty.info(MainActivity.this, "SOON...").show();
+                }
+
+            }
+            @Override
+            public void onTabUnselected(int position) {
+                Logger.i("onTabUnselected:" + position);
+            }
+            @Override
+            public void onTabReselected(int position) {
+                Logger.i("onTabReselected:" + position);
+            }
+        });
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.action_bar);
@@ -150,7 +232,10 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         toolbar.setNavigationIcon(R.drawable.ic_menu_black_24dp);
         TextView mTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
-        mTitle.setText("Title");
+        mTitle.setText("TimeClock");
+
+//        mTitle.setText("");
+
         toolbar.setNavigationOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -186,7 +271,6 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
         mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         createNotificationChannel(mNotificationManager);
 
-        Log.i("INFORMATION", "isNotificationPersistant == !!!TRUE!!!");
         //2.Build Notification with NotificationCompat.Builder
         if (isNotificationVisible) {
 
@@ -256,6 +340,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
         ChangelogSetup.get().registerTag(new ChangelogTagRemove());
         ChangelogSetup.get().registerTag(new ChangelogTagUpdate());
         ChangelogSetup.get().registerTag(new ChangelogTagRefactor());
+        ChangelogSetup.get().registerTag(new ChangelogTagFuture());
 
 
         ChangelogDialogFragment builder = new ChangelogBuilder()
@@ -267,10 +352,6 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
 
 
         String[] some_array = getResources().getStringArray(R.array.features);
-
-        Logger.i("QQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQQ");
-
-        Logger.i("TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT");
 
         String str = String.join(",", some_array);
         str=str.replaceAll(",", "\n\n");
@@ -317,6 +398,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
 
     @Override
     protected void onDestroy() {
+        Logger.i("MainActivity: @onDestroy");
 
         if (!isNotificationPersistant) {
 
@@ -335,12 +417,14 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
         mainOptionsBottomSheetDialogFragment.show(getSupportFragmentManager(), "MainOptionsBottomSheetDialogFragment");
     }
     public void settingsbutton(View view) {
+        Logger.i("MainActivity: Intent -> Settings");
 
         Intent intent = new Intent(this, SettingsActivity.class);
         mainOptionsBottomSheetDialogFragment.dismiss();
         startActivity(intent);
     }
     public void aboutButton(View view) {
+        Logger.i("MainActivity: Intent -> About");
         Intent intent = new Intent(this, ExampleMaterialAboutActivity.class);
         mainOptionsBottomSheetDialogFragment.dismiss();
         intent.putExtra(ExampleMaterialAboutActivity.THEME_EXTRA, 2);
@@ -371,7 +455,12 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
     @Override
     public void onStart() {
         super.onStart();
-        Logger.i("onStart");
+        Logger.i("MainActivity: @onStart");
+
+        //Unten stehender Code wird benötigt um statt der Default WORKING_TIME_HOURS die eingegebene Zeit nach dem Intro zu berechnen,
+        //  da die ursprüngliche Methode in der @onCreateView schon ausgeführ wurde wenn das Intro started,
+        //      wohingegen diese Methode ausgeführt wird wenn das Fragment in den Vordergrund rückt!!
+        //          siehe -> HomwFragment @onResume
         if (!Once.beenDone(Once.THIS_APP_INSTALL, intro)) {
             Intent intent156 = new Intent(MainActivity.this, IntroActivity.class);
             startActivity(intent156);

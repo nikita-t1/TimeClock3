@@ -117,11 +117,24 @@ public class ExampleMaterialAboutActivity extends MaterialAboutActivity {
                         ChangelogSetup.get().registerTag(new ChangelogTagRemove());
                         ChangelogSetup.get().registerTag(new ChangelogTagUpdate());
                         ChangelogSetup.get().registerTag(new ChangelogTagRefactor());
+                        ChangelogSetup.get().registerTag(new ChangelogTagFuture());
 
                         ChangelogDialogFragment builder = new ChangelogBuilder()
                                 .withUseBulletList(true)
                                 .buildAndShowDialog(ExampleMaterialAboutActivity.this, false); // second parameter defines, if the dialog has a dark or light theme
                                             }
+                })
+                .build());
+
+        aboutCardBuilder.addItem(new MaterialAboutActionItem.Builder()
+                .text("Intro")
+                .icon(R.drawable.ic_fast_rewind_black_24dp)
+                .setOnClickAction(new MaterialAboutItemOnClickAction() {
+                    @Override
+                    public void onClick() {
+                        Intent intent156 = new Intent(ExampleMaterialAboutActivity.this, IntroActivity.class);
+                        startActivity(intent156);
+                    }
                 })
                 .build());
 

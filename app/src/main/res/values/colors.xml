@@ -30,4 +30,13 @@
 
     <color name="alpha">#00ffffff</color>
 
+
+    Mint:
+    <color name="mint_primary">#002654</color>
+    <color name="mint_primary_light">#394e81</color>
+    <color name="mint_primary_dark">#00002b</color>
+    <color name="mint_secondary">#1de8b5</color>
+    <color name="mint_secondary_light">#6dffe7</color>
+    <color name="mint_secondary_dark">#00b585</color>
+
 </resources>

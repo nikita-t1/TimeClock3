@@ -9,6 +9,43 @@
     app:behavior_hideable="true"
     app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:layout_margin="12dp"
+            android:src="@drawable/account_outline"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="8dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="@color/black"
+                android:text="Moin!"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:text="Let's Track Your Time"/>
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
     <com.google.android.material.button.MaterialButton
         style="@style/Widget.MaterialComponents.Button.TextButton"
         android:text="Settings"
@@ -50,7 +87,8 @@
         android:paddingVertical="10dp"
         style="@style/Widget.MaterialComponents.Button.TextButton" />
 
-    <com.google.android.material.button.MaterialButton
+
+    <Button
         android:text="About"
         android:textSize="16sp"
         android:onClick="aboutButton"
@@ -69,6 +107,5 @@
         android:layout_marginHorizontal="10dp"
         android:paddingVertical="2dp"
         style="@style/Widget.MaterialComponents.Button.TextButton" />
-
 
 </LinearLayout>

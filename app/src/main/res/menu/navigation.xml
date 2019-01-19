@@ -15,7 +15,12 @@
 
     <item
         android:id="@+id/navigation_listing"
-        android:icon="@drawable/ic_listing_black_24dp"
+        android:icon="@drawable/calendar_clock"
         android:title="@string/title_listing" />
+
+    <item
+        android:id="@+id/navigation_menu"
+        android:icon="@drawable/ic_menu_black_24dp"
+        android:title="Menu"/>
 
 </menu>

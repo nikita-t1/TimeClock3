@@ -59,7 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="16dp"
-            android:text="verbleibend:"
+            android:text="Arbeitsende:"
             android:textAlignment="center" />
 
         <TextView
@@ -123,7 +123,7 @@
         android:id="@+id/chronometerWork"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="24dp"
+        android:textSize="42dp"
         app:layout_constraintBottom_toBottomOf="@+id/pbar"
         app:layout_constraintEnd_toEndOf="@+id/pbar"
         app:layout_constraintStart_toStartOf="@+id/pbar"
@@ -133,7 +133,7 @@
         android:id="@+id/chronometerPause"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="16dp"
+        android:textSize="28dp"
         app:layout_constraintBottom_toBottomOf="@+id/pbar"
         app:layout_constraintEnd_toEndOf="@+id/pbar"
         app:layout_constraintStart_toStartOf="@+id/pbar"
@@ -142,10 +142,10 @@
 
     <net.futuredrama.jomaceld.circularpblib.CircularProgressBarView
         android:id="@+id/pbar"
-        android:layout_width="230dp"
-        android:layout_height="230dp"
+        android:layout_width="299dp"
+        android:layout_height="333dp"
+        android:layout_marginTop="16dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="52dp"
         android:layout_marginEnd="8dp"
         app:backgroundColor="#E0E0E0"
         app:backgroundThickness="18dp"
@@ -156,6 +156,25 @@
         app:layout_constraintTop_toTopOf="parent"
         app:maxValue="100"
         app:minValue="0" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="38dp"
+        android:text="Week"
+        app:layout_constraintBottom_toTopOf="@+id/circularProgressBarView"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <net.futuredrama.jomaceld.circularpblib.CircularProgressBarView
+        android:id="@+id/circularProgressBarView"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginEnd="24dp"
+        app:backgroundColor="#E0E0E0"
+        app:backgroundThickness="6dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

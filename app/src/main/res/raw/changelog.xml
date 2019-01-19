@@ -1,5 +1,21 @@
 <changelog>
 
+    <release versionCode="120" versionName="0.12.0-alpha" date="19-01-2019">
+        <new>Intro Screen Pause Input</new>
+        <new>Calculated Working Time End (without Pause)</new>
+        <new>ProgressBar Week (No Funct)</new>
+        <change>New, More Customizable BottomNavigationBar</change>
+        <info>HomeFragment > 600 Zeilen Code // Ich blick nicht mehr durch!!</info>
+        <future>Refactor HomeFragment + MainActivity</future>
+        <future>time_clock_in/out SharedPreference</future>
+        <future>PAUSE_TIME_HOURS</future>
+    </release>
+
+    <release versionCode="112" versionName="0.11.2-alpha" date="16-01-2019">
+        <update>Better LogCat Overview</update>
+        <update>Collecting More Data to write in SQL</update>
+        <exp>Improved Main Options Look</exp>
+    </release>
 
     <release versionCode="111" versionName="0.11.1-alpha" date="14-01-2019">
         <info>Started Collection Data to write in SQL</info>
@@ -42,7 +58,7 @@
         <bug>Settings Screen has left padding for settings icons</bug>
     </release>
 
-    <release versionCode="100" versionName="0.10-alpha" date="27-12-2018">
+    <release versionCode="100" versionName="0.10.0-alpha" date="27-12-2018">
         <new>Persistant Fragment -> State is hidden not replaced</new>
         <new>Persistant Buttons and Time -> Stays after App is closed</new>
         <refactor>Rework HomeFragment</refactor>
@@ -69,7 +85,7 @@
         <bug>Fragment gets destroyed on switch -> Thread reference to null -> App Crash</bug>
     </release>
 
-    <release versionCode="90" versionName="0.9-alpha" date="19-12-2018">
+    <release versionCode="90" versionName="0.9.0-alpha" date="19-12-2018">
         <new>ProgressBar Animation with start, stop, pause and resume functionality (standart work time set to 15s)</new>
         <update>Improved LogCat</update>
         <update>Improved Toast functionality</update>
@@ -77,17 +93,19 @@
         <fix>some bugfixes</fix>
     </release>
 
+
     <!--
-    <release versionCode="xx" versionName="changelog_test" date="19-12-2018">
-        <change>
-        <exp>
-        <new>
-        <bug>
-        <fix>
-        <update>
-        <info>
-        <remove>
-        <refactor>
+    <release versionCode="150" versionName="0.15.0-alpha" date="20-05-2019">
+        <change>change</change>
+        <exp>exp</exp>
+        <new>new</new>
+        <bug>bug</bug>
+        <fix>fix</fix>
+        <update>update</update>
+        <info>info</info>
+        <remove>remove</remove>
+        <future>future</future>
+        <refactor>refactor</refactor>
     </release>
     -->
 
@@ -97,13 +115,13 @@
         <bug>App crashes because of Toast at 100%</bug>
     </release>
 
-    <release versionCode="80" versionName="0.8-alpha" date="17-12-2018">
+    <release versionCode="80" versionName="0.8.0-alpha" date="17-12-2018">
         <new>Added Changelog</new>
         <change>Changed the Layout-Style form appCompat.v7 to android.material</change>
     </release>
 
     <!-- simple example - no version name => will be generated based on verionCode: 100 => v1.00 -->
-    <release versionCode="70" versionName="0.7-alpha" date="16-12-2018">
+    <release versionCode="70" versionName="0.7.0-alpha" date="16-12-2018">
         <new>Added Animation for 'Pause' Button</new>
         <new>Created Counting Method for the time</new>
         <new>Added pause, resume and reset functionality to the time</new>

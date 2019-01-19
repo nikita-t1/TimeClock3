@@ -2,14 +2,14 @@
 <androidx.appcompat.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorPrimary"
-    android:elevation="4dp"
+    android:background="@color/alpha"
+    android:elevation="0dp"
     android:theme="@style/ThemeOverlay.AppCompat.ActionBar">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text=""
+        android:text="TimeClock"
         android:id="@+id/toolbar_title"
         style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
         android:layout_gravity="center"/>

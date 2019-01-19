@@ -1,6 +1,7 @@
 package com.studio.timeclock3;
 
 
+import android.Manifest;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -38,7 +39,7 @@ public class IntroActivity extends MaterialIntroActivity{
 
         addSlide(new SlideFragmentBuilder()
                 .image(R.mipmap.new_icon_foreground)
-                .backgroundColor(R.color.amber)
+                .backgroundColor(R.color.green)
                 .buttonsColor(R.color.colorAccent)
                 .title("Welcome to TimeClock\n")
                 .description("This App will track your Working Time \n\n Unfortunately it is in Alpha State and not recommended for everyday use\n\n Please be patient\n\n New Features and Bugfixes will be provided regularly")
@@ -47,8 +48,27 @@ public class IntroActivity extends MaterialIntroActivity{
 
         addSlide(new IntroSlideWorkingTime());
 
+        addSlide(new IntroSlidePauseTime());
+
         addSlide(new SlideFragmentBuilder()
-                        .backgroundColor(R.color.blue)
+                        .backgroundColor(R.color.green)
+                        .buttonsColor(R.color.colorAccent)
+                        .neededPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE})
+                        .title("Storage Permission")
+                        .description("This App needs the storage permission to save your working time")
+                        .build(),
+                new MessageButtonBehaviour(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showMessage("PORN");
+                    }
+                }, "Grant Permission"));
+
+
+        // Storage Permission
+
+        addSlide(new SlideFragmentBuilder()
+                        .backgroundColor(R.color.white)
                         .buttonsColor(R.color.blue)
                         .title("To be continued...\n\n\n\n\n\n\n\n\n\n\n")
                         .build());
