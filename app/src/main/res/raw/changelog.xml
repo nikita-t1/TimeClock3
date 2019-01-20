@@ -1,14 +1,20 @@
 <changelog>
 
+
+    <release versionCode="121" versionName="0.12.1-alpha" date="20-01-2019">
+        <refactor>HomeFragment with ButterKnife</refactor>
+        <update>(probably*)time_clock_in/out SharedPreference</update>
+        <update>Collecting More Data to write in SQL</update>
+        <exp>Menu Page in NavBar --> No MainOptionsBottomSheet</exp>
+        <bug>Calculated Pause Time based on millisec has massive Deviation (?)</bug>
+    </release>
+
     <release versionCode="120" versionName="0.12.0-alpha" date="19-01-2019">
         <new>Intro Screen Pause Input</new>
         <new>Calculated Working Time End (without Pause)</new>
         <new>ProgressBar Week (No Funct)</new>
         <change>New, More Customizable BottomNavigationBar</change>
         <info>HomeFragment > 600 Zeilen Code // Ich blick nicht mehr durch!!</info>
-        <future>Refactor HomeFragment + MainActivity</future>
-        <future>time_clock_in/out SharedPreference</future>
-        <future>PAUSE_TIME_HOURS</future>
     </release>
 
     <release versionCode="112" versionName="0.11.2-alpha" date="16-01-2019">

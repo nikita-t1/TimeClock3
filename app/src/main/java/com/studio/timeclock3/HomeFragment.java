@@ -32,6 +32,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import es.dmoral.toasty.Toasty;
 import library.minimize.com.chronometerpersist.ChronometerPersist;
 
@@ -50,44 +52,48 @@ public class HomeFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    private static float WORKING_TIME_HOURS;
-    private static double WORKING_TIME_MILLISECONDS; //Stunden *3,6e+6 um auf Millisekunden zu kommen
-    private static double WORKING_TIME_1PERCENT_MILLISECONDS;
-
-    public static float PAUSE_TIME_HOURS;
-    public static double PAUSE_TIMEMILLISECONDS;
-
-
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
+
+    private static float WORKING_TIME_HOURS;
+    private static double WORKING_TIME_MILLISECONDS;
+    private static double WORKING_TIME_1PERCENT_MILLISECONDS;
+
+    public static float PAUSE_TIME_HOURS;
+    public static double PAUSE_TIME_MILLISECONDS;
+
     private OnFragmentInteractionListener mListener;
 
-    public Button startButton;
-    public Button pauseButton;
-    public Button cancelButton;
-    public Chronometer chronometerPause;
-    public Chronometer chronometerWork;
+    private ChronometerPersist chronometerPersistWork;
+    private ChronometerPersist chronometerPersistPause;
 
-    public CircularProgressBarView progressBar;
-    public float progressBarPercent = 0;
-    public int stoppedMilliseconds;
-    public long chronometerTime;
-    public ChronometerPersist chronometerPersistWork;
-    public ChronometerPersist chronometerPersistPause;
-    private TextView textViewStartTime;
-    private TextView textViewEndTime;
-    String time_clock_in;
-    String time_clock_out;
+    @BindView(R.id.pbar) CircularProgressBarView progressBar;
+    private float progressBarPercent = 0; // Grund für ProgressBar +/neu
+    private long chronometerTime;
 
-    SimpleDateFormat sdf;
+    private String time_clock_in;
+    private String time_clock_out;
+    private String probably_time_clock_out;
+
+    @BindView(R.id.startButton) Button startButton;
+    @BindView(R.id.pauseButton) Button pauseButton;
+    @BindView(R.id.cancelButton) Button cancelButton;
+
+    @BindView(R.id.textViewStartTime) TextView textViewStartTime;
+    @BindView(R.id.textViewEndTime) TextView textViewEndTime;
+
+    @BindView(R.id.chronometerWork) Chronometer chronometerWork;
+    @BindView(R.id.chronometerPause) Chronometer chronometerPause;
+
+    private SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 
 //    public boolean isStartPressed;
-    public boolean isPausePressed;
+private boolean isPausePressed;
 
-    public SharedPreferences mSharedPreferences;
-    public SharedPreferences.Editor mEditor;
+    private SharedPreferences mSharedPreferences;
+    private SharedPreferences.Editor mEditor;
 
 
     public HomeFragment() {
@@ -134,23 +140,12 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        sdf = new SimpleDateFormat("HH:mm");
+        ButterKnife.bind(this, view);
 
         Logger.i("HomeFragment: @onCreateView");
 
         mSharedPreferences = getActivity().getSharedPreferences("", Context.MODE_PRIVATE);
         mEditor = mSharedPreferences.edit();
-
-        startButton = (Button) view.findViewById(R.id.startButton);
-        pauseButton = (Button) view.findViewById(R.id.pauseButton);
-        cancelButton = (Button) view.findViewById(R.id.cancelButton);
-        textViewStartTime = (TextView) view.findViewById(R.id.textViewStartTime);
-        textViewEndTime = (TextView) view.findViewById(R.id.textViewEndTime);
-
-        progressBar = (CircularProgressBarView) view.findViewById(R.id.pbar);
-
-        chronometerWork = (Chronometer) view.findViewById(R.id.chronometerWork);
-        chronometerPause = (Chronometer) view.findViewById(R.id.chronometerPause);
 
         chronometerPersistWork = ChronometerPersist.getInstance(chronometerWork, mSharedPreferences);
         chronometerPersistPause = ChronometerPersist.getInstance(chronometerPause, mSharedPreferences);
@@ -159,28 +154,14 @@ public class HomeFragment extends Fragment {
         progressBar.setBarsColors(new int[]{ getResources().getColor(R.color.green, null) });
 
         time_clock_in = mSharedPreferences.getString("time_clock_in", " ");
+        probably_time_clock_out = mSharedPreferences.getString("probably_time_clock_out", " ");
         textViewStartTime.setText(time_clock_in);
-        textViewEndTime.setText(" ");
+        textViewEndTime.setText(probably_time_clock_out);
 
-        startButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startButtonClick();
-            }
-        });
-        pauseButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                isPausePressed = !isPausePressed;
-                pauseButtonClick();
-            }
-        });
-        cancelButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                cancelButtonClick();
-            }
-        });
+        startButton.setOnClickListener(view1 -> startButtonClick());
+        pauseButton.setOnClickListener(view12 -> { isPausePressed = !isPausePressed; pauseButtonClick();});
+        cancelButton.setOnClickListener(view13 -> cancelButtonClick());
+
         return view;
     }
 
@@ -199,65 +180,19 @@ public class HomeFragment extends Fragment {
             Logger.i("WORKING_TIME_HOURS: " + WORKING_TIME_HOURS);
             Logger.i("WORKING_TIME_MILLISECONDS: " + WORKING_TIME_MILLISECONDS);
             Logger.i("WORKING_TIME_1PERCENT_MILLISECONDS: "+ WORKING_TIME_1PERCENT_MILLISECONDS);
+            Logger.i("PAUSE_TIME_HOURS: " + PAUSE_TIME_HOURS);
+            Logger.i("PAUSE_TIME_MILLISECONDS: " + PAUSE_TIME_MILLISECONDS);
 
-            Toasty.warning(getActivity(), "Working Time: " +  Math.round(WORKING_TIME_HOURS*0.6*100) + "min (" + WORKING_TIME_HOURS + ")", Toast.LENGTH_LONG , true).show();
 
-            mEditor.putInt("isStartPressed", 1);
-            mEditor.apply();
+            mEditor.putInt("isStartPressed", 1).apply();
 
             chronometerPersistWork.startChronometer();
 
             time_clock_in = sdf.format(new Date());
             textViewStartTime.setText(time_clock_in);
-            mEditor.putString("time_clock_in", time_clock_in);
-            mEditor.apply();
+            mEditor.putString("time_clock_in", time_clock_in).apply();
 
-
-//            try {
-//                Date start = sdf.parse(time_clock_in);
-//                Date d = sdf.parse("00:00");
-//                double dd;
-//                Logger.i("START: " + start.getTime());
-//                Logger.i(mSharedPreferences.getString("WorkingTimeAsDateFormat", "00:00"));
-//                d.setTime((long) (start.getTime() + WORKING_TIME_MILLISECONDS));
-//                dd = d.getTime() + 3.6e+6;
-//                Logger.e("D (new TIME): " + d);
-//                Logger.i("END2: " + dd);
-//                Logger.wtf(time_clock_in);
-//                Logger.i("MILLI, : " + (dd/3.6e+6));
-//                long diffMinutes = (long) (dd / (60 * 1000) % 60);
-//                long diffHours = (long) (dd / (60 * 60 * 1000) % 24);
-//                Logger.e("FINAL RESULT TIME: " + diffHours + "h " + diffMinutes + "min");
-//                textViewEndTime.setText( diffHours + "h " + diffMinutes + "min");
-//            } catch (ParseException e) {
-//                e.printStackTrace();
-//            }
-
-
-
-            //TODO Nachtschicht?
-            //Keine 24Std Kontrolle, Arbeitsstunden würden auf 24Std addiert werden!!
-            String[] parts1 = time_clock_in.split(":");
-            String[] parts2 = String.valueOf(WORKING_TIME_HOURS).split("\\.");
-            Logger.i(parts1[0]);
-            Logger.i(parts1[1]);
-            Logger.i(String.valueOf(WORKING_TIME_HOURS));
-            Logger.i(parts2[0]);
-            Logger.i(parts2[1]);
-            if (mSharedPreferences.getInt("WORKING_MIN_INT_NO-HOUR", 0) >= 60) {
-                Integer min =  (Integer.valueOf(parts1[1]) + mSharedPreferences.getInt("WORKING_MIN_INT_NO-HOUR", 0)%60);
-                Integer hour = Integer.valueOf(parts1[0]) + Integer.valueOf(parts2[0]) + min/60;
-                Logger.i("/60:" + min/60);
-                Logger.i("/60:" + Integer.valueOf(min/60));
-
-                Logger.i(String.valueOf(mSharedPreferences.getInt("WORKING_MIN_INT_NO-HOUR", 0)));
-                textViewEndTime.setText(hour + "h " + min + "min");
-            } else {
-                Integer hour = Integer.valueOf(parts1[0]) + Integer.valueOf(parts2[0]);
-                Integer min =  Integer.valueOf(parts1[1]) + mSharedPreferences.getInt("WORKING_MIN_INT_NO-HOUR", 0);
-                Logger.i(String.valueOf(mSharedPreferences.getInt("WORKING_MIN_INT_NO-HOUR", 0)));
-                textViewEndTime.setText(hour + "h " + min + "min");
-            }
+            calculateProbablyTimeOut();
 
             progressBarUpdateThread();
 
@@ -267,13 +202,10 @@ public class HomeFragment extends Fragment {
 
             //Geht zu Saving Screen
 
-            mEditor.putInt("isStartPressed",2);
-            mEditor.apply();
+            mEditor.putInt("isStartPressed",2).apply();
 
             time_clock_out = sdf.format(new Date());
-            mEditor.putString("time_clock_out", time_clock_out);
-            mEditor.apply();
-
+            mEditor.putString("time_clock_out", time_clock_out).apply();
 
             if (!mSharedPreferences.getBoolean("isPausePressed", false)) {
                 chronometerPersistWork.pauseChronometer();
@@ -282,6 +214,7 @@ public class HomeFragment extends Fragment {
             }
 
             pauseButton.setText("RESUME");
+            textViewEndTime.setText(time_clock_out);
             layoutToSavingScreen(1200);
 
         } else if (2== mSharedPreferences.getInt("isStartPressed", 0)) {
@@ -293,16 +226,24 @@ public class HomeFragment extends Fragment {
 
             Toasty.info(getActivity(), "Speichern oder so", Toast.LENGTH_LONG , true).show();
 
+            String StdBrutto = formatTimeString(chronometerWork.getText());
+
+            String netto = formatTimeString(getNettoTime(StdBrutto));
+
             Calendar calender = Calendar.getInstance();
+            Logger.e(String.valueOf(PAUSE_TIME_MILLISECONDS));
+            Logger.e("CALENDARTIME: " + sdf.format(PAUSE_TIME_MILLISECONDS));
+            Logger.e("CALENDARTIME: " + sdf.format(new Date((long) PAUSE_TIME_MILLISECONDS)));
+
             Logger.w(  "Kalenderwoche: " + calender.get(Calendar.WEEK_OF_YEAR) +"\n"+
                                 "Wochentag: " + calender.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.LONG, Locale.getDefault()) +" " + (calender.get(Calendar.DAY_OF_WEEK)-1) + "\n"+
                                 "Tag: " + calender.get(Calendar.DAY_OF_MONTH) + "\n"+
                                 "Monat: " + calender.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault()) +" " + (calender.get(Calendar.MONTH)+1) + "\n"+
                                 "Eingestempelt: "  + mSharedPreferences.getString("time_clock_in", "00:00") + "\n"+
                                 "Ausgestempelt: " + mSharedPreferences.getString("time_clock_out", "00:00") + "\n"+
-                                "Pause: " + "\n"+                       //TODO
-                                "Stunden (Brutto): " + chronometerWork.getText() + "\n"+
-                                "Stunden (Netto): " + "\n"+             //TODO
+                                "Pause: " + sdf.format(PAUSE_TIME_MILLISECONDS) + "\n"+
+                                "Stunden (Brutto): " + StdBrutto + "\n"+
+                                "Stunden (Netto): " + netto + "\n"+             //TODO
                                 "Überstunden: " + "\n"+                 //TODO
                                 "Anwesenheit: " + "true" + "\n"+
                                 "Notiz: " + "null" + "\n"+
@@ -311,12 +252,9 @@ public class HomeFragment extends Fragment {
 
 
             final Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    //Do something after 1500ms
+            handler.postDelayed(() -> {
+                //Do something after 1500ms
 //                    cancelButtonClick();
-                }
             }, 1500);
 
         } else {
@@ -324,6 +262,49 @@ public class HomeFragment extends Fragment {
             Toasty.error(getActivity(), "BIG BUTTON ERROR", Toast.LENGTH_LONG, true).show();
         }
 
+    }
+
+    private String getNettoTime(String stdBrutto) {
+        String date3 = null;
+        Date date1 = null, date2 = null;
+        try {
+            date1 = sdf.parse(stdBrutto);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTimeInMillis((long) PAUSE_TIME_MILLISECONDS);
+            date2 = sdf.parse(sdf.format(calendar.getTime()));
+            long sum = date1.getTime() - date2.getTime();
+            date3 = sdf.format(new Date(sum));
+            Logger.w(date3);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        Logger.e("Netto Date 1: " + date1 +
+                            "Netto Date 2: " + date2 +
+                                "Netto Date 3: "+ date3);
+
+        // Netto Date 1: Thu Jan 01 01:31:00 GMT+01:00 1970
+        // Netto Date 2: Thu Jan 01 11:37:00 GMT+01:00 1970
+        // Netto Date 3: 14:54
+
+        return date3;
+    }
+
+    private String formatTimeString(CharSequence text) {
+        CharSequence charSequence = text;
+        String StdBrutto = null;
+        if (charSequence.length() == 5) {
+            StdBrutto = "00:" + charSequence.charAt(0) + charSequence.charAt(1);
+        } else if (charSequence.length() == 7) {
+            StdBrutto = "0" + charSequence.charAt(0) + ":" + charSequence.charAt(2) + charSequence.charAt(3);
+        } else if (charSequence.length() == 8) {
+            StdBrutto = charSequence.charAt(0) + charSequence.charAt(1) + ":" + charSequence.charAt(3) + charSequence.charAt(4);
+        } else {Toasty.error(getContext(), "BIG ERROR BRUTTO", Toast.LENGTH_LONG , true).show();}
+        Logger.i(charSequence.toString());
+        Logger.i(String.valueOf(charSequence.length()));
+        Logger.i(String.valueOf(charSequence.charAt(0)));
+        Logger.w(StdBrutto);
+        //Auf- bzw Abrunden??? (Sekunden!)
+        return StdBrutto;
     }
 
     private void pauseButtonClick() {
@@ -375,12 +356,18 @@ public class HomeFragment extends Fragment {
         mEditor.putBoolean("isPausePressed",false);
         mEditor.apply();
 
+        time_clock_in = probably_time_clock_out = "";
+
+        textViewStartTime.setText(time_clock_in);
+        textViewEndTime.setText(probably_time_clock_out);
+        mEditor.putString("time_clock_in", time_clock_in).apply();
+        mEditor.putString("probably_time_clock_out", probably_time_clock_out).apply();
+
         textViewStartTime.setText("_____");
         textViewEndTime.setText("_____");
 
         chronometerPersistWork.stopChronometer();
         chronometerPersistPause.stopChronometer();
-
 
         isPausePressed = false;
 
@@ -485,6 +472,23 @@ public class HomeFragment extends Fragment {
         });
     }
 
+    private void calculateProbablyTimeOut() {
+        //TODO Nachtschicht?
+        //Keine 24Std Kontrolle, Arbeitsstunden würden auf 24Std addiert werden!!
+        String[] parts1 = time_clock_in.split(":");
+        String[] parts2 = String.valueOf(WORKING_TIME_HOURS).split("\\.");
+        Integer hour, min;
+        if (mSharedPreferences.getInt("WORKING_MIN_INT_NO-HOUR", 0) >= 60) {
+            min =  (Integer.valueOf(parts1[1]) + mSharedPreferences.getInt("WORKING_MIN_INT_NO-HOUR", 0)%60);
+            hour = Integer.valueOf(parts1[0]) + Integer.valueOf(parts2[0]) + min/60;}
+        else {
+            hour = Integer.valueOf(parts1[0]) + Integer.valueOf(parts2[0]);
+            min =  Integer.valueOf(parts1[1]) + mSharedPreferences.getInt("WORKING_MIN_INT_NO-HOUR", 0); }
+        textViewEndTime.setText(hour + "h " + min + "min");
+        probably_time_clock_out = hour + "h " + min + "min";
+        mEditor.putString("probably_time_clock_out", probably_time_clock_out).apply();
+    }
+
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -524,12 +528,11 @@ public class HomeFragment extends Fragment {
         //Unten stehender Code wird benötigt um statt der Default WORKING_TIME_HOURS die eingegebene Zeit nach dem Intro zu berechnen,
         //  da die ursprüngliche Methode in der @onCreateView schon ausgeführ wurde wenn das Intro started,
         //      wohingegen diese Methode ausgeführt wird wenn das Fragment in den Vordergrund rückt!!
-        WORKING_TIME_HOURS = mSharedPreferences.getFloat("WORKING_TIME_HOURS",0.1f);
-        WORKING_TIME_MILLISECONDS = WORKING_TIME_HOURS *3.6e+6;
-        Logger.i("WORKING_TIME_HOURS: " + WORKING_TIME_HOURS);
-        Logger.i("WORKING_TIME_MILLISECONDS: " + WORKING_TIME_MILLISECONDS);
+        WORKING_TIME_HOURS = mSharedPreferences.getFloat("WORKING_TIME_HOURS",1.0f);
+        WORKING_TIME_MILLISECONDS = WORKING_TIME_HOURS * 3.6e+6;
         WORKING_TIME_1PERCENT_MILLISECONDS = WORKING_TIME_MILLISECONDS/100;
-        Logger.i("WORKING_TIME_1PERCENT_MILLISECONDS: "+ WORKING_TIME_1PERCENT_MILLISECONDS);
+        PAUSE_TIME_HOURS = mSharedPreferences.getFloat("PAUSE_TIME_HOURS",0.1f);
+        PAUSE_TIME_MILLISECONDS = PAUSE_TIME_HOURS * 3.6e+6;
 
         //ATTENTION  !!!
         // Beispiel:

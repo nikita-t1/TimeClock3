@@ -174,8 +174,8 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
         BottomNavigationBar bottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_navigation_bar);
 
         bottomNavigationBar
-                .addItem(new BottomNavigationItem(R.drawable.ic_home_black_24dp, "Home"))
-                .addItem(new BottomNavigationItem(R.drawable.ic_statistics_black_24dp, "Statistics"))
+                .addItem(new BottomNavigationItem(R.drawable.home_variant_outline, "Home"))
+                .addItem(new BottomNavigationItem(R.drawable.chart_pie, "Statistics"))
                 .addItem(new BottomNavigationItem(R.drawable.calendar_clock, "Listing"))
                 .addItem(new BottomNavigationItem(R.drawable.ic_menu_black_24dp, "Menu"))
                 .setFirstSelectedPosition(0)

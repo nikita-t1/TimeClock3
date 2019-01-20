@@ -109,6 +109,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
+        android:layout_marginTop="8dp"
         android:layout_marginBottom="40dp"
         android:backgroundTint="@color/green"
         android:text="@string/title_startbutton"
@@ -157,24 +158,40 @@
         app:maxValue="100"
         app:minValue="0" />
 
-    <TextView
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="38dp"
-        android:text="Week"
-        app:layout_constraintBottom_toTopOf="@+id/circularProgressBarView"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="16dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/cardStartTime"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pbar"
+        app:layout_constraintVertical_bias="1.0">
 
-    <net.futuredrama.jomaceld.circularpblib.CircularProgressBarView
-        android:id="@+id/circularProgressBarView"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_marginEnd="24dp"
-        app:backgroundColor="#E0E0E0"
-        app:backgroundThickness="6dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="Week"
+            app:layout_constraintBottom_toTopOf="@+id/circularProgressBarView"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+        <net.futuredrama.jomaceld.circularpblib.CircularProgressBarView
+            android:id="@+id/circularProgressBarView"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            app:backgroundColor="#E0E0E0"
+            app:backgroundThickness="6dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </LinearLayout>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
