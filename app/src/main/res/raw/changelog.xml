@@ -1,6 +1,14 @@
 <changelog>
 
 
+    <release versionCode="122" versionName="0.12.2-alpha" date="21-01-2019">
+        <new>Menu Screen from MainOptions with ScrollView</new>
+        <refactor>MainOptions Layout</refactor>
+        <remove>MainOptionsBottomSheet in favour of Menu Screen</remove>
+        <remove>MainOptions has no onClick Function, wil be added later (AppCrash)</remove>
+        <bug>NavBar changes to Home @onResume</bug>
+    </release>
+
     <release versionCode="121" versionName="0.12.1-alpha" date="20-01-2019">
         <refactor>HomeFragment with ButterKnife</refactor>
         <update>(probably*)time_clock_in/out SharedPreference</update>

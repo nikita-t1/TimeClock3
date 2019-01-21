@@ -63,7 +63,7 @@ import es.dmoral.toasty.Toasty;
 import jonathanfinerty.once.Once;
 
 
-public class MainActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener , StatisticsFragment.OnFragmentInteractionListener , ListingFragment.OnFragmentInteractionListener, OnSneakerClickListener {
+public class MainActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener , StatisticsFragment.OnFragmentInteractionListener , ListingFragment.OnFragmentInteractionListener, OnSneakerClickListener , MainOptionsFragment.OnFragmentInteractionListener{
 
     private static String DEFAULT_CHANNEL_ID = "default_channel";
     private static String DEFAULT_CHANNEL_NAME = "Default";
@@ -169,8 +169,6 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
 
 
 
-
-
         BottomNavigationBar bottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_navigation_bar);
 
         bottomNavigationBar
@@ -212,8 +210,11 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
                     transaction3.replace(R.id.main_fragment_container, selectedFragment);
                     transaction3.commit();
                 }else if (position == 3) {
-                    Toasty.info(MainActivity.this, "SOON...").show();
-                }
+                    Logger.i("MainActivity: @onNavigationItemSelected -> MainOptions");
+                    FragmentTransaction transaction3 = getSupportFragmentManager().beginTransaction();
+                    selectedFragment = MainOptionsFragment.newInstance("Param1", "Param2");
+                    transaction3.replace(R.id.main_fragment_container, selectedFragment);
+                    transaction3.commit();                }
 
             }
             @Override
@@ -230,7 +231,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
         Toolbar toolbar = (Toolbar) findViewById(R.id.action_bar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        toolbar.setNavigationIcon(R.drawable.ic_menu_black_24dp);
+//        toolbar.setNavigationIcon(R.drawable.ic_menu_black_24dp);
         TextView mTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
         mTitle.setText("TimeClock");
 

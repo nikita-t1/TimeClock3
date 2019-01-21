@@ -201,48 +201,6 @@ public class ExampleMaterialAboutActivity extends MaterialAboutActivity {
                 .build());
 
         aboutCardBuilder.addItem(new MaterialAboutActionItem.Builder()
-                .text("Report Issue")
-                .icon(R.drawable.ic_bug_report_black_24dp)
-                .setOnClickAction(new MaterialAboutItemOnClickAction() {
-                    @Override
-                    public void onClick() {
-                        IssueReporterLauncher.forTarget("nikita-t1", "android-issue-reporter")
-                                // [Recommended] Theme to use for the reporter.
-                                // (See #theming for further information.)
-                                .theme(R.style.Theme_App_Light)
-                                // [Optional] Auth token to open issues if users don't have a GitHub account
-                                // You can register a bot account on GitHub and copy ist OAuth2 token here.
-                                // (See #how-to-create-a-bot-key for further information.)
-                                .guestToken("c2c21657f91989818e3589c041b6cad7a171659f")
-                                // [Optional] Force users to enter an email adress when the report is sent using
-                                // the guest token.
-                                .guestEmailRequired(true)
-                                // [Optional] Set a minimum character limit for the description to filter out
-                                // empty reports.
-                                .minDescriptionLength(20)
-                                // [Optional] Include other relevant info in the bug report (like custom variables)
-                                .putExtraInfo("Test 1", "Example string")
-                                .putExtraInfo("Test 2", true)
-                                // [Optional] Disable back arrow in toolbar
-                                .homeAsUpEnabled(true)
-                                .launch(ExampleMaterialAboutActivity.this);
-                    }
-                })
-                .build());
-
-        aboutCardBuilder.addItem(new MaterialAboutActionItem.Builder()
-                .text("Feedback")
-                .icon(R.drawable.message_alert)
-                .setOnClickAction(new MaterialAboutItemOnClickAction() {
-                    @Override
-                    public void onClick() {
-                        Toasty.info(getApplicationContext(), "Feature will be added later", LENGTH_SHORT, true).show();
-                    }
-                })
-                .build());
-
-
-        aboutCardBuilder.addItem(new MaterialAboutActionItem.Builder()
                 .text("Open Source Libraries")
                 .icon(R.drawable.open_source_initiative)
                 .setOnClickAction(new MaterialAboutItemOnClickAction() {
