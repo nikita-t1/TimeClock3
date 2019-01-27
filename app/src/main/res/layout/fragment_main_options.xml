@@ -77,6 +77,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:text="Calculator"
+                android:id="@+id/calculator"
                 android:textSize="16sp"
                 android:textAlignment="textStart"
                 android:textAllCaps="false"
@@ -144,6 +145,7 @@
             <com.google.android.material.button.MaterialButton
                 style="@style/Widget.MaterialComponents.Button.TextButton"
                 android:text="Settings"
+                android:id="@+id/settings"
                 android:textSize="16sp"
                 android:textAlignment="textStart"
                 android:textAllCaps="false"
@@ -158,10 +160,11 @@
                 android:layout_height="wrap_content"
                 app:iconPadding="24dp"
                 android:layout_marginHorizontal="10dp"
-                android:paddingVertical="2dp"/>
+                android:paddingVertical="10dp"/>
 
             <Button
                 android:text="About"
+                android:id="@+id/about"
                 android:textSize="16sp"
                 android:textAlignment="textStart"
                 android:textAllCaps="false"
@@ -176,7 +179,7 @@
                 android:layout_height="wrap_content"
                 app:iconPadding="24dp"
                 android:layout_marginHorizontal="10dp"
-                android:paddingVertical="2dp"
+                android:paddingVertical="10dp"
                 style="@style/Widget.MaterialComponents.Button.TextButton" />
 
             <Button
@@ -195,7 +198,7 @@
                 android:layout_height="wrap_content"
                 app:iconPadding="24dp"
                 android:layout_marginHorizontal="10dp"
-                android:paddingVertical="2dp"
+                android:paddingVertical="10dp"
                 style="@style/Widget.MaterialComponents.Button.TextButton" />
 
             <TextView
@@ -223,7 +226,7 @@
                 android:layout_height="wrap_content"
                 app:iconPadding="24dp"
                 android:layout_marginHorizontal="10dp"
-                android:paddingVertical="2dp"
+                android:paddingVertical="10dp"
                 style="@style/Widget.MaterialComponents.Button.TextButton" />
 
             <Button
@@ -242,7 +245,7 @@
                 android:layout_height="wrap_content"
                 app:iconPadding="24dp"
                 android:layout_marginHorizontal="10dp"
-                android:paddingVertical="2dp"
+                android:paddingVertical="10dp"
                 style="@style/Widget.MaterialComponents.Button.TextButton" />
 
             <Button
@@ -261,8 +264,9 @@
                 android:layout_height="wrap_content"
                 app:iconPadding="24dp"
                 android:layout_marginHorizontal="10dp"
-                android:paddingVertical="2dp"
+                android:paddingVertical="10dp"
                 style="@style/Widget.MaterialComponents.Button.TextButton" />
+
 
         </LinearLayout>
 

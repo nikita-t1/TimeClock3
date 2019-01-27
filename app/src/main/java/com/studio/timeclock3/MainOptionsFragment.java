@@ -1,12 +1,19 @@
 package com.studio.timeclock3;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+
+import com.orhanobut.logger.Logger;
 
 
 /**
@@ -28,6 +35,9 @@ public class MainOptionsFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    @BindView(R.id.settings) Button settings;
+    @BindView(R.id.about) Button about;
 
     public MainOptionsFragment() {
         // Required empty public constructor
@@ -64,7 +74,30 @@ public class MainOptionsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_main_options, container, false);
+
+        View view = inflater.inflate(R.layout.fragment_main_options, container, false);
+        ButterKnife.bind(this, view);
+
+        settings.setOnClickListener(view1 -> settingsButton());
+        about.setOnClickListener(view2 -> aboutButton());
+
+        return view;
+    }
+
+    private void aboutButton() {
+        Logger.i("MainActivity: Intent -> About");
+        Intent intent = new Intent(getActivity(), ExampleMaterialAboutActivity.class);
+        intent.putExtra(ExampleMaterialAboutActivity.THEME_EXTRA, 2);
+        startActivity(intent);
+    }
+
+    private void settingsButton() {
+//        Logger.i("MainActivity: Intent -> Settings");
+//
+//        Intent intent = new Intent(getActivity(), SettingsActivity.class);
+//        startActivity(intent);
+
+        ((MainActivity) getActivity()).newSettingsButton();
     }
 
     // TODO: Rename method, update argument and hook method into UI event

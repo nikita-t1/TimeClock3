@@ -77,6 +77,8 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
     String intro = "intro";
     String changelog = "changelog";
 
+    BottomNavigationBar bottomNavigationBar;
+    SharedPreferences mSharedPreferences;
 
     MainOptionsBottomSheetDialogFragment mainOptionsBottomSheetDialogFragment;
     CalculatorBottomSheetDialogFragment calculatorBottomSheetDialogFragment;
@@ -157,8 +159,25 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
 
         setMainStartFragment();
 
-        SharedPreferences mSharedPreferences = getSharedPreferences("", Context.MODE_PRIVATE);
+        mSharedPreferences = getSharedPreferences("", Context.MODE_PRIVATE);
         SharedPreferences.Editor mEditor = mSharedPreferences.edit();
+
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.action_bar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+//        toolbar.setNavigationIcon(R.drawable.ic_menu_black_24dp);
+        TextView mTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
+
+//        mTitle.setText("");
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                bottomSheetView(view);
+            }
+        });
+
 
 //        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
 //        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -168,8 +187,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
 
 
 
-
-        BottomNavigationBar bottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_navigation_bar);
+        bottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_navigation_bar);
 
         bottomNavigationBar
                 .addItem(new BottomNavigationItem(R.drawable.home_variant_outline, "Home"))
@@ -190,6 +208,8 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
             @Override
             public void onTabSelected(int position) {
                 Logger.i("onTabSelected:" + position);
+                //Resume at the choosen position --> Save the screen somehow, to resume later
+                mEditor.putInt("NavBarPosition", position).apply();
 
                 if (position == 0) {
                     Logger.i("MainActivity: @onNavigationItemSelected -> Home");
@@ -197,24 +217,29 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
                     selectedFragment = HomeFragment.newInstance("Param1", "Param2");
                     transaction1.replace(R.id.main_fragment_container, selectedFragment);
                     transaction1.commit();
+                    mTitle.setText("Home");
                 } else if (position == 1) {
                     Logger.i("MainActivity: @onNavigationItemSelected -> Statistics");
                     FragmentTransaction transaction2 = getSupportFragmentManager().beginTransaction();
                     selectedFragment = StatisticsFragment.newInstance("Param1", "Param2");
                     transaction2.replace(R.id.main_fragment_container, selectedFragment);
                     transaction2.commit();
+                    mTitle.setText("Statistics");
                 } else if (position == 2) {
                     Logger.i("MainActivity: @onNavigationItemSelected -> Listing");
                     FragmentTransaction transaction3 = getSupportFragmentManager().beginTransaction();
                     selectedFragment = ListingFragment.newInstance("Param1", "Param2");
                     transaction3.replace(R.id.main_fragment_container, selectedFragment);
                     transaction3.commit();
+                    mTitle.setText("Listing");
                 }else if (position == 3) {
                     Logger.i("MainActivity: @onNavigationItemSelected -> MainOptions");
                     FragmentTransaction transaction3 = getSupportFragmentManager().beginTransaction();
                     selectedFragment = MainOptionsFragment.newInstance("Param1", "Param2");
                     transaction3.replace(R.id.main_fragment_container, selectedFragment);
-                    transaction3.commit();                }
+                    transaction3.commit();
+                    mTitle.setText("Menu");
+                }
 
             }
             @Override
@@ -228,21 +253,6 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
         });
 
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.action_bar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-//        toolbar.setNavigationIcon(R.drawable.ic_menu_black_24dp);
-        TextView mTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
-        mTitle.setText("TimeClock");
-
-//        mTitle.setText("");
-
-        toolbar.setNavigationOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                bottomSheetView(view);
-            }
-        });
 
 //        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 //        getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -259,8 +269,13 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
 
-        Boolean isNotificationVisible = sharedPref.getBoolean(SettingsActivity.KEY_PREF_NOTIFICATION_VISIBLE, false);
-        Boolean isNotificationPersistant = sharedPref.getBoolean(SettingsActivity.KEY_PREF_NOTIFICATION_PERSISTANT, false);
+
+        //EEERRROOORRR!!!
+//        Boolean isNotificationVisible = sharedPref.getBoolean(SettingsActivity.KEY_PREF_NOTIFICATION_VISIBLE, false);
+//        Boolean isNotificationPersistant = sharedPref.getBoolean(SettingsActivity.KEY_PREF_NOTIFICATION_PERSISTANT, false);
+
+        Boolean isNotificationVisible= false;
+        Boolean isNotificationPersistant = false;
 
         Intent intent = new Intent(Intent.ACTION_VIEW);
         intent.setData(Uri.parse("https://www.pornhub.com"));
@@ -417,19 +432,19 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
         mainOptionsBottomSheetDialogFragment = MainOptionsBottomSheetDialogFragment.newInstance();
         mainOptionsBottomSheetDialogFragment.show(getSupportFragmentManager(), "MainOptionsBottomSheetDialogFragment");
     }
-    public void settingsbutton(View view) {
-        Logger.i("MainActivity: Intent -> Settings");
-
-        Intent intent = new Intent(this, SettingsActivity.class);
-        mainOptionsBottomSheetDialogFragment.dismiss();
-        startActivity(intent);
-    }
-    public void aboutButton(View view) {
-        Logger.i("MainActivity: Intent -> About");
-        Intent intent = new Intent(this, ExampleMaterialAboutActivity.class);
-        mainOptionsBottomSheetDialogFragment.dismiss();
-        intent.putExtra(ExampleMaterialAboutActivity.THEME_EXTRA, 2);
-        startActivity(intent);    }
+//    public void settingsbutton(View view) {
+//        Logger.i("MainActivity: Intent -> Settings");
+//
+//        Intent intent = new Intent(this, SettingsActivity.class);
+//        mainOptionsBottomSheetDialogFragment.dismiss();
+//        startActivity(intent);
+//    }
+//    public void aboutButton(View view) {
+//        Logger.i("MainActivity: Intent -> About");
+//        Intent intent = new Intent(this, ExampleMaterialAboutActivity.class);
+//        mainOptionsBottomSheetDialogFragment.dismiss();
+//        intent.putExtra(ExampleMaterialAboutActivity.THEME_EXTRA, 2);
+//        startActivity(intent);    }
 
     public static void createNotificationChannel(NotificationManager notificationManager) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -440,6 +455,11 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
                 ));
             }
         }
+    }
+
+
+    public void newSettingsButton() {
+        Toasty.info(this, "Callback", Toast.LENGTH_LONG , true).show();
     }
 
     @Override
@@ -458,16 +478,27 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
         super.onStart();
         Logger.i("MainActivity: @onStart");
 
+    }
+
+    @Override
+    public void onRestart() {
+        super.onRestart();
+        Logger.i("MainActivity: @onRestart");
+
         //Unten stehender Code wird benötigt um statt der Default WORKING_TIME_HOURS die eingegebene Zeit nach dem Intro zu berechnen,
         //  da die ursprüngliche Methode in der @onCreateView schon ausgeführ wurde wenn das Intro started,
         //      wohingegen diese Methode ausgeführt wird wenn das Fragment in den Vordergrund rückt!!
         //          siehe -> HomwFragment @onResume
+
         if (!Once.beenDone(Once.THIS_APP_INSTALL, intro)) {
             Intent intent156 = new Intent(MainActivity.this, IntroActivity.class);
             startActivity(intent156);
             Once.markDone(intro);
         } else {
-            setMainStartFragment();
+//            setMainStartFragment();
+            bottomNavigationBar.selectTab(mSharedPreferences.getInt("NavBarPosition", 0));
+            //@onPause --> @onResume
+            //@onStop --> @onRestart --> @onStart
         }
     }
 }

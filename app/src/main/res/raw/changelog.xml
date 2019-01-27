@@ -1,6 +1,14 @@
 <changelog>
 
 
+    <release versionCode="123" versionName="0.12.3-alpha" date="27-01-2019">
+        <change>Toolbar Title change dependent on selected fragment</change>
+        <exp>Calendar View in Listing</exp>
+        <info>why does callback viewmodel so complicated!!</info>
+        <exp>added some callback, BUT may be wrong implemented (! No EventBus !)</exp>
+        <fix>NavBar keeps previously selected state</fix>
+    </release>
+
     <release versionCode="122" versionName="0.12.2-alpha" date="21-01-2019">
         <new>Menu Screen from MainOptions with ScrollView</new>
         <refactor>MainOptions Layout</refactor>

@@ -1,18 +1,189 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/main_s">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/main_s"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <include
-        android:id="@+id/action_bar"
-        layout="@layout/toolbar"/>
-
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/settings_fragment_main"
-        android:layout_below="@id/action_bar">
-    </FrameLayout>
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-</androidx.appcompat.widget.LinearLayoutCompat>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/theme"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginHorizontal="10dp"
+            android:minWidth="200dp"
+            android:paddingVertical="10dp"
+            android:paddingTop="200dp"
+            android:text="Theme"
+            android:textAlignment="textStart"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:backgroundTint="@color/white"
+            app:icon="@drawable/ic_color_lens_black_24dp"
+            app:iconPadding="24dp"
+            android:layout_marginTop="12dp"
+            app:iconSize="26dp"
+            app:iconTint="@color/black" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/animation"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginHorizontal="10dp"
+            android:minWidth="200dp"
+            android:paddingVertical="10dp"
+            android:paddingTop="200dp"
+            android:text="Animation"
+            android:textAlignment="textStart"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:backgroundTint="@color/white"
+            app:icon="@drawable/animation"
+            app:iconPadding="24dp"
+            android:layout_marginTop="12dp"
+            app:iconSize="26dp"
+            app:iconTint="@color/black" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/customization"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginHorizontal="10dp"
+            android:minWidth="200dp"
+            android:paddingVertical="10dp"
+            android:paddingTop="200dp"
+            android:text="Customization"
+            android:textAlignment="textStart"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:backgroundTint="@color/white"
+            app:icon="@drawable/ic_format_paint_black_24dp"
+            app:iconPadding="24dp"
+            android:layout_marginTop="12dp"
+            app:iconSize="26dp"
+            app:iconTint="@color/black" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/behaviour"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginHorizontal="10dp"
+            android:minWidth="200dp"
+            android:paddingVertical="10dp"
+            android:paddingTop="200dp"
+            android:text="Behaviour"
+            android:textAlignment="textStart"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:backgroundTint="@color/white"
+            app:icon="@drawable/settings"
+            app:iconPadding="24dp"
+            android:layout_marginTop="12dp"
+            app:iconSize="26dp"
+            app:iconTint="@color/black" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/data"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginHorizontal="10dp"
+            android:minWidth="200dp"
+            android:paddingVertical="10dp"
+            android:paddingTop="200dp"
+            android:text="Data"
+            android:textAlignment="textStart"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:backgroundTint="@color/white"
+            app:icon="@drawable/database_edit"
+            app:iconPadding="24dp"
+            android:layout_marginTop="12dp"
+            app:iconSize="26dp"
+            app:iconTint="@color/black" />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/notification"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginHorizontal="10dp"
+            android:minWidth="200dp"
+            android:paddingVertical="10dp"
+            android:text="Notification"
+            android:textAlignment="textStart"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:backgroundTint="@color/white"
+            app:icon="@drawable/ic_notifications_black_24dp"
+            app:iconPadding="24dp"
+            android:layout_marginTop="12dp"
+            app:iconSize="26dp"
+            app:iconTint="@color/black" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/backup"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginHorizontal="10dp"
+            android:minWidth="200dp"
+            android:paddingVertical="10dp"
+            android:text="Backup"
+            android:textAlignment="textStart"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:backgroundTint="@color/white"
+            app:icon="@drawable/ic_backup_black_24dp"
+            app:iconPadding="24dp"
+            android:layout_marginTop="12dp"
+            app:iconSize="26dp"
+            app:iconTint="@color/black" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/language"
+            style="@style/Widget.MaterialComponents.Button.TextButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_marginHorizontal="10dp"
+            android:minWidth="200dp"
+            android:paddingVertical="10dp"
+            android:text="Language"
+            android:textAlignment="textStart"
+            android:textAllCaps="false"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            app:backgroundTint="@color/white"
+            app:icon="@drawable/earth"
+            app:iconPadding="24dp"
+            android:layout_marginTop="12dp"
+            app:iconSize="26dp"
+            app:iconTint="@color/black" />
+
+    </LinearLayout>
+
+</ScrollView>
