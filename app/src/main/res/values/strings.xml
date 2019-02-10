@@ -5,13 +5,10 @@
     <string name="title_listing">Auflistung</string>
     <string name="title_startbutton">Start</string>
 
-    <string name ="title_about">About App</string>
+    <string name="title_about">About App</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-
-
-
 
 
 </resources>

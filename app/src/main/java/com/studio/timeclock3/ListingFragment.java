@@ -4,20 +4,11 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
-import es.dmoral.toasty.Toasty;
-import noman.weekcalendar.WeekCalendar;
-import noman.weekcalendar.listener.OnDateClickListener;
+
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
-import org.joda.time.DateTime;
-
-import com.github.sundeepk.compactcalendarview.CompactCalendarView;
-
-import java.util.Calendar;
 
 
 /**
@@ -78,17 +69,9 @@ public class ListingFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_listing, container, false);
 
-        final CompactCalendarView compactCalendarView = (CompactCalendarView) view.findViewById(R.id.compactcalendar_view);
-        compactCalendarView.setFirstDayOfWeek(Calendar.MONDAY);
-        WeekCalendar weekCalendar = (WeekCalendar) view.findViewById(R.id.weekCalendar);
-        compactCalendarView.canScrollHorizontally(1);
-        weekCalendar.setOnDateClickListener(new OnDateClickListener() {
-            @Override
-            public void onDateClick(DateTime dateTime) {
-                Toasty.info(getActivity(), String.valueOf(dateTime), Toast.LENGTH_LONG , true).show();
-            }
-        });
-
+        if (getActivity() instanceof MainActivity) {
+            ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        }
 
         return view;
     }

@@ -10,187 +10,233 @@
     tools:context=".MainActivity">
 
 
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardStartTime"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginTop="64dp"
-        android:layout_marginBottom="2dp"
-        app:layout_constraintBottom_toTopOf="@+id/cardEndTimeText"
+    <net.futuredrama.jomaceld.circularpblib.CircularProgressBarView
+        android:id="@+id/pbar"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_margin="8dp"
+        app:backgroundColor="#E0E0E0"
+        app:backgroundThickness="6dp"
+        app:barCapStyle="round"
+        app:barThickness="12dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pbar">
-
-        <TextView
-            android:id="@+id/textViewStartTimeText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:text="Arbeitsbeginn: "
-            android:textAlignment="center" />
-
-        <TextView
-            android:id="@+id/textViewStartTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginEnd="32dp"
-            android:padding="16dp"
-            android:text="_____"
-            android:textSize="18sp" />
-
-    </com.google.android.material.card.MaterialCardView>
-
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/cardEndTimeText"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginBottom="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/startButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardStartTime">
-
-        <TextView
-            android:id="@+id/textViewEndTimeText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="16dp"
-            android:text="Arbeitsende:"
-            android:textAlignment="center" />
-
-        <TextView
-            android:id="@+id/textViewEndTime"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:layout_marginEnd="32dp"
-            android:padding="16dp"
-            android:text="_____"
-            android:textSize="18sp" />
-    </com.google.android.material.card.MaterialCardView>
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/pauseButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="40dp"
-        android:backgroundTint="@color/blue"
-        android:text="Pause"
-        android:textColor="@color/white"
-        android:textStyle="normal"
-        app:cornerRadius="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/startButton" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/cancelButton"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginBottom="40dp"
-        android:backgroundTint="@color/red"
-        android:text="Cancel"
-        android:textColor="@color/white"
-        android:textStyle="normal"
-        app:cornerRadius="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/startButton"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/startButton"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="40dp"
-        android:backgroundTint="@color/green"
-        android:text="@string/title_startbutton"
-        android:textColor="@color/white"
-        android:textStyle="normal"
-        app:cornerRadius="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/pauseButton"
-        app:layout_constraintStart_toEndOf="@id/cancelButton" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/middleDividerHorizontal"
+        app:maxValue="100"
+        app:minValue="0" />
 
     <Chronometer
         android:id="@+id/chronometerWork"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textSize="42dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:layout_margin="40dp"
+        android:autoSizeTextType="uniform"
+        android:lines="1"
+        android:autoSizeMinTextSize="20sp"
+        android:autoSizeMaxTextSize="80sp"
+        android:autoSizeStepGranularity="2sp"
         app:layout_constraintBottom_toBottomOf="@+id/pbar"
         app:layout_constraintEnd_toEndOf="@+id/pbar"
         app:layout_constraintStart_toStartOf="@+id/pbar"
         app:layout_constraintTop_toTopOf="@+id/pbar" />
 
-    <Chronometer
-        android:id="@+id/chronometerPause"
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/middleDividerHorizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="28dp"
-        app:layout_constraintBottom_toBottomOf="@+id/pbar"
-        app:layout_constraintEnd_toEndOf="@+id/pbar"
-        app:layout_constraintStart_toStartOf="@+id/pbar"
-        app:layout_constraintTop_toTopOf="@+id/pbar"
-        app:layout_constraintVertical_bias="0.8" />
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.5" />
 
-    <net.futuredrama.jomaceld.circularpblib.CircularProgressBarView
-        android:id="@+id/pbar"
-        android:layout_width="299dp"
-        android:layout_height="333dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        app:backgroundColor="#E0E0E0"
-        app:backgroundThickness="18dp"
-        app:barCapStyle="round"
-        app:barThickness="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:maxValue="100"
-        app:minValue="0" />
-
-
-    <LinearLayout
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/middleDividerVertical"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:layout_marginRight="24dp"
-        android:layout_marginBottom="16dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/cardStartTime"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pbar"
-        app:layout_constraintVertical_bias="1.0">
+        app:layout_constraintGuide_percent=".5" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginVertical="8dp"
+        android:background="@drawable/rounded_edge"
+        android:elevation="18dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomDividerHorizontal"
+        app:layout_constraintTop_toBottomOf="@+id/middleDividerHorizontal"
+        app:layout_constraintVertical_bias="0.5">
+
+        <View
+            android:layout_width="1.5dp"
+            android:layout_height="0dp"
+            android:background="@color/blue_grey"
+            android:layout_marginVertical="8dp"
+            app:layout_constraintTop_toTopOf="@id/linearLayout3"
+            app:layout_constraintBottom_toBottomOf="@id/linearLayout3"
+            app:layout_constraintStart_toStartOf="@id/middleBottomDividerVertical"
+            app:layout_constraintEnd_toEndOf="@id/middleBottomDividerVertical">
+
+        </View>
+
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/textViewStartTimeText"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="Week"
-            app:layout_constraintBottom_toTopOf="@+id/circularProgressBarView"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:padding="16dp"
+            android:textSize="18sp"
+            android:text="Arbeitsbeginn: "
+            android:textAlignment="textStart"
+            app:layout_constraintEnd_toStartOf="@+id/textViewStartTime"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <net.futuredrama.jomaceld.circularpblib.CircularProgressBarView
-            android:id="@+id/circularProgressBarView"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            app:backgroundColor="#E0E0E0"
-            app:backgroundThickness="6dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
+        <TextView
+            android:id="@+id/textViewStartTime"
+            android:text="12:11"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:padding="16dp"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toStartOf="@+id/middleBottomDividerVertical"
             app:layout_constraintTop_toTopOf="parent" />
 
 
-    </LinearLayout>
+        <TextView
+            android:id="@+id/textViewEndTimeText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:padding="16dp"
+            android:text="Arbeitsende:"
+            android:textSize="18sp"
+            android:textAlignment="textStart"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/textViewEndTime"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/textViewEndTime"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="end"
+            android:text="14:19"
+            android:padding="16dp"
+            android:textSize="18sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/middleBottomDividerVertical" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/middleBottomDividerVertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_percent="0.65" />
+
+
+        <LinearLayout
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:orientation="vertical"
+            android:layout_margin="8dp"
+            app:layout_constraintStart_toEndOf="@id/middleBottomDividerVertical"
+            app:layout_constraintEnd_toEndOf="@id/linearLayout3"
+            app:layout_constraintBottom_toBottomOf="@id/linearLayout3"
+            app:layout_constraintTop_toTopOf="@id/linearLayout3">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top|center_horizontal"
+                android:gravity="center"
+                android:layout_marginBottom="4dp"
+                android:text="Week"
+                app:layout_constraintBottom_toTopOf="@+id/circularProgressBarView"
+                tools:layout_editor_absoluteX="306dp" />
+
+            <net.futuredrama.jomaceld.circularpblib.CircularProgressBarView
+                android:id="@+id/circularProgressBarView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginBottom="2dp"
+                app:backgroundColor="#E0E0E0"
+                app:backgroundThickness="4dp"
+                app:barThickness="12dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.761" />
+
+
+        </LinearLayout>
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/bottomDividerHorizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent=".85" />
+
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/cancelButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="40dp"
+        android:backgroundTint="@color/red"
+        android:text="Cancel"
+        android:textColor="@color/white"
+        android:textStyle="normal"
+        app:cornerRadius="16dp"
+        app:layout_constraintWidth_percent=".3"
+        app:layout_constraintWidth_max="150dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/startButton"
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bottomDividerHorizontal" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/startButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="40dp"
+        android:backgroundTint="@color/green"
+        android:text="@string/title_startbutton"
+        android:textColor="@color/white"
+        android:textStyle="normal"
+        app:cornerRadius="16dp"
+        app:layout_constraintWidth_percent=".6"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/cancelButton"
+        app:layout_constraintTop_toBottomOf="@+id/bottomDividerHorizontal" />
+
 
 
 

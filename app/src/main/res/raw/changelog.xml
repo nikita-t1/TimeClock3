@@ -1,6 +1,17 @@
 <changelog>
 
 
+    <release versionCode="130" versionName="0.13.0-alpha" date="10-02-2019">
+        <new>Implemented Callback from Options Fragment</new>
+        <new>Added custom font support</new>
+        <update>Back Button in Toolbar</update>
+        <refactor>fragment_home Layout</refactor>
+        <fix>resizable Chronometer</fix>
+        <fix>properly constrained cardView (#noMoreCardView)</fix>
+        <exp>CustomizationScreen </exp>
+        <bug>You know it: IntroScreen</bug>
+    </release>
+
     <release versionCode="123" versionName="0.12.3-alpha" date="27-01-2019">
         <change>Toolbar Title change dependent on selected fragment</change>
         <exp>Calendar View in Listing</exp>

@@ -11,6 +11,8 @@
         android:layout_height="wrap_content"
         android:text="TimeClock"
         android:id="@+id/toolbar_title"
+        android:textStyle="bold"
+        android:fontFamily="@font/product_sans_regular"
         style="@style/TextAppearance.AppCompat.Widget.ActionBar.Title"
         android:layout_gravity="center"/>
 

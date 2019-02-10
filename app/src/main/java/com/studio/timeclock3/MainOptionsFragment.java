@@ -1,5 +1,6 @@
 package com.studio.timeclock3;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -34,10 +35,17 @@ public class MainOptionsFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private OnFragmentInteractionListener mListener;
+//    private OnFragmentInteractionListener mListener;
+
+    OnFragmentChangeListener fragmentChangeListener;
 
     @BindView(R.id.settings) Button settings;
     @BindView(R.id.about) Button about;
+
+    public interface OnFragmentChangeListener{
+
+        public void OnFragmentChange(String fragment);
+    }
 
     public MainOptionsFragment() {
         // Required empty public constructor
@@ -78,7 +86,11 @@ public class MainOptionsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_main_options, container, false);
         ButterKnife.bind(this, view);
 
-        settings.setOnClickListener(view1 -> settingsButton());
+        if (getActivity() instanceof MainActivity) {
+            ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        }
+
+        settings.setOnClickListener(view1 -> settingsButton(String.valueOf(settings.getText())));
         about.setOnClickListener(view2 -> aboutButton());
 
         return view;
@@ -91,27 +103,27 @@ public class MainOptionsFragment extends Fragment {
         startActivity(intent);
     }
 
-    private void settingsButton() {
+    private void settingsButton(String s) {
 //        Logger.i("MainActivity: Intent -> Settings");
-//
-//        Intent intent = new Intent(getActivity(), SettingsActivity.class);
-//        startActivity(intent);
+        fragmentChangeListener.OnFragmentChange(s);
 
-        ((MainActivity) getActivity()).newSettingsButton();
     }
 
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
+//    public void onButtonPressed(Uri uri) {
+//        if (mListener != null) {
+//            mListener.onFragmentInteraction(uri);
+//        }
+//    }
 
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
+
+        Activity activity = (Activity) context;
+
+        if (context instanceof OnFragmentChangeListener) {
+            fragmentChangeListener = (OnFragmentChangeListener) activity;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
@@ -121,7 +133,7 @@ public class MainOptionsFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        mListener = null;
+//        mListener = null;
     }
 
     /**

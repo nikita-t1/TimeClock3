@@ -12,4 +12,11 @@
         <item> • Create RecyclerView in Listing Screen</item>
         <item> • Many Many Bugfixes</item>
     </string-array>
+
+    <array name="auto_size_chronometer">
+        <item>56sp</item>
+        <item>64sp</item>
+        <item>72sp</item>
+        <item>80sp</item>
+    </array>
 </resources>

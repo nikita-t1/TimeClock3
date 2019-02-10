@@ -31,6 +31,9 @@
     <color name="alpha">#00ffffff</color>
 
 
+    <color name="light_grey">#cfd8dc</color>
+
+
     Mint:
     <color name="mint_primary">#002654</color>
     <color name="mint_primary_light">#394e81</color>

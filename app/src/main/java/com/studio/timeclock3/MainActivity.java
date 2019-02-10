@@ -9,6 +9,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -23,6 +24,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.widget.ToolbarWidgetWrapper;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.graphics.TypefaceCompatApi28Impl;
+import androidx.core.graphics.TypefaceCompatUtil;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -57,13 +60,21 @@ import com.orhanobut.logger.PrettyFormatStrategy;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import androidx.viewpager.widget.ViewPager;
 import es.dmoral.toasty.Toasty;
 import jonathanfinerty.once.Once;
 
 
-public class MainActivity extends AppCompatActivity implements HomeFragment.OnFragmentInteractionListener , StatisticsFragment.OnFragmentInteractionListener , ListingFragment.OnFragmentInteractionListener, OnSneakerClickListener , MainOptionsFragment.OnFragmentInteractionListener{
+public class MainActivity extends AppCompatActivity implements
+        HomeFragment.OnFragmentInteractionListener ,
+        StatisticsFragment.OnFragmentInteractionListener ,
+        ListingFragment.OnFragmentInteractionListener,
+        OnSneakerClickListener,
+        MainOptionsFragment.OnFragmentChangeListener,
+        SettingsFragment.OnFragmentChangeListener,
+        CustomizationFragment.OnFragmentChangeListener{
 
     private static String DEFAULT_CHANNEL_ID = "default_channel";
     private static String DEFAULT_CHANNEL_NAME = "Default";
@@ -76,6 +87,9 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
     private ViewPager viewPager;
     String intro = "intro";
     String changelog = "changelog";
+
+    Map<String, Fragment> map = new HashMap<String, Fragment>();
+
 
     BottomNavigationBar bottomNavigationBar;
     SharedPreferences mSharedPreferences;
@@ -140,8 +154,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
         initializeLogger();
         Once.initialise(this);
 
-        Logger.e(String.valueOf(Integer.valueOf(70/60)));
-
+        initializeFragmentMap();
 
         Logger.i("LogCat Info");
         Logger.w("LogCat Warning");
@@ -153,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
         Log.i("TimeClock", "STARTED");
 
         if (!Once.beenDone(Once.THIS_APP_VERSION, changelog)) {
-            initializeChangelog();
+//            initializeChangelog();
             Once.markDone(changelog);
         }
 
@@ -329,6 +342,26 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
 
     }
 
+    private void initializeFragmentMap() {
+
+        map.put("MainOptions", MainOptionsFragment.newInstance("PORN", "O"));
+
+//        map.put("Calculator", CalculatorFragment.newInstance("What", "Ever"));
+//        map.put("Calendar", CalendarFragment.newInstance("What", "Ever"));
+        map.put("Settings", SettingsFragment.newInstance("What", "Ever"));
+//        map.put("About", AboutFragment.newInstance("What", "Ever"));
+//        map.put("Feedback", FeedbackFragment.newInstance("What", "Ever"));
+//
+//        map.put("Theme", ThemeFragment.newInstance("What", "Ever"));
+//        map.put("Animation", AnimationFragment.newInstance("What", "Ever"));
+        map.put("Customization", CustomizationFragment.newInstance("What", "Ever"));
+//        map.put("Behaviour", BehaviourFragment.newInstance("What", "Ever"));
+//        map.put("Data", DataFragment.newInstance("What", "Ever"));
+//        map.put("Notification", NotificationFragment.newInstance("What", "Ever"));
+//        map.put("Backup", BackupFragment.newInstance("What", "Ever"));
+//        map.put("Language", LanguageFragment.newInstance("What", "Ever"));
+    }
+
     private void SneakerAlert(int i, String title, String message) {
         //this.getWindow().getDecorView().setSystemUiVisibility(1);
         Sneaker.with(this)
@@ -429,6 +462,7 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
     }
 
     public void bottomSheetView(View view) {
+                Toasty.info(this, "PORN", Toast.LENGTH_LONG , true).show();
         mainOptionsBottomSheetDialogFragment = MainOptionsBottomSheetDialogFragment.newInstance();
         mainOptionsBottomSheetDialogFragment.show(getSupportFragmentManager(), "MainOptionsBottomSheetDialogFragment");
     }
@@ -457,10 +491,6 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
         }
     }
 
-
-    public void newSettingsButton() {
-        Toasty.info(this, "Callback", Toast.LENGTH_LONG , true).show();
-    }
 
     @Override
     public void onSneakerClick(View view) {
@@ -500,5 +530,18 @@ public class MainActivity extends AppCompatActivity implements HomeFragment.OnFr
             //@onPause --> @onResume
             //@onStop --> @onRestart --> @onStart
         }
+    }
+
+    @Override
+    public void OnFragmentChange(String fragment) {
+        Logger.i(String.valueOf(fragment));
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.main_fragment_container, Objects.requireNonNull(map.get(fragment))).addToBackStack("");
+        transaction.commit();
+
+        //addToBackStack lässt dich durch den BackButton ()HardwareTAste) zurückkommen
+
+//        Toasty.info(this, fragment, Toast.LENGTH_LONG , true).show();
+
     }
 }

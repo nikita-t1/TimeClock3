@@ -8,11 +8,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
+
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.LinearInterpolator;
 import android.view.animation.OvershootInterpolator;
@@ -67,7 +70,6 @@ public class HomeFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     private ChronometerPersist chronometerPersistWork;
-    private ChronometerPersist chronometerPersistPause;
 
     @BindView(R.id.pbar) CircularProgressBarView progressBar;
     private float progressBarPercent = 0; // Grund für ProgressBar +/neu
@@ -78,19 +80,19 @@ public class HomeFragment extends Fragment {
     private String probably_time_clock_out;
 
     @BindView(R.id.startButton) Button startButton;
-    @BindView(R.id.pauseButton) Button pauseButton;
     @BindView(R.id.cancelButton) Button cancelButton;
 
     @BindView(R.id.textViewStartTime) TextView textViewStartTime;
     @BindView(R.id.textViewEndTime) TextView textViewEndTime;
 
     @BindView(R.id.chronometerWork) Chronometer chronometerWork;
-    @BindView(R.id.chronometerPause) Chronometer chronometerPause;
+
+    @BindView(R.id.container) ConstraintLayout constraintLayout;
 
     private SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
 
 //    public boolean isStartPressed;
-private boolean isPausePressed;
+    private boolean isPausePressed;
 
     private SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor mEditor;
@@ -142,13 +144,16 @@ private boolean isPausePressed;
 
         ButterKnife.bind(this, view);
 
+        if (getActivity() instanceof MainActivity) {
+            ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        }
+
         Logger.i("HomeFragment: @onCreateView");
 
         mSharedPreferences = getActivity().getSharedPreferences("", Context.MODE_PRIVATE);
         mEditor = mSharedPreferences.edit();
 
         chronometerPersistWork = ChronometerPersist.getInstance(chronometerWork, mSharedPreferences);
-        chronometerPersistPause = ChronometerPersist.getInstance(chronometerPause, mSharedPreferences);
 
         progressBar.setNumberOfBars(1);
         progressBar.setBarsColors(new int[]{ getResources().getColor(R.color.green, null) });
@@ -159,8 +164,22 @@ private boolean isPausePressed;
         textViewEndTime.setText(probably_time_clock_out);
 
         startButton.setOnClickListener(view1 -> startButtonClick());
-        pauseButton.setOnClickListener(view12 -> { isPausePressed = !isPausePressed; pauseButtonClick();});
         cancelButton.setOnClickListener(view13 -> cancelButtonClick());
+
+        ViewTreeObserver viewTreeObserver = view.getViewTreeObserver();
+        if (viewTreeObserver.isAlive()) {
+            viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                    Logger.i("SEXSEXSEXSEXSEXSEXSEXSEXSEXSEXESX");
+                    Logger.i("getWidth: " + String.valueOf(view.getWidth()));
+                    Logger.i("getMeasuredWidth: " + String.valueOf(view.getMeasuredWidth()));
+                    Logger.i("getHeight: " + String.valueOf(view.getHeight()));
+                    Logger.i("getMeasuredHeight: " + String.valueOf(view.getMeasuredHeight()));
+                }
+            });
+        }
 
         return view;
     }
@@ -210,10 +229,9 @@ private boolean isPausePressed;
             if (!mSharedPreferences.getBoolean("isPausePressed", false)) {
                 chronometerPersistWork.pauseChronometer();
             } else {
-                chronometerPersistPause.pauseChronometer();
+//                chronometerPersistPause.pauseChronometer();
             }
 
-            pauseButton.setText("RESUME");
             textViewEndTime.setText(time_clock_out);
             layoutToSavingScreen(1200);
 
@@ -307,49 +325,48 @@ private boolean isPausePressed;
         return StdBrutto;
     }
 
-    private void pauseButtonClick() {
-
-        if (2 != mSharedPreferences.getInt("isStartPressed", 0)) {
-            //Normale Pause Button Funktion
-
-            if (!mSharedPreferences.getBoolean("isPausePressed", false)) {
-
-                mEditor.putBoolean("isPausePressed", true);
-                mEditor.apply();
-                chronometerPause.animate().translationY(0f).alpha(1f).setInterpolator(new LinearInterpolator()).setDuration(1200);
-
-                chronometerPersistWork.pauseChronometer();
-                chronometerPersistPause.startChronometer();
-
-                pauseButton.setText("Resume");
-
-            } else {
-
-                mEditor.putBoolean("isPausePressed", false);
-                mEditor.apply();
-
-                chronometerPersistWork.startChronometer();
-                chronometerPersistPause.pauseChronometer();
-
-
-                progressBarUpdateThread();
-
-                pauseButton.setText("PAUSE");
-
-            }
-
-        } else {
-            //Pause Button im Saving Screen
-            chronometerPersistWork.startChronometer();
-            layoutToTrackingScreen(1200);
-            mEditor.putInt("isStartPressed",1);
-            mEditor.apply();
-        }
-    }
+//    private void pauseButtonClick() {
+//
+//        if (2 != mSharedPreferences.getInt("isStartPressed", 0)) {
+//            //Normale Pause Button Funktion
+//
+//            if (!mSharedPreferences.getBoolean("isPausePressed", false)) {
+//
+//                mEditor.putBoolean("isPausePressed", true);
+//                mEditor.apply();
+//                chronometerPause.animate().translationY(0f).alpha(1f).setInterpolator(new LinearInterpolator()).setDuration(1200);
+//
+//                chronometerPersistWork.pauseChronometer();
+//                chronometerPersistPause.startChronometer();
+//
+//                pauseButton.setText("Resume");
+//
+//            } else {
+//
+//                mEditor.putBoolean("isPausePressed", false);
+//                mEditor.apply();
+//
+//                chronometerPersistWork.startChronometer();
+//                chronometerPersistPause.pauseChronometer();
+//
+//
+//                progressBarUpdateThread();
+//
+//                pauseButton.setText("PAUSE");
+//
+//            }
+//
+//        } else {
+//            //Pause Button im Saving Screen
+//            chronometerPersistWork.startChronometer();
+//            layoutToTrackingScreen(1200);
+//            mEditor.putInt("isStartPressed",1);
+//            mEditor.apply();
+//        }
+//    }
 
     private void cancelButtonClick() {
 
-        chronometerPause.animate().translationY(-40f).alpha(0f).setInterpolator(new LinearInterpolator()).setDuration(1200);
 
         mEditor.putInt("isStartPressed",0);
         mEditor.apply();
@@ -367,7 +384,6 @@ private boolean isPausePressed;
         textViewEndTime.setText("_____");
 
         chronometerPersistWork.stopChronometer();
-        chronometerPersistPause.stopChronometer();
 
         isPausePressed = false;
 
@@ -417,13 +433,19 @@ private boolean isPausePressed;
 
     private void layoutToStartScreen(int duration) {
         startButton.setText("Start");
-        pauseButton.setText("PAUSE");
 
         startButton.getBackground().setTint(getResources().getColor(R.color.green, null));
-        startButton.animate().translationX(0f).setInterpolator(new OvershootInterpolator()).setDuration(duration).start();
+        startButton.animate().translationX(-150f).setInterpolator(new OvershootInterpolator()).setDuration(duration).start();
+        Logger.i("Width StartButton:" + String.valueOf(startButton.getMeasuredWidthAndState()));
 
-        pauseButton.animate().setInterpolator(new LinearInterpolator()).scaleX(0f).scaleY(0f).setDuration(duration).start();
-        pauseButton.animate().translationX(-400f).alpha(0f).setInterpolator(new AccelerateDecelerateInterpolator()).setDuration(duration).start();
+        ConstraintLayout.LayoutParams lp = (ConstraintLayout.LayoutParams) startButton.getLayoutParams();
+        Logger.i("MARGIN RIGHT: " + String.valueOf(lp.rightMargin));
+        Logger.i("MARGIN LEFT: " + String.valueOf(lp.leftMargin));
+
+
+
+
+
 
         cancelButton.animate().setInterpolator(new LinearInterpolator()).scaleX(0f).scaleY(0f).setDuration(duration).start();
         cancelButton.animate().translationX(400f).alpha(0f).setInterpolator(new AccelerateDecelerateInterpolator()).setDuration(duration).start();
@@ -434,9 +456,6 @@ private boolean isPausePressed;
         startButton.setText("Save");
         startButton.getBackground().setTint(getResources().getColor(R.color.amber, null));
 
-        pauseButton.animate().setInterpolator(new LinearInterpolator()).scaleX(1f).scaleY(1f).setDuration(duration).start();
-        pauseButton.animate().translationX(0f).alpha(1f).setInterpolator(new AccelerateDecelerateInterpolator()).setDuration(duration).start();
-
         cancelButton.animate().setInterpolator(new LinearInterpolator()).scaleX(1f).scaleY(1f).setDuration(duration).start();
         cancelButton.animate().translationX(0f).alpha(1f).setInterpolator(new AccelerateDecelerateInterpolator()).setDuration(duration).start();
     }
@@ -445,9 +464,6 @@ private boolean isPausePressed;
         startButton.animate().translationX(-150f).setInterpolator(new OvershootInterpolator()).setDuration(duration).start();
         startButton.setText("STOP");
         startButton.getBackground().setTint(getResources().getColor(R.color.red, null));
-
-        pauseButton.animate().setInterpolator(new LinearInterpolator()).scaleX(1f).scaleY(1f).setDuration(duration).start();
-        pauseButton.animate().translationX(-50f).alpha(1f).setInterpolator(new AccelerateDecelerateInterpolator()).setDuration(duration).start();
 
         cancelButton.animate().setInterpolator(new LinearInterpolator()).scaleX(0f).scaleY(0f).setDuration(duration).start();
         cancelButton.animate().translationX(150f).alpha(0f).setInterpolator(new AccelerateDecelerateInterpolator()).setDuration(duration).start();
@@ -561,7 +577,6 @@ private boolean isPausePressed;
         }
 
         chronometerPersistWork.resumeState();
-        chronometerPersistPause.resumeState();
 
     }
 

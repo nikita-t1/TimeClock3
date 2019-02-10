@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".CustomizationFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toTopOf="@id/switch18"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="spread_inside">
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Männlich" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Weiblich" />
+
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Geisteskrank" />
+
+        </RadioGroup>
+
+        <com.google.android.material.switchmaterial.SwitchMaterial
+            android:id="@+id/switch18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+
+            android:gravity="center"
+            android:text="18+\t\t"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/ll"
+            app:layout_constraintTop_toBottomOf="@id/radioGroup" />
+
+        <LinearLayout
+            app:layout_constraintTop_toBottomOf="@id/switch18"
+            app:layout_constraintBottom_toTopOf="@id/ll"
+            android:id="@+id/ll2"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:checked="true"
+            android:text="Sandburg"/>
+
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:checked="true"
+            android:text="Trommel"/>
+
+
+        <CheckBox
+            android:layout_width="match_parent"
+            android:layout_height="64dp"
+            android:checked="true"
+            android:text="AK47"/>
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            app:layout_constraintTop_toBottomOf="@id/ll2"
+            app:layout_constraintBottom_toTopOf="@id/btn"
+            android:id="@+id/ll"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="36dp">
+
+            </View>
+
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:checked="true"
+                android:text="Taschenmuschi"/>
+
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:text="Aufblasspuppe"/>
+
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:checked="true"
+                android:text="Big Black Cock"/>
+
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:checked="true"
+                android:text="Barbecue"/>
+
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:checked="true"
+                android:text="Vibrator"/>
+
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:checked="false"
+                android:text="Anal Perlen"/>
+
+            <CheckBox
+                android:layout_width="match_parent"
+                android:layout_height="64dp"
+                android:checked="true"
+                android:text="Viagra"/>
+
+        </LinearLayout>
+
+        <com.google.android.material.button.MaterialButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:id="@+id/btn"
+            android:layout_marginHorizontal="8dp"
+            android:layout_marginBottom="24dp"
+            android:text="BESTELLEN"
+            app:layout_constraintTop_toBottomOf="@id/ll"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</ScrollView>
