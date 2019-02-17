@@ -1,6 +1,15 @@
 <changelog>
 
 
+    <release versionCode="131" versionName="0.13.1-alpha" date="17-02-2019">
+        <new>New Calendar View(added as module --> :horizontalexpcalendar)</new>
+        <exp>RecyclerView in Listing(+Statistics)</exp>
+        <update>added new fonts</update>
+        <bug>can't scroll in RecyclerView</bug>
+        <change>new primaryColor(blue)</change>
+        <future>bring back pauseButton</future>
+    </release>
+
     <release versionCode="130" versionName="0.13.0-alpha" date="10-02-2019">
         <new>Implemented Callback from Options Fragment</new>
         <new>Added custom font support</new>

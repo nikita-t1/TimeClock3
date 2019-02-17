@@ -4,9 +4,16 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.ArrayList;
 
 
 /**
@@ -28,6 +35,8 @@ public class StatisticsFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    FirstRecyclerViewAdapter adapter;
 
     public StatisticsFragment() {
         // Required empty public constructor
@@ -64,13 +73,33 @@ public class StatisticsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_statistics, container, false);
 
         if (getActivity() instanceof MainActivity) {
             ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         }
 
-        return inflater.inflate(R.layout.fragment_statistics, container, false);
+        RecyclerDay[] recyclerDays = new RecyclerDay[]{
+                new RecyclerDay("Mo", 14, "06:34", "16:13", 0.8),
+                new RecyclerDay("Di", 15, "06:45", "15:42", 0.3),
+                new RecyclerDay("Mi", 16, "07:12", "16:49", 0.6),
+                new RecyclerDay("Do", 17, "06:29", "15:32", 0.2),
+                new RecyclerDay("Fr", 18, "06:44", "13:16", -0.7),
+                new RecyclerDay("Sa", 19, "-", "-", 0.0),
+                new RecyclerDay("So", 20, "-", "-", .0),
+        };
+
+        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        adapter = new FirstRecyclerViewAdapter(getActivity(), recyclerDays);
+//        adapter.setClickListener((FirstRecyclerViewAdapter.ItemClickListener) getActivity());
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+        recyclerView.setAdapter(adapter);
+
+        return view;
+
     }
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {

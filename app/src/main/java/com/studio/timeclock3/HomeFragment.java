@@ -172,11 +172,10 @@ public class HomeFragment extends Fragment {
                 @Override
                 public void onGlobalLayout() {
                     view.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                    Logger.i("SEXSEXSEXSEXSEXSEXSEXSEXSEXSEXESX");
-                    Logger.i("getWidth: " + String.valueOf(view.getWidth()));
-                    Logger.i("getMeasuredWidth: " + String.valueOf(view.getMeasuredWidth()));
-                    Logger.i("getHeight: " + String.valueOf(view.getHeight()));
-                    Logger.i("getMeasuredHeight: " + String.valueOf(view.getMeasuredHeight()));
+//                    Logger.i("getWidth: " + String.valueOf(view.getWidth()));
+//                    Logger.i("getMeasuredWidth: " + String.valueOf(view.getMeasuredWidth()));
+//                    Logger.i("getHeight: " + String.valueOf(view.getHeight()));
+//                    Logger.i("getMeasuredHeight: " + String.valueOf(view.getMeasuredHeight()));
                 }
             });
         }
@@ -380,8 +379,8 @@ public class HomeFragment extends Fragment {
         mEditor.putString("time_clock_in", time_clock_in).apply();
         mEditor.putString("probably_time_clock_out", probably_time_clock_out).apply();
 
-        textViewStartTime.setText("_____");
-        textViewEndTime.setText("_____");
+        textViewStartTime.setText("");
+        textViewEndTime.setText("");
 
         chronometerPersistWork.stopChronometer();
 

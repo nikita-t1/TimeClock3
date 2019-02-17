@@ -57,11 +57,14 @@ import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 import es.dmoral.toasty.Toasty;
 import jonathanfinerty.once.Once;
@@ -89,7 +92,6 @@ public class MainActivity extends AppCompatActivity implements
     String changelog = "changelog";
 
     Map<String, Fragment> map = new HashMap<String, Fragment>();
-
 
     BottomNavigationBar bottomNavigationBar;
     SharedPreferences mSharedPreferences;
@@ -156,6 +158,7 @@ public class MainActivity extends AppCompatActivity implements
 
         initializeFragmentMap();
 
+
         Logger.i("LogCat Info");
         Logger.w("LogCat Warning");
         Logger.wtf("LogCat WTF");
@@ -211,7 +214,7 @@ public class MainActivity extends AppCompatActivity implements
                 .setBarBackgroundColor(R.color.colorPrimary)
                 .setActiveColor(R.color.white)
                 .setInActiveColor(R.color.blue_grey)
-                .setMode(BottomNavigationBar.MODE_SHIFTING)
+                .setMode(BottomNavigationBar.MODE_FIXED)
                 .initialise();
 
 
@@ -264,82 +267,6 @@ public class MainActivity extends AppCompatActivity implements
                 Logger.i("onTabReselected:" + position);
             }
         });
-
-
-
-//        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        //CoordinatorLayout coordinator = (CoordinatorLayout) findViewById(R.id.coordinator);
-        //coordinator.setScaleY(-1f);
-        //TextView textView = (TextView) findViewById(R.id.toolbar_title);
-        //textView.setScaleY(-1f);
-        //floatingActionButton = (FloatingActionButton) findViewById(R.id.fab);
-        //floatingActionButton.hide();
-        //FrameLayout frameLayout = (FrameLayout) findViewById(R.id.main_fragment_container);
-        //frameLayout.setScaleY(-1f);
-
-        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-
-
-        //EEERRROOORRR!!!
-//        Boolean isNotificationVisible = sharedPref.getBoolean(SettingsActivity.KEY_PREF_NOTIFICATION_VISIBLE, false);
-//        Boolean isNotificationPersistant = sharedPref.getBoolean(SettingsActivity.KEY_PREF_NOTIFICATION_PERSISTANT, false);
-
-        Boolean isNotificationVisible= false;
-        Boolean isNotificationPersistant = false;
-
-        Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse("https://www.pornhub.com"));
-
-//          PendingIntent pIntent = PendingIntent.getActivity(this, requestID, intent, flags);
-        PendingIntent pi = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT );
-
-        //1.Get reference to Notification Manager
-        mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        createNotificationChannel(mNotificationManager);
-
-        //2.Build Notification with NotificationCompat.Builder
-        if (isNotificationVisible) {
-
-            if (isNotificationPersistant) {
-
-                Notification notification = new NotificationCompat.Builder(this, DEFAULT_CHANNEL_ID)
-                        .setContentTitle("Test Notification")   //Set the title of Notification
-                        .setContentText("Click on Notification to open \t -> pornhub.com")    //Set the text for notification
-                        .setSmallIcon(R.drawable.ic_timelapse_black_24dp)   //Set the icon
-                        .setContentIntent(pi)
-                        .setAutoCancel(true) // Hides the notification after its been selected
-                        .setOngoing(true)
-                        .build();
-                
-                notification.flags |= Notification.FLAG_NO_CLEAR | Notification.FLAG_ONGOING_EVENT;
-
-                //Send the notification.
-                mNotificationManager.notify(nId, notification);
-            } else {
-                Notification notification = new NotificationCompat.Builder(this, DEFAULT_CHANNEL_ID)
-                        .setContentTitle("Test Notification")   //Set the title of Notification
-                        .setContentText("Click on Notification to open \t -> pornhub.com")    //Set the text for notification
-                        .setSmallIcon(R.drawable.ic_timelapse_black_24dp)   //Set the icon
-                        .setContentIntent(pi)
-                        .setAutoCancel(true) // Hides the notification after its been selected
-                        .setOngoing(false)
-                        .build();
-
-                //Send the notification.
-                mNotificationManager.notify(nId, notification);
-            }
-        } else {
-            NotificationManager mNotificationManager =
-                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            mNotificationManager.cancel(nId);
-        }
-
-//        TimePicker picker= (TimePicker) findViewById(R.id.timePicker1);
-//        picker.setIs24HourView(true);
-
     }
 
     private void initializeFragmentMap() {

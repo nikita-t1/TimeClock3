@@ -5,18 +5,13 @@
     android:layout_height="match_parent"
     tools:context=".StatisticsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:text="STATISTICS" />
-
-    <Spinner
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        android:layout_alignTop="@id/calendar"
+        android:layout_marginBottom="8dp">
 
-
-    </Spinner>
+    </androidx.recyclerview.widget.RecyclerView>
 
 </RelativeLayout>

@@ -7,7 +7,7 @@ android {
         minSdkVersion 26
         targetSdkVersion 28
         versionCode 1
-        versionName "0.13.0-alpha"
+        versionName "0.13.1-alpha"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -62,6 +62,9 @@ dependencies {
     implementation 'com.github.florent37:expansionpanel:1.2.2'
     implementation 'com.github.clans:fab:1.6.4'
     implementation 'com.labo.kaji:fragmentanimations:0.1.1'
+
+    implementation "net.danlew:android.joda:2.9.4.1"
+    implementation project(':horizontalexpcalendar')
 
     implementation "androidx.appcompat:appcompat:1.0.2"
     implementation "androidx.cardview:cardview:1.0.0"
