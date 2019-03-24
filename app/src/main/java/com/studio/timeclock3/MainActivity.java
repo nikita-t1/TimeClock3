@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity implements
         ListingFragment.OnFragmentInteractionListener,
         OnSneakerClickListener,
         MainOptionsFragment.OnFragmentChangeListener,
-        SettingsFragment.OnFragmentInteractionListener,
+        SettingsFragment.OnFragmentChangeListener,
         CustomizationFragment.OnFragmentChangeListener,
         ThemeFragment.OnFragmentChangeListener,
         ExperimentalFragment.OnFragmentChangeListener{
