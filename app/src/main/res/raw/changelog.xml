@@ -1,5 +1,11 @@
 <changelog>
 
+    <release versionCode="140" versionName="0.14.0-alpha" date="24-03-2019">
+        <new>Added back ResumeButton (as FAB)</new>
+        <new>Splash Screen (entry point)</new>
+        <new>Experimental Settings</new>
+        <change>Intent to IntroScreen</change>
+    </release>
 
     <release versionCode="131" versionName="0.13.1-alpha" date="17-02-2019">
         <new>New Calendar View(added as module --> :horizontalexpcalendar)</new>

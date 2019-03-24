@@ -1,43 +1,40 @@
 package com.studio.timeclock3;
 
-import android.app.Activity;
-import android.app.Application;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.res.Resources;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
-import android.widget.Toast;
 
+import com.ceylonlabs.imageviewpopup.ImagePopup;
 import com.danielstone.materialaboutlibrary.MaterialAboutActivity;
 import com.danielstone.materialaboutlibrary.items.MaterialAboutActionItem;
-import com.danielstone.materialaboutlibrary.items.MaterialAboutItem;
 import com.danielstone.materialaboutlibrary.items.MaterialAboutItemOnClickAction;
 import com.danielstone.materialaboutlibrary.model.MaterialAboutCard;
 import com.danielstone.materialaboutlibrary.model.MaterialAboutList;
 
 import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
 import com.github.javiersantos.materialstyleddialogs.enums.Style;
-import com.heinrichreimersoftware.androidissuereporter.IssueReporterLauncher;
 import com.michaelflisar.changelog.ChangelogBuilder;
 import com.michaelflisar.changelog.ChangelogSetup;
 import com.michaelflisar.changelog.internal.ChangelogDialogFragment;
 import com.mikepenz.aboutlibraries.Libs;
 import com.mikepenz.aboutlibraries.LibsBuilder;
-
-import java.util.logging.Logger;
+import com.studio.timeclock3.Intro.IntroActivity;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
+import butterknife.BindDrawable;
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import es.dmoral.toasty.Toasty;
 
 import static android.widget.Toast.*;
-import static com.studio.timeclock3.R.mipmap.ic_launcher;
 
 public class ExampleMaterialAboutActivity extends MaterialAboutActivity {
 
@@ -48,12 +45,26 @@ public class ExampleMaterialAboutActivity extends MaterialAboutActivity {
     public static final int THEME_DARK_DARKBAR = 3;
     public static final int THEME_CUSTOM_CARDVIEW = 4;
 
+    ImagePopup imagePopup;
+
 
     MaterialAboutCard.Builder cardBuilder = new MaterialAboutCard.Builder();
 
     @Override
     @NonNull
     protected MaterialAboutList getMaterialAboutList(@NonNull Context context) {
+
+
+        imagePopup = new ImagePopup(this);
+        imagePopup.setWindowHeight(800); // Optional
+        imagePopup.setWindowWidth(800); // Optional
+        imagePopup.setBackgroundColor(Color.WHITE);  // Optional
+        imagePopup.setFullScreen(true); // Optional
+        imagePopup.setHideCloseIcon(true);  // Optional
+        imagePopup.setImageOnClickClose(true);  // Optional
+
+        imagePopup.initiatePopup(getDrawable(R.drawable.putin_horse_riding));
+//        imagePopup.setOnClickListener(view1 -> getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN));
 
 
         MaterialAboutCard.Builder appCardBuilder = initializeAppCardBuilder();
@@ -70,13 +81,20 @@ public class ExampleMaterialAboutActivity extends MaterialAboutActivity {
 
         developerCardBuilder.addItem(new MaterialAboutActionItem.Builder()
                 .text("Nikita Tarasov")
-                .subText("Main Developer")
+                .subText("Programmer")
                 .icon(R.drawable.account_outline)
+                .setOnClickAction(new MaterialAboutItemOnClickAction() {
+                    @Override
+                    public void onClick() {
+                        imagePopup.viewPopup();
+
+                    }
+                })
                 .build());
 
         developerCardBuilder.addItem(new MaterialAboutActionItem.Builder()
                 .text("Noah Röschard")
-                .subText("Honorary Mention")
+                .subText("Designer, Tester")
                 .icon(R.drawable.account_outline)
                 .build());
 

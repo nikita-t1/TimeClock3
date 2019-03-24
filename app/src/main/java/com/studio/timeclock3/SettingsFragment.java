@@ -40,13 +40,13 @@ public class SettingsFragment extends Fragment {
     private String mParam2;
 
     @BindView(R.id.theme) Button themeButton;
-    @BindView(R.id.animation) Button animationButton;
     @BindView(R.id.customization) Button customizationButton;
     @BindView(R.id.behaviour) Button behaviourButton;
     @BindView(R.id.data) Button dataButton;
     @BindView(R.id.notification) Button notificationButton;
     @BindView(R.id.backup) Button backupButton;
     @BindView(R.id.language) Button languageButton;
+    @BindView(R.id.experimental) Button experimentalButton;
 
     OnFragmentChangeListener fragmentChangeListener;
 
@@ -108,13 +108,19 @@ public class SettingsFragment extends Fragment {
             }
         });
 
-        customizationButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Logger.i(String.valueOf(customizationButton.getText()));
-                fragmentChangeListener.OnFragmentChange(String.valueOf(customizationButton.getText()));
+        customizationButton.setOnClickListener(v -> {
+            Logger.i(String.valueOf(customizationButton.getText()));
+            fragmentChangeListener.OnFragmentChange(String.valueOf(customizationButton.getText()));
+        });
 
-            }
+        themeButton.setOnClickListener(v -> {
+            Logger.i(String.valueOf(themeButton.getText()));
+            fragmentChangeListener.OnFragmentChange(String.valueOf(themeButton.getText()));
+        });
+
+        experimentalButton.setOnClickListener(v -> {
+            Logger.i(String.valueOf(experimentalButton.getText()));
+            fragmentChangeListener.OnFragmentChange(String.valueOf(experimentalButton.getText()));
         });
 
         return view;
@@ -138,5 +144,8 @@ public class SettingsFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+    }
+
+    public interface OnFragmentInteractionListener {
     }
 }

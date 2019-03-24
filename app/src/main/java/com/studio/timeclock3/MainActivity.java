@@ -1,70 +1,46 @@
 package com.studio.timeclock3;
 
 
-import android.app.Dialog;
-import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
-import androidx.annotation.NonNull;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
 import com.github.javiersantos.materialstyleddialogs.enums.Style;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import androidx.appcompat.widget.ToolbarWidgetWrapper;
-import androidx.coordinatorlayout.widget.CoordinatorLayout;
-import androidx.core.graphics.TypefaceCompatApi28Impl;
-import androidx.core.graphics.TypefaceCompatUtil;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.core.app.NotificationCompat;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.irozon.sneaker.Sneaker;
 import com.irozon.sneaker.interfaces.OnSneakerClickListener;
-import com.ittianyu.bottomnavigationviewex.BottomNavigationViewEx;
-import com.michaelflisar.changelog.Changelog;
 import com.michaelflisar.changelog.ChangelogBuilder;
 import com.michaelflisar.changelog.ChangelogSetup;
 import com.michaelflisar.changelog.internal.ChangelogDialogFragment;
 import com.orhanobut.logger.AndroidLogAdapter;
-import com.orhanobut.logger.DiskLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 import es.dmoral.toasty.Toasty;
 import jonathanfinerty.once.Once;
@@ -76,8 +52,10 @@ public class MainActivity extends AppCompatActivity implements
         ListingFragment.OnFragmentInteractionListener,
         OnSneakerClickListener,
         MainOptionsFragment.OnFragmentChangeListener,
-        SettingsFragment.OnFragmentChangeListener,
-        CustomizationFragment.OnFragmentChangeListener{
+        SettingsFragment.OnFragmentInteractionListener,
+        CustomizationFragment.OnFragmentChangeListener,
+        ThemeFragment.OnFragmentChangeListener,
+        ExperimentalFragment.OnFragmentChangeListener{
 
     private static String DEFAULT_CHANNEL_ID = "default_channel";
     private static String DEFAULT_CHANNEL_NAME = "Default";
@@ -88,7 +66,6 @@ public class MainActivity extends AppCompatActivity implements
 
 
     private ViewPager viewPager;
-    String intro = "intro";
     String changelog = "changelog";
 
     Map<String, Fragment> map = new HashMap<String, Fragment>();
@@ -164,7 +141,6 @@ public class MainActivity extends AppCompatActivity implements
         Logger.wtf("LogCat WTF");
         Logger.e("LogCat Error");
 
-
         String recreateFragment = "recreateFragment";
         Log.i("TimeClock", "STARTED");
 
@@ -200,9 +176,6 @@ public class MainActivity extends AppCompatActivity implements
 
 
 
-
-
-
         bottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_navigation_bar);
 
         bottomNavigationBar
@@ -211,8 +184,8 @@ public class MainActivity extends AppCompatActivity implements
                 .addItem(new BottomNavigationItem(R.drawable.calendar_clock, "Listing"))
                 .addItem(new BottomNavigationItem(R.drawable.ic_menu_black_24dp, "Menu"))
                 .setFirstSelectedPosition(0)
-                .setBarBackgroundColor(R.color.colorPrimary)
-                .setActiveColor(R.color.white)
+                .setBarBackgroundColor(R.color.white)
+                .setActiveColor(R.color.colorPrimary)
                 .setInActiveColor(R.color.blue_grey)
                 .setMode(BottomNavigationBar.MODE_FIXED)
                 .initialise();
@@ -275,18 +248,19 @@ public class MainActivity extends AppCompatActivity implements
 
 //        map.put("Calculator", CalculatorFragment.newInstance("What", "Ever"));
 //        map.put("Calendar", CalendarFragment.newInstance("What", "Ever"));
-        map.put("Settings", SettingsFragment.newInstance("What", "Ever"));
+        map.put("Settings",SettingsFragment.newInstance("What", "Ever"));
 //        map.put("About", AboutFragment.newInstance("What", "Ever"));
 //        map.put("Feedback", FeedbackFragment.newInstance("What", "Ever"));
 //
-//        map.put("Theme", ThemeFragment.newInstance("What", "Ever"));
-//        map.put("Animation", AnimationFragment.newInstance("What", "Ever"));
+        map.put("Theme", ThemeFragment.newInstance("What", "Ever"));
         map.put("Customization", CustomizationFragment.newInstance("What", "Ever"));
 //        map.put("Behaviour", BehaviourFragment.newInstance("What", "Ever"));
 //        map.put("Data", DataFragment.newInstance("What", "Ever"));
 //        map.put("Notification", NotificationFragment.newInstance("What", "Ever"));
 //        map.put("Backup", BackupFragment.newInstance("What", "Ever"));
 //        map.put("Language", LanguageFragment.newInstance("What", "Ever"));
+        map.put("Experimental", ExperimentalFragment.newInstance("What", "Ever"));
+
     }
 
     private void SneakerAlert(int i, String title, String message) {
@@ -324,29 +298,6 @@ public class MainActivity extends AppCompatActivity implements
                 .buildAndShowDialog(this, false); // second parameter defines, if the dialog has a dark or light theme
             }
 
-    public void initializeFutureFeature() {
-
-
-        String[] some_array = getResources().getStringArray(R.array.features);
-
-        String str = String.join(",", some_array);
-        str=str.replaceAll(",", "\n\n");
-
-        new MaterialStyledDialog.Builder(this)
-                .setHeaderScaleType(ImageView.ScaleType.CENTER_CROP)
-                .setIcon(R.drawable.ic_future_black_24dp)
-                .setTitle("Future:")
-                .setHeaderColor(R.color.blue)
-                .setDescription(str)
-                .setStyle(Style.HEADER_WITH_ICON)
-                .withDialogAnimation(false)
-                .setPositiveText("OK")
-                .withDivider(false)
-                .withIconAnimation(false)
-                .build()
-                .show();
-
-    }
 
     public void calculatorView(View view) {
 
@@ -393,31 +344,6 @@ public class MainActivity extends AppCompatActivity implements
         mainOptionsBottomSheetDialogFragment = MainOptionsBottomSheetDialogFragment.newInstance();
         mainOptionsBottomSheetDialogFragment.show(getSupportFragmentManager(), "MainOptionsBottomSheetDialogFragment");
     }
-//    public void settingsbutton(View view) {
-//        Logger.i("MainActivity: Intent -> Settings");
-//
-//        Intent intent = new Intent(this, SettingsActivity.class);
-//        mainOptionsBottomSheetDialogFragment.dismiss();
-//        startActivity(intent);
-//    }
-//    public void aboutButton(View view) {
-//        Logger.i("MainActivity: Intent -> About");
-//        Intent intent = new Intent(this, ExampleMaterialAboutActivity.class);
-//        mainOptionsBottomSheetDialogFragment.dismiss();
-//        intent.putExtra(ExampleMaterialAboutActivity.THEME_EXTRA, 2);
-//        startActivity(intent);    }
-
-    public static void createNotificationChannel(NotificationManager notificationManager) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            //Create channel only if it is not already created
-            if (notificationManager.getNotificationChannel(DEFAULT_CHANNEL_ID) == null) {
-                notificationManager.createNotificationChannel(new NotificationChannel(
-                        DEFAULT_CHANNEL_ID, DEFAULT_CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH
-                ));
-            }
-        }
-    }
-
 
     @Override
     public void onSneakerClick(View view) {
@@ -441,22 +367,6 @@ public class MainActivity extends AppCompatActivity implements
     public void onRestart() {
         super.onRestart();
         Logger.i("MainActivity: @onRestart");
-
-        //Unten stehender Code wird benötigt um statt der Default WORKING_TIME_HOURS die eingegebene Zeit nach dem Intro zu berechnen,
-        //  da die ursprüngliche Methode in der @onCreateView schon ausgeführ wurde wenn das Intro started,
-        //      wohingegen diese Methode ausgeführt wird wenn das Fragment in den Vordergrund rückt!!
-        //          siehe -> HomwFragment @onResume
-
-        if (!Once.beenDone(Once.THIS_APP_INSTALL, intro)) {
-            Intent intent156 = new Intent(MainActivity.this, IntroActivity.class);
-            startActivity(intent156);
-            Once.markDone(intro);
-        } else {
-//            setMainStartFragment();
-            bottomNavigationBar.selectTab(mSharedPreferences.getInt("NavBarPosition", 0));
-            //@onPause --> @onResume
-            //@onStop --> @onRestart --> @onStart
-        }
     }
 
     @Override
