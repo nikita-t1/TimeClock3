@@ -1,5 +1,24 @@
 <changelog>
 
+    <!--
+    <release versionCode="000" versionName="0.0.0-alpha" date="00-00-2000">
+        <change>change</change>
+        <exp>exp</exp>
+        <new>new</new>
+        <bug>bug</bug>
+        <fix>fix</fix>
+        <update>update</update>
+        <info>info</info>
+        <remove>remove</remove>
+        <future>future</future>
+        <refactor>refactor</refactor>
+    </release>
+    -->
+
+    <release versionCode="141" versionName="0.14.1-alpha" date="00-04-2019">
+        <refactor>Restructured Time Calculations from HomeFragment</refactor>
+    </release>
+
     <release versionCode="140" versionName="0.14.0-alpha" date="24-03-2019">
         <new>Added back ResumeButton (as FAB)</new>
         <new>Splash Screen (entry point)</new>
@@ -140,22 +159,6 @@
         <fix>ProgressBar Deviation (max of 1% if System is overloaded)</fix>
         <fix>some bugfixes</fix>
     </release>
-
-
-    <!--
-    <release versionCode="150" versionName="0.15.0-alpha" date="20-05-2019">
-        <change>change</change>
-        <exp>exp</exp>
-        <new>new</new>
-        <bug>bug</bug>
-        <fix>fix</fix>
-        <update>update</update>
-        <info>info</info>
-        <remove>remove</remove>
-        <future>future</future>
-        <refactor>refactor</refactor>
-    </release>
-    -->
 
     <release versionCode="81" versionName="0.8.1-alpha" date="18-12-2018">
         <exp>Progressbar Animations in connection with chosen Time</exp>

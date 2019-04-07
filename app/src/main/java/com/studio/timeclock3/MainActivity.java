@@ -37,17 +37,21 @@ import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 import androidx.viewpager.widget.ViewPager;
 import es.dmoral.toasty.Toasty;
+import io.multimoon.colorful.BaseTheme;
+import io.multimoon.colorful.CAppCompatActivity;
+import io.multimoon.colorful.ColorfulKt;
 import jonathanfinerty.once.Once;
 
 
 public class MainActivity extends AppCompatActivity implements
-        HomeFragment.OnFragmentInteractionListener ,
         StatisticsFragment.OnFragmentInteractionListener ,
         ListingFragment.OnFragmentInteractionListener,
         OnSneakerClickListener,
@@ -63,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements
     int nId = 1;
     public boolean isNotificationVisible = false;
     public boolean isNotificationPersistant = false;
+
 
 
     private ViewPager viewPager;
@@ -126,7 +131,7 @@ public class MainActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
 
 //        setTheme(R.style.AppThemeMint);
-
+//        ColorfulKt.Colorful().apply(this, true, BaseTheme.THEME_MATERIAL);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -134,7 +139,6 @@ public class MainActivity extends AppCompatActivity implements
         Once.initialise(this);
 
         initializeFragmentMap();
-
 
         Logger.i("LogCat Info");
         Logger.w("LogCat Warning");
@@ -203,7 +207,7 @@ public class MainActivity extends AppCompatActivity implements
                 if (position == 0) {
                     Logger.i("MainActivity: @onNavigationItemSelected -> Home");
                     FragmentTransaction transaction1 = getSupportFragmentManager().beginTransaction();
-                    selectedFragment = HomeFragment.newInstance("Param1", "Param2");
+                    selectedFragment = HomeFragment.newInstance();
                     transaction1.replace(R.id.main_fragment_container, selectedFragment);
                     transaction1.commit();
                     mTitle.setText("Home");
@@ -352,7 +356,7 @@ public class MainActivity extends AppCompatActivity implements
 
     public void setMainStartFragment() {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.main_fragment_container, HomeFragment.newInstance("What", "Ever"));
+        transaction.replace(R.id.main_fragment_container, HomeFragment.newInstance());
         transaction.commit();
     }
 

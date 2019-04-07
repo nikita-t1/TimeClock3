@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.orhanobut.logger.Logger;
 import com.studio.timeclock3.R;
 
 import androidx.annotation.Nullable;
@@ -55,21 +56,12 @@ public class IntroSlidePauseTime extends SlideFragment {
                 hour = timePicker.getHour();
                 minute = timePicker.getMinute();
 
-                Log.i("TAG", "Ausgewählt Metrisch--> Stunden: " + hour + "Minuten: " + minute);
-                Log.i(". ", " .\n");
-                Log.i("", "Mnuten als Float (Typecasting): "+ ((int) (minute*1.666666666666667)));
-                Log.i("", "Mnuten als Float (Math.round()): "+ Math.round(minute*1.666666666666667));
-                Log.i(". ", " .\n");
-
-                long decimalMinutes = Math.round(minute*1.666666666666667);
-                String pauseTimeInDecimalString = hour + "." + decimalMinutes;
-                Float pauseTimeInDecimalFoat = Float.valueOf(pauseTimeInDecimalString);
-
                 isButtonClicked = true;
 
-                mEditor.putFloat("PAUSE_TIME_HOURS", pauseTimeInDecimalFoat);
-                mEditor.apply();
-                Log.i("TAG", String.valueOf(pauseTimeInDecimalFoat));
+                Long PAUSE_TIME_MIN = (long)hour * 60 + minute;
+                Logger.i("PAUSE_TIME_MIN:" + PAUSE_TIME_MIN);
+
+                mEditor.putLong("PAUSE_TIME_MIN", PAUSE_TIME_MIN).apply();
             }
         });
 

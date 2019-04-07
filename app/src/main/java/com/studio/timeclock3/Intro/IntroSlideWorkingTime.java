@@ -10,7 +10,13 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TimePicker;
 
+import com.orhanobut.logger.Logger;
 import com.studio.timeclock3.R;
+
+import java.sql.Date;
+import java.sql.Time;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import androidx.annotation.Nullable;
 import io.github.dreierf.materialintroscreen.SlideFragment;
@@ -49,26 +55,12 @@ public class IntroSlideWorkingTime extends SlideFragment {
                 hour = timePicker.getHour();
                 minute = timePicker.getMinute();
 
-
-                Log.i("TAG", "Ausgewählt Metrisch--> Stunden: " + hour + "Minuten: " + minute);
-                Log.i(". ", " .\n");
-                Log.i("", "Mnuten als Float (Typecasting): "+ ((int) (minute*1.666666666666667)));
-                Log.i("", "Mnuten als Float (Math.round()): "+ Math.round(minute*1.666666666666667));
-                Log.i(". ", " .\n");
-
-                long decimalMinutes = Math.round(minute*1.666666666666667);
-                String workingTimeInDecimalString = hour + "." + decimalMinutes;
-                Float workingTimeInDecimalFoat = Float.valueOf(workingTimeInDecimalString);
-
                 isButtonClicked = true;
 
-                mEditor.putFloat("WORKING_TIME_HOURS", workingTimeInDecimalFoat);
-                mEditor.apply();
+                Long WORKING_TIME_MIN = (long)hour * 60 + minute;
+                Logger.i("WORKING_TIME_MIN:" + WORKING_TIME_MIN);
 
-                mEditor.putInt("WORKING_MIN_INT_NO-HOUR", minute);
-                mEditor.apply();
-                Log.i("TAG", String.valueOf(workingTimeInDecimalFoat));
-
+                mEditor.putLong("WORKING_TIME_MIN", WORKING_TIME_MIN).apply();
             }
         });
 
