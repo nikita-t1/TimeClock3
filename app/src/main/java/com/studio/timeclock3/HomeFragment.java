@@ -2,11 +2,16 @@ package com.studio.timeclock3;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.icu.text.DateFormat;
+import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
 
+import androidx.annotation.ColorRes;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
@@ -19,14 +24,21 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.jaredrummler.cyanea.app.CyaneaFragment;
 import com.orhanobut.logger.Logger;
+import com.robinhood.ticker.TickerUtils;
+import com.robinhood.ticker.TickerView;
+import com.studio.timeclock3.Data.AppDatabase;
+import com.studio.timeclock3.Data.WorkDay;
 
 import net.futuredrama.jomaceld.circularpblib.BarComponent;
 import net.futuredrama.jomaceld.circularpblib.CircularProgressBarView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import butterknife.BindView;
@@ -59,6 +71,8 @@ public class HomeFragment extends Fragment {
 
     private SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor mEditor;
+    private TickerView tickerView;
+    private int y = 0;
 
 
     public HomeFragment() {
@@ -107,8 +121,23 @@ public class HomeFragment extends Fragment {
         startButton.setOnClickListener(view1 -> startButtonClick());
         cancelButton.setOnClickListener(view1 -> cancelButtonClick());
         pauseButton.setOnClickListener(view1 -> pauseButtonClick());
+        chronometerWork.setOnClickListener(view1 -> ssss());
+
+        tickerView = view.findViewById(R.id.tickerView);
+        tickerView.setCharacterLists(TickerUtils.provideNumberList());
+        tickerView.setTextSize(124);
+        tickerView.setTypeface(Typeface.MONOSPACE);
+        chronometerWork.setTextColor(Color.WHITE);
+
+        tickerView.setText("12:34");
 
         return view;
+    }
+
+    private void ssss() {
+        for (WorkDay e : (AppDatabase.getAppDatabase(getContext()).workDayDao().getAll())){
+            Logger.i(String.valueOf(e.getUserNote()));
+        }
     }
 
 
@@ -213,6 +242,12 @@ public class HomeFragment extends Fragment {
             long workingTimeMilli = (timeCalculations.getWorkingTimeEstimateAsMinutes(false)*60000);
             long percent = duration / (workingTimeMilli/100);
 
+//            tickerView.setText(timeCalculations.convertMinutesToDateString(workingTimeMilli/60000));
+            Date date = new Date(duration - TimeUnit.HOURS.toMillis(1));
+            DateFormat formatter = new SimpleDateFormat("HH:mm:ss");
+            String dateFormatted = formatter.format(date);
+            tickerView.setText(dateFormatted);
+
             Logger.i("ProgressBar Percent: " + percent + "\t Counter: " + (i.getAndIncrement()));
 
             progressBar.setProgressWithAnimation(percent);
@@ -224,11 +259,7 @@ public class HomeFragment extends Fragment {
 
         startButton.getBackground().setTint(getResources().getColor(R.color.green, null));
 //        startButton.animate().translationX(-150f).setInterpolator(new OvershootInterpolator()).setDuration(duration).start();
-        Logger.i("Width StartButton:" + String.valueOf(startButton.getMeasuredWidthAndState()));
 
-        ConstraintLayout.LayoutParams lp = (ConstraintLayout.LayoutParams) startButton.getLayoutParams();
-        Logger.i("MARGIN RIGHT: " + String.valueOf(lp.rightMargin));
-        Logger.i("MARGIN LEFT: " + String.valueOf(lp.leftMargin));
 
 //        pauseButton.animate().setInterpolator(new LinearInterpolator()).scaleX(0f).scaleY(0f).setDuration(duration).start();
 //        pauseButton.animate().translationX(-400f).alpha(0f).setInterpolator(new AccelerateDecelerateInterpolator()).setDuration(duration).start();

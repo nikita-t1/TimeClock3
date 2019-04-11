@@ -2,11 +2,8 @@ package com.studio.timeclock3;
 
 import android.app.Application;
 import android.content.res.Configuration;
-import android.graphics.ColorFilter;
 
-import io.multimoon.colorful.ColorfulKt;
-import io.multimoon.colorful.Defaults;
-import io.multimoon.colorful.ThemeColor;
+import com.jaredrummler.cyanea.Cyanea;
 
 public class MyCustomApplication extends Application {
     // Called when the application is starting, before any other application objects have been created.
@@ -14,8 +11,7 @@ public class MyCustomApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-//        Defaults defaults = new Defaults(ThemeColor.LIME, ThemeColor.AMBER, true, false, 0);
-//        ColorfulKt.initColorful(this, defaults);
+        Cyanea.init(this, getResources());
         // Required initialization logic here!
     }
 

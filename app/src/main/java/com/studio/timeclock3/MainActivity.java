@@ -1,11 +1,13 @@
 package com.studio.timeclock3;
 
 
+import android.app.Activity;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -15,6 +17,7 @@ import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
 import com.github.javiersantos.materialstyleddialogs.enums.Style;
 
+import androidx.annotation.ColorRes;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.appcompat.app.AppCompatActivity;
@@ -29,6 +32,8 @@ import android.widget.Toast;
 
 import com.irozon.sneaker.Sneaker;
 import com.irozon.sneaker.interfaces.OnSneakerClickListener;
+import com.jaredrummler.cyanea.app.CyaneaAppCompatActivity;
+import com.jaredrummler.cyanea.prefs.CyaneaSettingsActivity;
 import com.michaelflisar.changelog.ChangelogBuilder;
 import com.michaelflisar.changelog.ChangelogSetup;
 import com.michaelflisar.changelog.internal.ChangelogDialogFragment;
@@ -36,22 +41,24 @@ import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
+import com.studio.timeclock3.Data.AppDatabase;
+import com.studio.timeclock3.Data.DatabaseInitializer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Random;
 
+import androidx.room.Room;
 import androidx.viewpager.widget.ViewPager;
 import es.dmoral.toasty.Toasty;
-import io.multimoon.colorful.BaseTheme;
-import io.multimoon.colorful.CAppCompatActivity;
-import io.multimoon.colorful.ColorfulKt;
+
 import jonathanfinerty.once.Once;
 
 
-public class MainActivity extends AppCompatActivity implements
+public class MainActivity extends CyaneaAppCompatActivity implements
         StatisticsFragment.OnFragmentInteractionListener ,
         ListingFragment.OnFragmentInteractionListener,
         OnSneakerClickListener,
@@ -80,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements
 
     MainOptionsBottomSheetDialogFragment mainOptionsBottomSheetDialogFragment;
     CalculatorBottomSheetDialogFragment calculatorBottomSheetDialogFragment;
+    private MainActivity activity;
 
 
     public void onFragmentInteraction(Uri uri){
@@ -126,9 +134,16 @@ public class MainActivity extends AppCompatActivity implements
 
 
 
+    public int getRandomColor(){
+        Random rnd = new Random();
+        return Color.argb(255, rnd.nextInt(256), rnd.nextInt(256), rnd.nextInt(256));
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        activity = this;
 
 //        setTheme(R.style.AppThemeMint);
 //        ColorfulKt.Colorful().apply(this, true, BaseTheme.THEME_MATERIAL);
@@ -148,6 +163,12 @@ public class MainActivity extends AppCompatActivity implements
         String recreateFragment = "recreateFragment";
         Log.i("TimeClock", "STARTED");
 
+//        AppDatabase database = AppDatabase.getAppDatabase(this);
+//        database.workDayDao().getAll();
+        AppDatabase.getAppDatabase(this).workDayDao().deleteAll();
+        DatabaseInitializer.populateAsync(AppDatabase.getAppDatabase(this));
+
+
         if (!Once.beenDone(Once.THIS_APP_VERSION, changelog)) {
 //            initializeChangelog();
             Once.markDone(changelog);
@@ -164,7 +185,10 @@ public class MainActivity extends AppCompatActivity implements
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 //        toolbar.setNavigationIcon(R.drawable.ic_menu_black_24dp);
         TextView mTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
+        toolbar.setBackgroundColor(getCyanea().getPrimary());
+        toolbar.setOnClickListener(v -> getCyanea().edit().accent(getRandomColor()).primary(getRandomColor()).apply().recreate(activity));
 
+        Logger.i("cyanea" + String.valueOf(getCyanea().getPrimary()));
 //        mTitle.setText("");
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener(){
@@ -189,7 +213,7 @@ public class MainActivity extends AppCompatActivity implements
                 .addItem(new BottomNavigationItem(R.drawable.ic_menu_black_24dp, "Menu"))
                 .setFirstSelectedPosition(0)
                 .setBarBackgroundColor(R.color.white)
-                .setActiveColor(R.color.colorPrimary)
+                .setActiveColor(String.format("#%06X", (0xFFFFFF & (getCyanea().getPrimary()))))
                 .setInActiveColor(R.color.blue_grey)
                 .setMode(BottomNavigationBar.MODE_FIXED)
                 .initialise();
@@ -330,6 +354,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onDestroy() {
         Logger.i("MainActivity: @onDestroy");
+        AppDatabase.destroyInstance();
 
         if (!isNotificationPersistant) {
 

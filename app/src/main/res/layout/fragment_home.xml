@@ -27,6 +27,7 @@
         app:minValue="0" />
 
     <Chronometer
+        android:textSize="0.001sp"
         android:id="@+id/chronometerWork"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -41,6 +42,15 @@
         app:layout_constraintEnd_toEndOf="@+id/pbar"
         app:layout_constraintStart_toStartOf="@+id/pbar"
         app:layout_constraintTop_toTopOf="@+id/pbar" />
+
+    <com.robinhood.ticker.TickerView
+        android:id="@+id/tickerView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="@+id/pbar"
+        app:layout_constraintEnd_toEndOf="@+id/pbar"
+        app:layout_constraintStart_toStartOf="@+id/pbar"
+        app:layout_constraintTop_toTopOf="@+id/pbar"/>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/middleDividerHorizontal"
@@ -183,9 +193,6 @@
 
 
         </LinearLayout>
-
-
-
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
