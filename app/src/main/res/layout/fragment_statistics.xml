@@ -9,7 +9,6 @@
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignTop="@id/calendar"
         android:layout_marginBottom="8dp">
 
     </androidx.recyclerview.widget.RecyclerView>

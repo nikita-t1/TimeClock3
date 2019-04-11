@@ -17,8 +17,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
-import com.mikesu.horizontalexpcalendar.HorizontalExpCalendar;
-
 import java.util.ArrayList;
 
 
@@ -41,8 +39,6 @@ public class ListingFragment extends Fragment{
     private String mParam2;
 
     FirstRecyclerViewAdapter adapter;
-
-    @BindView(R.id.calendar) HorizontalExpCalendar horizontalExpCalendar;
 
 
     private OnFragmentInteractionListener mListener;

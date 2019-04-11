@@ -15,11 +15,12 @@
     </release>
     -->
 
-    <release versionCode="141" versionName="0.14.1-alpha" date="00-04-2019">
+    <release versionCode="150" versionName="0.15.0-alpha" date="00-04-2019">
         <refactor>Restructured Time Calculations from HomeFragment</refactor>
         <exp>primary color change on toolbar click</exp>
         <exp>added a Ticker in front of Chronometer</exp>
         <new>Created Room Database Classes</new>
+        <remove>Deleted Old HorizontalExpCalendar</remove>
     </release>
 
     <release versionCode="140" versionName="0.14.0-alpha" date="24-03-2019">
