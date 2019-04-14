@@ -114,6 +114,11 @@ public class SettingsFragment extends Fragment {
             fragmentChangeListener.OnFragmentChange(String.valueOf(experimentalButton.getText()));
         });
 
+        dataButton.setOnClickListener(v -> {
+            Logger.i(String.valueOf(dataButton.getText()));
+            fragmentChangeListener.OnFragmentChange(String.valueOf(dataButton.getText()));
+        });
+
         return view;
 
     }

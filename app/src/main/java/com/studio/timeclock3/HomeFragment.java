@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Chronometer;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -66,13 +67,13 @@ public class HomeFragment extends Fragment {
     @BindView(R.id.textViewEndTime) TextView textViewEndTime;
 
     @BindView(R.id.chronometerWork) Chronometer chronometerWork;
+    @BindView(R.id.linearLayout3) ConstraintLayout linearLayout3;
 
     @BindView(R.id.container) ConstraintLayout constraintLayout;
 
     private SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor mEditor;
     private TickerView tickerView;
-    private int y = 0;
 
 
     public HomeFragment() {
@@ -121,7 +122,7 @@ public class HomeFragment extends Fragment {
         startButton.setOnClickListener(view1 -> startButtonClick());
         cancelButton.setOnClickListener(view1 -> cancelButtonClick());
         pauseButton.setOnClickListener(view1 -> pauseButtonClick());
-        chronometerWork.setOnClickListener(view1 -> ssss());
+        linearLayout3.setOnClickListener(view1 -> ssss());
 
         tickerView = view.findViewById(R.id.tickerView);
         tickerView.setCharacterLists(TickerUtils.provideNumberList());
@@ -135,6 +136,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void ssss() {
+        Logger.i("COnetct: " +getContext());
         for (WorkDay e : (AppDatabase.getAppDatabase(getContext()).workDayDao().getAll())){
             Logger.i(String.valueOf(e.getUserNote()));
         }
@@ -287,6 +289,9 @@ public class HomeFragment extends Fragment {
 
     private void layoutToTrackingScreen(int duration) {
 //        startButton.animate().translationX(-150f).setInterpolator(new OvershootInterpolator()).setDuration(duration).start();
+        textViewStartTime.setText(timeCalculations.getStartTimeAsDate());
+        textViewEndTime.setText(timeCalculations.getEndTimeEstimateAsDate(false));
+
         startButton.setText("STOP");
         startButton.getBackground().setTint(getResources().getColor(R.color.red, null));
 
@@ -360,6 +365,7 @@ public class HomeFragment extends Fragment {
     @Override
     public void onStop() {
         super.onStop();
+        AppDatabase.destroyInstance();
         Logger.i("HomeFragment: @onStop");
     }
 }

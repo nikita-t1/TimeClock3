@@ -29,9 +29,8 @@ public interface WorkDayDao {
     @Update
     void updateWorkDay(WorkDay workDay);
 
-    //TODO: How-To DELETE ?????
-    @Delete
-    void deleteAll(WorkDay... workDays);
+    @Query("DELETE FROM workDay")
+    void deleteAll();
 
     @Delete
     void deleteWorkDay(WorkDay workDay);

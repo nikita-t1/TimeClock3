@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.yarolegovich.mp.MaterialPreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/preference_screen"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.yarolegovich.mp.MaterialPreferenceCategory
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:mpc_title="Room Database">
+
+        <com.yarolegovich.mp.MaterialRightIconPreference
+            android:id="@+id/addBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:mp_title="Add to Database"
+            app:mp_icon_tint="@color/green"
+            app:mp_icon="@drawable/database_plus"/>
+
+        <com.yarolegovich.mp.MaterialRightIconPreference
+            android:id="@+id/initBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:mp_icon="@drawable/database_refresh"
+            app:mp_icon_tint="@color/blue"
+            app:mp_title="Initialize Database">
+
+        </com.yarolegovich.mp.MaterialRightIconPreference>
+
+        <com.yarolegovich.mp.MaterialRightIconPreference
+            android:id="@+id/deleteBtn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:mp_icon="@drawable/trash_can_outline"
+            app:mp_icon_tint="@color/red"
+            app:mp_title="Delete all Elements from Database"/>
+
+
+    </com.yarolegovich.mp.MaterialPreferenceCategory>
+
+</com.yarolegovich.mp.MaterialPreferenceScreen>

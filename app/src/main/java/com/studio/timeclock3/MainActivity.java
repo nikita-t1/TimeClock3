@@ -66,7 +66,8 @@ public class MainActivity extends CyaneaAppCompatActivity implements
         SettingsFragment.OnFragmentChangeListener,
         CustomizationFragment.OnFragmentChangeListener,
         ThemeFragment.OnFragmentChangeListener,
-        ExperimentalFragment.OnFragmentChangeListener{
+        ExperimentalFragment.OnFragmentChangeListener,
+        DataFragment.OnFragmentChangeListener{
 
     private static String DEFAULT_CHANNEL_ID = "default_channel";
     private static String DEFAULT_CHANNEL_NAME = "Default";
@@ -166,7 +167,7 @@ public class MainActivity extends CyaneaAppCompatActivity implements
 //        AppDatabase database = AppDatabase.getAppDatabase(this);
 //        database.workDayDao().getAll();
         AppDatabase.getAppDatabase(this).workDayDao().deleteAll();
-        DatabaseInitializer.populateAsync(AppDatabase.getAppDatabase(this));
+        DatabaseInitializer.populateSync(AppDatabase.getAppDatabase(this));
 
 
         if (!Once.beenDone(Once.THIS_APP_VERSION, changelog)) {
@@ -283,7 +284,7 @@ public class MainActivity extends CyaneaAppCompatActivity implements
         map.put("Theme", ThemeFragment.newInstance("What", "Ever"));
         map.put("Customization", CustomizationFragment.newInstance("What", "Ever"));
 //        map.put("Behaviour", BehaviourFragment.newInstance("What", "Ever"));
-//        map.put("Data", DataFragment.newInstance("What", "Ever"));
+        map.put("Data", DataFragment.newInstance("What", "Ever"));
 //        map.put("Notification", NotificationFragment.newInstance("What", "Ever"));
 //        map.put("Backup", BackupFragment.newInstance("What", "Ever"));
 //        map.put("Language", LanguageFragment.newInstance("What", "Ever"));

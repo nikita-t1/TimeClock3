@@ -1,0 +1,117 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 1,
+    "identityHash": "bd123bd8e73d8d2ba51e5935991932df",
+    "entities": [
+      {
+        "tableName": "workDay",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`WorkDayId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `year` INTEGER, `weekOfYear` INTEGER, `dayOfWeek` INTEGER, `dayOfMonth` INTEGER, `month` INTEGER, `timeClockIn` TEXT, `timeClockOut` TEXT, `timeBreak` TEXT, `workTimeGross` TEXT, `workTimeNet` TEXT, `overtime` TEXT, `wasPresent` INTEGER, `userNote` TEXT, `furtherAddition` TEXT)",
+        "fields": [
+          {
+            "fieldPath": "WorkDayId",
+            "columnName": "WorkDayId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "year",
+            "columnName": "year",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "weekOfYear",
+            "columnName": "weekOfYear",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "dayOfWeek",
+            "columnName": "dayOfWeek",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "dayOfMonth",
+            "columnName": "dayOfMonth",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "month",
+            "columnName": "month",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "timeClockIn",
+            "columnName": "timeClockIn",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "timeClockOut",
+            "columnName": "timeClockOut",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "timeBreak",
+            "columnName": "timeBreak",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "workTimeGross",
+            "columnName": "workTimeGross",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "workTimeNet",
+            "columnName": "workTimeNet",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "overtime",
+            "columnName": "overtime",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "wasPresent",
+            "columnName": "wasPresent",
+            "affinity": "INTEGER",
+            "notNull": false
+          },
+          {
+            "fieldPath": "userNote",
+            "columnName": "userNote",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "furtherAddition",
+            "columnName": "furtherAddition",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "WorkDayId"
+          ],
+          "autoGenerate": true
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"bd123bd8e73d8d2ba51e5935991932df\")"
+    ]
+  }
+}

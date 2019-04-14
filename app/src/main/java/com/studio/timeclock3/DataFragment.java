@@ -2,27 +2,32 @@ package com.studio.timeclock3;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
-import androidx.preference.PreferenceManager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import es.dmoral.toasty.Toasty;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.krishna.debug_tools.activity.ActivityDebugTools;
-import com.xw.repo.BubbleSeekBar;
+import com.google.android.material.switchmaterial.SwitchMaterial;
+import com.orhanobut.logger.Logger;
+import com.studio.timeclock3.Data.AppDatabase;
+import com.studio.timeclock3.Data.DatabaseInitializer;
+import com.yarolegovich.mp.MaterialRightIconPreference;
 
-public class ExperimentalFragment extends Fragment{
+
+public class DataFragment extends Fragment{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -32,8 +37,10 @@ public class ExperimentalFragment extends Fragment{
     private String mParam1;
     private String mParam2;
 
-    @BindView(R.id.splash_seekbar) BubbleSeekBar splash_seekbar;
-    @BindView(R.id.debugTool) Button debugToolBtn;
+    @BindView(R.id.addBtn) MaterialRightIconPreference addButton;
+    @BindView(R.id.initBtn) MaterialRightIconPreference initButton;
+    @BindView(R.id.deleteBtn) MaterialRightIconPreference deleteBtn;
+
 
     OnFragmentChangeListener fragmentChangeListener;
 
@@ -42,7 +49,7 @@ public class ExperimentalFragment extends Fragment{
         public void OnFragmentChange(String fragment);
     }
 
-    public ExperimentalFragment() {
+    public DataFragment() {
         // Required empty public constructor
     }
 
@@ -55,8 +62,8 @@ public class ExperimentalFragment extends Fragment{
      * @return A new instance of fragment CustomizationFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ExperimentalFragment newInstance(String param1, String param2) {
-        ExperimentalFragment fragment = new ExperimentalFragment();
+    public static DataFragment newInstance(String param1, String param2) {
+        DataFragment fragment = new DataFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -77,29 +84,40 @@ public class ExperimentalFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_experimental, container, false);
+        View view =  inflater.inflate(R.layout.fragment_data, container, false);
         ButterKnife.bind(this, view);
-
-        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
 
         if (getActivity() instanceof MainActivity) {
             ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
         Toolbar mToolbar= (Toolbar) getActivity().findViewById(R.id.action_bar);
         TextView toolbarText= (TextView) getActivity().findViewById(R.id.toolbar_title);
-        toolbarText.setText("Experimental");
-        mToolbar.setNavigationOnClickListener(v -> fragmentChangeListener.OnFragmentChange("Settings"));
-
-        debugToolBtn.setOnClickListener(v -> startActivity(new Intent(getContext(), ActivityDebugTools.class)));
-        splash_seekbar.setProgress(preferences.getInt("splash_seekbar", 800));
-        splash_seekbar.setOnProgressChangedListener(new BubbleSeekBar.OnProgressChangedListenerAdapter() {
+        toolbarText.setText("Data");
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
-            public void onProgressChanged(BubbleSeekBar bubbleSeekBar, int progress, float progressFloat, boolean fromUser) {
-                preferences.edit().putInt("splash_seekbar", progress).apply();
+            public void onClick(View v) {
+                fragmentChangeListener.OnFragmentChange("Settings");
             }
         });
 
         return view;
+    }
+
+    @OnClick(R.id.deleteBtn)
+    public void deleteBtnClick(){
+        Toasty.error(getContext(), "Datenbank gelöscht", Toast.LENGTH_LONG , true).show();
+        AppDatabase.getAppDatabase(getContext()).workDayDao().deleteAll();
+    }
+
+    @OnClick(R.id.initBtn)
+    public void initBtnClick(){
+        Toasty.info(getContext(), "Datenbank initialisiert", Toast.LENGTH_SHORT , true).show();
+        DatabaseInitializer.populateSync(AppDatabase.getAppDatabase(getContext()));
+    }
+
+    @OnClick(R.id.addBtn)
+    public void addBtnClick(){
+        Toasty.success(getContext(), "Funktion wird bald hinzugefügt", Toast.LENGTH_SHORT , true).show();
     }
 
 
@@ -117,9 +135,16 @@ public class ExperimentalFragment extends Fragment{
         }
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        AppDatabase.destroyInstance();
+    }
+
 
     @Override
     public void onDetach() {
         super.onDetach();
     }
+
 }

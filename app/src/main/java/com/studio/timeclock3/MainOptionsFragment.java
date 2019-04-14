@@ -93,6 +93,7 @@ public class MainOptionsFragment extends Fragment {
         settings.setOnClickListener(view1 -> settingsButton(String.valueOf(settings.getText())));
         about.setOnClickListener(view2 -> aboutButton());
 
+
         return view;
     }
 

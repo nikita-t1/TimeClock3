@@ -73,7 +73,7 @@ public class ThemeFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_theme, container, false);
+        View view =  inflater.inflate(R.layout.fragment_experimental, container, false);
         ButterKnife.bind(this, view);
 
         if (getActivity() instanceof MainActivity) {
@@ -81,7 +81,7 @@ public class ThemeFragment extends Fragment{
         }
         Toolbar mToolbar= (Toolbar) getActivity().findViewById(R.id.action_bar);
         TextView toolbarText= (TextView) getActivity().findViewById(R.id.toolbar_title);
-        toolbarText.setText("Customization");
+        toolbarText.setText("Theme");
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

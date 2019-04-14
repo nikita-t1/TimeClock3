@@ -27,17 +27,14 @@
         app:minValue="0" />
 
     <Chronometer
-        android:textSize="0.001sp"
+        android:textSize="1sp"
         android:id="@+id/chronometerWork"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
         android:gravity="center"
         android:layout_margin="40dp"
         android:autoSizeTextType="uniform"
         android:lines="1"
-        android:autoSizeMinTextSize="20sp"
-        android:autoSizeMaxTextSize="80sp"
-        android:autoSizeStepGranularity="2sp"
         app:layout_constraintBottom_toBottomOf="@+id/pbar"
         app:layout_constraintEnd_toEndOf="@+id/pbar"
         app:layout_constraintStart_toStartOf="@+id/pbar"
