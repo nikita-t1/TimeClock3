@@ -164,11 +164,6 @@ public class MainActivity extends CyaneaAppCompatActivity implements
         String recreateFragment = "recreateFragment";
         Log.i("TimeClock", "STARTED");
 
-//        AppDatabase database = AppDatabase.getAppDatabase(this);
-//        database.workDayDao().getAll();
-        AppDatabase.getAppDatabase(this).workDayDao().deleteAll();
-        DatabaseInitializer.populateSync(AppDatabase.getAppDatabase(this));
-
 
         if (!Once.beenDone(Once.THIS_APP_VERSION, changelog)) {
 //            initializeChangelog();

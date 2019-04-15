@@ -93,13 +93,6 @@ public class ExampleMaterialAboutActivity extends MaterialAboutActivity {
                 .build());
 
         developerCardBuilder.addItem(new MaterialAboutActionItem.Builder()
-                .text("Noah Röschard")
-                .subText("Designer, Tester")
-                .icon(R.drawable.account_outline)
-                .build());
-
-
-        developerCardBuilder.addItem(new MaterialAboutActionItem.Builder()
                 .text("Contact")
                 .icon(R.drawable.ic_mail_outline_black_24dp)
                 .subText("idiotenpost@gmail.com")

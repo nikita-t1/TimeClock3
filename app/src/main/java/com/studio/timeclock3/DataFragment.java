@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.room.RoomDatabase;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -24,7 +25,10 @@ import com.google.android.material.switchmaterial.SwitchMaterial;
 import com.orhanobut.logger.Logger;
 import com.studio.timeclock3.Data.AppDatabase;
 import com.studio.timeclock3.Data.DatabaseInitializer;
+import com.studio.timeclock3.Data.WorkDay;
 import com.yarolegovich.mp.MaterialRightIconPreference;
+
+import java.util.List;
 
 
 public class DataFragment extends Fragment{
@@ -37,12 +41,9 @@ public class DataFragment extends Fragment{
     private String mParam1;
     private String mParam2;
 
-    @BindView(R.id.addBtn) MaterialRightIconPreference addButton;
-    @BindView(R.id.initBtn) MaterialRightIconPreference initButton;
-    @BindView(R.id.deleteBtn) MaterialRightIconPreference deleteBtn;
-
 
     OnFragmentChangeListener fragmentChangeListener;
+    private AppDatabase appDatabase;
 
     public interface OnFragmentChangeListener{
 
@@ -86,6 +87,7 @@ public class DataFragment extends Fragment{
         // Inflate the layout for this fragment
         View view =  inflater.inflate(R.layout.fragment_data, container, false);
         ButterKnife.bind(this, view);
+        appDatabase = AppDatabase.getAppDatabase(getContext());
 
         if (getActivity() instanceof MainActivity) {
             ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -103,23 +105,53 @@ public class DataFragment extends Fragment{
         return view;
     }
 
-    @OnClick(R.id.deleteBtn)
-    public void deleteBtnClick(){
-        Toasty.error(getContext(), "Datenbank gelöscht", Toast.LENGTH_LONG , true).show();
-        AppDatabase.getAppDatabase(getContext()).workDayDao().deleteAll();
-    }
 
-    @OnClick(R.id.initBtn)
-    public void initBtnClick(){
-        Toasty.info(getContext(), "Datenbank initialisiert", Toast.LENGTH_SHORT , true).show();
-        DatabaseInitializer.populateSync(AppDatabase.getAppDatabase(getContext()));
+    @OnClick({ R.id.initBtn, R.id.addBtn, R.id.rmvBtn, R.id.editBtn, R.id.deleteBtn, R.id.amountBtn}) // must have to include view here to get onClickEvent
+    public void setViewOnClickEvent(View view) {
+        switch (view.getId()) {
+            case R.id.initBtn:
+                Toasty.info(getContext(), "Datenbank initialisiert", Toast.LENGTH_SHORT , true).show();
+                appDatabase.workDayDao().deleteAll();
+                DatabaseInitializer.populateAsync(appDatabase);
+                break;
+            case R.id.addBtn:
+                Toasty.success(getContext(), "Arbeitstag wird hinzugefügt", Toast.LENGTH_SHORT , true).show();
+                DatabaseInitializer.populateAsync(appDatabase);
+                List<WorkDay> workDay= appDatabase.workDayDao().getAll();
+                break;
+            case R.id.rmvBtn:
+                if((appDatabase.workDayDao().getAll().size() > 0) & (appDatabase.workDayDao().findbyMonth(2018, 4) != null)){
+                    Toasty.error(getContext(), "Arbeitstag wird entfernt", Toast.LENGTH_SHORT , true).show();
+                    WorkDay workDayToRemove = appDatabase.workDayDao().findbyMonth(2018, 4); //wenn mehrere existieren wird der erste genommen
+                    appDatabase.workDayDao().deleteWorkDay(workDayToRemove);
+                } else if (appDatabase.workDayDao().findbyMonth(2019, 4) != null){
+                    Toasty.error(getContext(), "Arbeitstag wird entfernt", Toast.LENGTH_SHORT , true).show();
+                    WorkDay workDayToRemove = appDatabase.workDayDao().findbyMonth(2019, 4); //wenn mehrere existieren wird der erste genommen
+                    appDatabase.workDayDao().deleteWorkDay(workDayToRemove);
+                }else{
+                    Toasty.error(getContext(), "Room Database Empty", Toast.LENGTH_LONG , true).show();
+                }
+                break;
+            case R.id.editBtn:
+                if (appDatabase.workDayDao().findbyMonth(2019, 4) != null) {
+                    Toasty.info(getContext(), "Arbeitstag wird geändert", Toast.LENGTH_SHORT , true).show();
+                    WorkDay workDaytoEdit = appDatabase.workDayDao().findbyMonth(2019, 4);  //wenn mehrere existieren wird der erste genommen
+                    workDaytoEdit.setYear(2018);
+                    appDatabase.workDayDao().updateWorkDay(workDaytoEdit);
+                } else {
+                    Toasty.error(getContext(), "Nothing to Edit here", Toast.LENGTH_LONG , true).show();
+                }
+                break;
+            case R.id.deleteBtn:
+                Toasty.error(getContext(), "Datenbank gelöscht", Toast.LENGTH_LONG , true).show();
+                appDatabase.workDayDao().deleteAll();
+                Logger.i("Room Database Size after @DELETE: " + appDatabase.workDayDao().getAll().size());
+                break;
+            case R.id.amountBtn:
+                Toasty.info(getContext(), "Elemente in der Datenbank: " + appDatabase.workDayDao().getAll().size(), Toast.LENGTH_SHORT , true).show();
+                break;
+        }
     }
-
-    @OnClick(R.id.addBtn)
-    public void addBtnClick(){
-        Toasty.success(getContext(), "Funktion wird bald hinzugefügt", Toast.LENGTH_SHORT , true).show();
-    }
-
 
     @Override
     public void onAttach(Context context) {
