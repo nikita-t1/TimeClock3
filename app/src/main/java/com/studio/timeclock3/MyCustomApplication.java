@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.res.Configuration;
 
 import com.jaredrummler.cyanea.Cyanea;
+import com.squareup.leakcanary.LeakCanary;
 
 public class MyCustomApplication extends Application {
     // Called when the application is starting, before any other application objects have been created.
@@ -13,6 +14,14 @@ public class MyCustomApplication extends Application {
         super.onCreate();
         Cyanea.init(this, getResources());
         // Required initialization logic here!
+
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+        LeakCanary.install(this);
+        // Normal app init code...
     }
 
     // Called by the system when the device configuration changes while your component is running.

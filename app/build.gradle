@@ -78,6 +78,9 @@ dependencies {
     implementation 'com.robinhood.ticker:ticker:2.0.1'
     implementation 'com.yarolegovich:mp:1.0.9'
 
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.6.3'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.6.3'
+
     implementation 'android.arch.persistence.room:runtime:1.1.1'
     annotationProcessor 'android.arch.persistence.room:compiler:1.1.1'
 

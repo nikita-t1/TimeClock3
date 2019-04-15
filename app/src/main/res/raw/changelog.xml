@@ -22,6 +22,7 @@
         <new>Created Room Database Classes</new>
         <remove>Deleted Old HorizontalExpCalendar</remove>
         <new>Created Data Fragment in Settings</new>
+        <new>Added LeakCanary for Memory Leak Detection</new>
     </release>
 
     <release versionCode="140" versionName="0.14.0-alpha" date="24-03-2019">
