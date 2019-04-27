@@ -35,7 +35,7 @@ public class SettingsFragment extends Fragment {
     @BindView(R.id.behaviour) Button behaviourButton;
     @BindView(R.id.data) Button dataButton;
     @BindView(R.id.notification) Button notificationButton;
-    @BindView(R.id.backup) Button backupButton;
+    @BindView(R.id.workingTime) Button workingTimeButton;
     @BindView(R.id.language) Button languageButton;
     @BindView(R.id.experimental) Button experimentalButton;
 

@@ -1,39 +1,28 @@
 package com.studio.timeclock3;
 
 
-import android.app.Activity;
-import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-
-import com.ashokvarma.bottomnavigation.BottomNavigationBar;
-import com.ashokvarma.bottomnavigation.BottomNavigationItem;
-import com.github.javiersantos.materialstyleddialogs.MaterialStyledDialog;
-import com.github.javiersantos.materialstyleddialogs.enums.Style;
-
-import androidx.annotation.ColorRes;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.viewpager.widget.ViewPager;
+
+import com.ashokvarma.bottomnavigation.BottomNavigationBar;
+import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.irozon.sneaker.Sneaker;
 import com.irozon.sneaker.interfaces.OnSneakerClickListener;
 import com.jaredrummler.cyanea.app.CyaneaAppCompatActivity;
-import com.jaredrummler.cyanea.prefs.CyaneaSettingsActivity;
 import com.michaelflisar.changelog.ChangelogBuilder;
 import com.michaelflisar.changelog.ChangelogSetup;
 import com.michaelflisar.changelog.internal.ChangelogDialogFragment;
@@ -42,19 +31,13 @@ import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
 import com.studio.timeclock3.Data.AppDatabase;
-import com.studio.timeclock3.Data.DatabaseInitializer;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
 
-import androidx.room.Room;
-import androidx.viewpager.widget.ViewPager;
 import es.dmoral.toasty.Toasty;
-
 import jonathanfinerty.once.Once;
 
 
@@ -172,6 +155,7 @@ public class MainActivity extends CyaneaAppCompatActivity implements
 
         setMainStartFragment();
 
+
         mSharedPreferences = getSharedPreferences("", Context.MODE_PRIVATE);
         SharedPreferences.Editor mEditor = mSharedPreferences.edit();
 
@@ -281,7 +265,6 @@ public class MainActivity extends CyaneaAppCompatActivity implements
 //        map.put("Behaviour", BehaviourFragment.newInstance("What", "Ever"));
         map.put("Data", DataFragment.newInstance("What", "Ever"));
 //        map.put("Notification", NotificationFragment.newInstance("What", "Ever"));
-//        map.put("Backup", BackupFragment.newInstance("What", "Ever"));
 //        map.put("Language", LanguageFragment.newInstance("What", "Ever"));
         map.put("Experimental", ExperimentalFragment.newInstance("What", "Ever"));
 

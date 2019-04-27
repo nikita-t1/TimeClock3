@@ -3,21 +3,31 @@ package com.studio.timeclock3;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.DividerItemDecoration;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import butterknife.BindView;
-
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.AdapterView;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+
+import com.ognev.kotlin.agendacalendarview.AgendaCalendarView;
+import com.ognev.kotlin.agendacalendarview.CalendarController;
+import com.ognev.kotlin.agendacalendarview.builder.CalendarContentManager;
+import com.ognev.kotlin.agendacalendarview.models.CalendarEvent;
+import com.ognev.kotlin.agendacalendarview.models.DayItem;
+import com.ognev.kotlin.agendacalendarview.models.IDayItem;
+import com.studio.timeclock3.calendar.MyCalendarEvent;
+import com.studio.timeclock3.calendar.SampleEventAgendaAdapter;
+
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Locale;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 
 /**
@@ -28,7 +38,7 @@ import java.util.ArrayList;
  * Use the {@link ListingFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ListingFragment extends Fragment{
+public class ListingFragment extends Fragment implements CalendarController {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -39,7 +49,10 @@ public class ListingFragment extends Fragment{
     private String mParam2;
 
     FirstRecyclerViewAdapter adapter;
+    @BindView(R.id.agenda_calendar_view) AgendaCalendarView agendaCalendarView;
+    private ArrayList<CalendarEvent> eventList;
 
+    Calendar oldDate;
 
     private OnFragmentInteractionListener mListener;
 
@@ -80,28 +93,46 @@ public class ListingFragment extends Fragment{
         // Inflate the layout for this fragment
 
         View view = inflater.inflate(R.layout.fragment_listing, container, false);
+        ButterKnife.bind(this, view);
+
 
         if (getActivity() instanceof MainActivity) {
             ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         }
 
-        RecyclerDay[] recyclerDays = new RecyclerDay[]{
-                new RecyclerDay("Mo", 14, "06:34", "16:13", 0.8),
-                new RecyclerDay("Di", 15, "06:45", "15:42", 0.3),
-                new RecyclerDay("Mi", 16, "07:12", "16:49", 0.6),
-                new RecyclerDay("Do", 17, "06:29", "15:32", 0.2),
-                new RecyclerDay("Fr", 18, "06:44", "13:16", -0.7),
-                new RecyclerDay("Sa", 19, "-", "-", 0.0),
-                new RecyclerDay("So", 20, "-", "-", .0),
-        };
 
-        RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false));
-        recyclerView.setNestedScrollingEnabled(false);
-        adapter = new FirstRecyclerViewAdapter(getActivity(), recyclerDays);
-//        adapter.setClickListener((FirstRecyclerViewAdapter.ItemClickListener) getActivity());
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
-        recyclerView.setAdapter(adapter);
+        Calendar minDate = Calendar.getInstance();
+        Calendar maxDate = Calendar.getInstance();
+        oldDate = Calendar.getInstance();
+
+
+        minDate.add(Calendar.MONTH, -1);
+        minDate.set(Calendar.DAY_OF_MONTH, 1);
+        maxDate.add(Calendar.YEAR, 1);
+
+        CalendarContentManager contentManager;
+        contentManager = new CalendarContentManager(ListingFragment.this , agendaCalendarView, new SampleEventAgendaAdapter(getActivity().getApplicationContext()));
+        contentManager.setLocale(Locale.GERMAN);
+        contentManager.setDateRange(minDate, maxDate);
+//        contentManager.loadItemsFromStart();
+
+        int maxLenght = Calendar.getInstance().getMaximum(Calendar.DAY_OF_MONTH);
+
+        for (int i = 0 ; i >= maxLenght; i++) {
+            Calendar day = Calendar.getInstance(Locale.GERMAN);
+            day.setTimeInMillis(System.currentTimeMillis());
+            day.set(Calendar.DAY_OF_MONTH, i);
+
+            eventList.add(new MyCalendarEvent(day, day, DayItem.Companion.buildDayItemFromCal(day), null).setEventInstanceDay(day));
+
+            contentManager.loadItemsFromStart(eventList);
+            agendaCalendarView.getAgendaView().getAgendaListView().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Toast.makeText(getContext(), "item: " + (position), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
 
         return view;
     }
@@ -133,6 +164,30 @@ public class ListingFragment extends Fragment{
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public int getEmptyEventLayout() {
+        return R.layout.view_agenda_empty_event;
+    }
+
+    @Override
+    public int getEventLayout() {
+        return R.layout.view_agenda_event;
+    }
+
+    @Override
+    public void onDaySelected(@NotNull IDayItem iDayItem) {
+
+    }
+
+    @Override
+    public void onScrollToDate(@NotNull Calendar calendar) {
+        int lastPosition = agendaCalendarView.getAgendaView().getAgendaListView().getLastVisiblePosition() + 1;
+        boolean isSameDay;
+//        if(CalendarExtensionsKt.isSameDay(oldDate){
+//            isSameDay=true;
+//        }
     }
 
 
