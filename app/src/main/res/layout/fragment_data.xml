@@ -49,7 +49,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:mp_icon="@drawable/help_circle_outline"
-            app:mp_icon_tint="@color/dark_grey"
+            app:mp_icon_tint="@color/blue_grey"
             app:mp_title="Get Database Size"/>
 
         <com.yarolegovich.mp.MaterialRightIconPreference
@@ -72,14 +72,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:mp_icon="@drawable/database_import"
-            app:mp_icon_tint="@color/dark_grey"
+            app:mp_icon_tint="@color/blue_grey"
             app:mp_title="Import Database" />
 
         <com.yarolegovich.mp.MaterialRightIconPreference
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:mp_icon="@drawable/database_export"
-            app:mp_icon_tint="@color/dark_grey"
+            app:mp_icon_tint="@color/blue_grey"
             app:mp_title="Export Database"/>
 
     </com.yarolegovich.mp.MaterialPreferenceCategory>

@@ -139,6 +139,7 @@ public class MainActivity extends CyaneaAppCompatActivity implements
 
         initializeFragmentMap();
 
+
         Logger.i("LogCat Info");
         Logger.w("LogCat Warning");
         Logger.wtf("LogCat WTF");

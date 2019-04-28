@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.daniel-stoneuk:material-about-library:2.4.2@aar">
+    <ANNOTATIONS>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/eccfde1ab1165880fee99f9b743b04d5/annotations.zip!/" />
+    </ANNOTATIONS>
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/eccfde1ab1165880fee99f9b743b04d5/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/eccfde1ab1165880fee99f9b743b04d5/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

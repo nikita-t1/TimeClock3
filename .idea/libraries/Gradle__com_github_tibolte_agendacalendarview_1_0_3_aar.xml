@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: com.github.tibolte:agendacalendarview:1.0.3@aar">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/d1fefc838b2b2986cdad512158b0d91a/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/d1fefc838b2b2986cdad512158b0d91a/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.github.tibolte/agendacalendarview/1.0.3/4c3623423ba65977f4d84db0bcfc8f3dc11beab5/agendacalendarview-1.0.3-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -1,1 +1,3 @@
-include ':app'
+include ':app', 'agendacalendarview'
+//https://stackoverflow.com/questions/16588064/how-do-i-add-a-library-project-to-android-studio/16639227#16639227
+project(':agendacalendarview').projectDir = new File('libs/agendacalendarview') // or include ':libs:agendacalendarview

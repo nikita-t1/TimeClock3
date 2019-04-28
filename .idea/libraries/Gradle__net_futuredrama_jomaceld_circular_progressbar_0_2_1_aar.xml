@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: net.futuredrama.jomaceld:circular-progressbar:0.2.1@aar">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a2754bc3e140b2db6bd9cf2be5fd39a9/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/a2754bc3e140b2db6bd9cf2be5fd39a9/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/net.futuredrama.jomaceld/circular-progressbar/0.2.1/67cd7a063a5572b2f210f0647a4abc5cf30f1fcb/circular-progressbar-0.2.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -25,6 +25,7 @@
         <new>Added LeakCanary for Memory Leak Detection</new>
         <update>Extended Data Fragment functionality</update>
         <info>Tried and Failed implementing KotlinAgendaCalendar</info>
+        <new>Added AgendaCalendarView(Java) as External Library</new>
     </release>
 
     <release versionCode="140" versionName="0.14.0-alpha" date="24-03-2019">

@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="Gradle: com.labo.kaji:fragmentanimations:0.1.1@aar">
+    <ANNOTATIONS>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/f4184d01fa75fb82602efabc90ce8a74/annotations.zip!/" />
+    </ANNOTATIONS>
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/f4184d01fa75fb82602efabc90ce8a74/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/f4184d01fa75fb82602efabc90ce8a74/res" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.labo.kaji/fragmentanimations/0.1.1/7367b6d3d3af457b2dbcc845de49ff8f07153bfe/fragmentanimations-0.1.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
