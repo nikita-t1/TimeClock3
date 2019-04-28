@@ -2,22 +2,16 @@ package com.studio.timeclock3;
 
 import android.app.Activity;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.android.material.switchmaterial.SwitchMaterial;
-import com.orhanobut.logger.Logger;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+
+import butterknife.ButterKnife;
 
 
 public class ThemeFragment extends Fragment{
@@ -73,7 +67,7 @@ public class ThemeFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view =  inflater.inflate(R.layout.fragment_experimental, container, false);
+        View view =  inflater.inflate(R.layout.fragment_theme, container, false);
         ButterKnife.bind(this, view);
 
         if (getActivity() instanceof MainActivity) {

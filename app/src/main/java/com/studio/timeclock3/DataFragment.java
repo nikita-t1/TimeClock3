@@ -2,33 +2,26 @@ package com.studio.timeclock3;
 
 import android.app.Activity;
 import android.content.Context;
-import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.room.RoomDatabase;
-import butterknife.BindView;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import es.dmoral.toasty.Toasty;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.switchmaterial.SwitchMaterial;
+import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.Fragment;
+
 import com.orhanobut.logger.Logger;
 import com.studio.timeclock3.Data.AppDatabase;
 import com.studio.timeclock3.Data.DatabaseInitializer;
 import com.studio.timeclock3.Data.WorkDay;
-import com.yarolegovich.mp.MaterialRightIconPreference;
 
 import java.util.List;
+
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import es.dmoral.toasty.Toasty;
 
 
 public class DataFragment extends Fragment{
@@ -112,11 +105,11 @@ public class DataFragment extends Fragment{
             case R.id.initBtn:
                 Toasty.info(getContext(), "Datenbank initialisiert", Toast.LENGTH_SHORT , true).show();
                 appDatabase.workDayDao().deleteAll();
-                DatabaseInitializer.populateAsync(appDatabase);
+                DatabaseInitializer.populateTestDataAsync(appDatabase);
                 break;
             case R.id.addBtn:
                 Toasty.success(getContext(), "Arbeitstag wird hinzugefügt", Toast.LENGTH_SHORT , true).show();
-                DatabaseInitializer.populateAsync(appDatabase);
+                DatabaseInitializer.populateTestDataAsync(appDatabase);
                 List<WorkDay> workDay= appDatabase.workDayDao().getAll();
                 break;
             case R.id.rmvBtn:

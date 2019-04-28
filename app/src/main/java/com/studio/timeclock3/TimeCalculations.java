@@ -3,8 +3,6 @@ package com.studio.timeclock3;
 import android.content.SharedPreferences;
 import android.icu.text.SimpleDateFormat;
 
-import com.orhanobut.logger.Logger;
-
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
@@ -22,6 +20,10 @@ public class TimeCalculations {
     private long timeClockOut;
     private long workingPeriodMinutes;
     private long workingTimeEstimate;
+
+    public long getWorkingTimeMin() {
+        return workingTime;
+    }
 
     public TimeCalculations(SharedPreferences sharedPreferences){
         this.sharedPreferences = sharedPreferences;

@@ -6,26 +6,23 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.icu.text.DateFormat;
 import android.icu.text.SimpleDateFormat;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.SystemClock;
-
-import androidx.annotation.ColorRes;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Chronometer;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.fragment.app.Fragment;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.jaredrummler.cyanea.app.CyaneaFragment;
 import com.orhanobut.logger.Logger;
 import com.robinhood.ticker.TickerUtils;
 import com.robinhood.ticker.TickerView;
@@ -74,6 +71,7 @@ public class HomeFragment extends Fragment {
     private SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor mEditor;
     private TickerView tickerView;
+    private AppDatabase appDatabase;
 
 
     public HomeFragment() {
@@ -100,6 +98,8 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         ButterKnife.bind(this, view);
+        appDatabase = AppDatabase.getAppDatabase(getContext());
+
 
         if (getActivity() instanceof MainActivity) {
             ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
@@ -206,6 +206,12 @@ public class HomeFragment extends Fragment {
                                 "Zusatz 1: " + "null" + "\n"+
                                 "Zusatz 2: " + "null" + "\n");
 
+            PopulateDbAsync task = new PopulateDbAsync(appDatabase, timeCalculations);
+            task.execute();
+
+            cancelButtonClick();
+
+
         } else {
 
             Toasty.error(getActivity(), "BIG BUTTON ERROR", Toast.LENGTH_LONG, true).show();
@@ -231,6 +237,9 @@ public class HomeFragment extends Fragment {
         chronometerPersistWork.stopChronometer();
 
         progressBar.setProgressWithAnimation(0);
+
+        textViewStartTime.setText("");
+        textViewEndTime.setText("");
 
         layoutToStartScreen(1200);
     }
@@ -368,4 +377,50 @@ public class HomeFragment extends Fragment {
         AppDatabase.destroyInstance();
         Logger.i("HomeFragment: @onStop");
     }
+
+    private static void populateWithData(AppDatabase db, TimeCalculations mTimeCalculations) {
+        Calendar calender = Calendar.getInstance();
+
+        WorkDay workDay = new WorkDay();
+        workDay.setYear(calender.get(Calendar.YEAR));
+        workDay.setWeekOfYear(calender.get(Calendar.WEEK_OF_YEAR));
+        workDay.setDayOfWeek(calender.get(Calendar.DAY_OF_WEEK));
+        workDay.setDayOfMonth(calender.get(Calendar.DAY_OF_MONTH));
+        workDay.setMonth(calender.get(Calendar.MONTH));
+        workDay.setTimeClockIn(mTimeCalculations.getStartTimeAsDate());
+        workDay.setTimeClockOut(mTimeCalculations.getEndTimeAsDate());
+        workDay.setTimeBreak(mTimeCalculations.getPauseTimeAsDateString());
+        workDay.setWorkTimeGross(mTimeCalculations.getWorkingPeriodAsDateString(false));
+        workDay.setWorkTimeNet(mTimeCalculations.getWorkingPeriodAsDateString(true));
+        long balance = mTimeCalculations.getWorkingPeriodAsMinutes(false) - mTimeCalculations.getWorkingTimeMin();
+        workDay.setOvertime(mTimeCalculations.convertMinutesToDateString(balance));
+        workDay.setWasPresent(true);
+        workDay.setUserNote("Alles Gut...");
+        addWorkDay(db, workDay);
+    }
+
+    private static WorkDay addWorkDay(AppDatabase appDatabase, WorkDay workDay) {
+        appDatabase.workDayDao().insertAll(workDay);
+        return workDay;
+    }
+
+    private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {
+
+        private final AppDatabase mDb;
+        private final TimeCalculations mTimeCalculations;
+
+        PopulateDbAsync(AppDatabase appDatabase, TimeCalculations timeCalculations) {
+            mDb = appDatabase;
+            mTimeCalculations = timeCalculations;
+        }
+
+        @Override
+        protected Void doInBackground(final Void... params) {
+            populateWithData(mDb, mTimeCalculations);
+            return null;
+        }
+
+    }
 }
+
+

@@ -3,18 +3,19 @@ package com.studio.timeclock3.Data;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import java.util.List;
-
 import androidx.annotation.NonNull;
+
+import java.util.List;
 
 public class DatabaseInitializer {
 
     private static final String TAG = DatabaseInitializer.class.getName();
 
-    public static void populateAsync(@NonNull final AppDatabase db) {
-        PopulateDbAsync task = new PopulateDbAsync(db);
+    public static void populateTestDataAsync(@NonNull final AppDatabase db) {
+        PopulateTestDbAsync task = new PopulateTestDbAsync(db);
         task.execute();
     }
+
 
     public static void populateSync(@NonNull final AppDatabase db) {
         populateWithTestData(db);
@@ -47,11 +48,11 @@ public class DatabaseInitializer {
         Log.d(DatabaseInitializer.TAG, "Rows Count: " + userList.size());
     }
 
-    private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {
+    private static class PopulateTestDbAsync extends AsyncTask<Void, Void, Void> {
 
         private final AppDatabase mDb;
 
-        PopulateDbAsync(AppDatabase db) {
+        PopulateTestDbAsync(AppDatabase db) {
             mDb = db;
         }
 
@@ -62,4 +63,5 @@ public class DatabaseInitializer {
         }
 
     }
+
 }
