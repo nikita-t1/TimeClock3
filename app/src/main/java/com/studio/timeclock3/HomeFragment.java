@@ -1,5 +1,6 @@
 package com.studio.timeclock3;
 
+import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
@@ -73,6 +74,8 @@ public class HomeFragment extends Fragment {
     private TickerView tickerView;
     private AppDatabase appDatabase;
 
+    boolean bIsLoading = false;
+
 
     public HomeFragment() {
         Logger.i("HomeFragment: Empty Constructor");
@@ -133,6 +136,60 @@ public class HomeFragment extends Fragment {
         tickerView.setText("12:34");
 
         return view;
+    }
+
+    private void rotateProgressBar(int duration){
+        ArrayList<BarComponent> barComponentsArray = progressBar.getBarComponentsArray();
+
+        // Array containing bars colors
+        int[] colors = { getResources().getColor(R.color.amber),
+                getResources().getColor(R.color.light_blue),
+                getResources().getColor(R.color.red)};
+
+        // Set the numbers of bars
+        progressBar.setNumberOfBars(3);
+        // Set bars colors
+        progressBar.setBarsColors(colors);
+        // Animate the progress of all bars from current value to the desired values
+        progressBar.setProgressWithAnimation(0.0f,0.0f,0.0f);
+
+        progressBar.bStackBars = false;
+        int numOfBars = progressBar.getBarComponentsArray().size();
+        for (int i = 0; i < numOfBars; i++) {
+            BarComponent bar = progressBar.getBarComponentsArray().get(i);
+            bar.animateAngleOffset(i * (360/numOfBars), 500);
+            bar.animateProgress(0.1f);
+        }
+        progressBar.spinBars(ObjectAnimator.INFINITE,ObjectAnimator.INFINITE,1000);
+
+        final Handler handler2 = new Handler();
+        handler2.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Logger.i("Handler2");
+                progressBar.cancelSpin();
+                for (int i = 0; i < barComponentsArray.size(); i++) {
+                    BarComponent bar = barComponentsArray.get(i);
+                    float auxValue = bar.getValue();
+                    Logger.i(i + " " + bar.getValue());
+                    bar.animateProgress(auxValue);
+                    bar.animateAngleOffset(360, 1200);
+                }
+                progressBar.bStackBars = true;
+
+            }
+        }, duration);
+
+        final Handler handler3 = new Handler();
+        handler3.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Logger.i("Handler3");
+                progressBar.setNumberOfBars(1);
+                progressBar.setBarsColors(new int[]{ getResources().getColor(R.color.green, null) });
+                cancelButtonClick();
+            }
+        }, duration+800);
     }
 
     private void ssss() {
@@ -209,7 +266,7 @@ public class HomeFragment extends Fragment {
             PopulateDbAsync task = new PopulateDbAsync(appDatabase, timeCalculations);
             task.execute();
 
-            cancelButtonClick();
+            rotateProgressBar(1250);
 
 
         } else {
