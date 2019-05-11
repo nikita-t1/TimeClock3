@@ -3,7 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/TimeClock3.iml" filepath="$PROJECT_DIR$/TimeClock3.iml" />
-      <module fileurl="file://$PROJECT_DIR$/libs/agendacalendarview/agendacalendarview.iml" filepath="$PROJECT_DIR$/libs/agendacalendarview/agendacalendarview.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>

@@ -1,28 +1,23 @@
 package com.studio.timeclock3;
 
-
-import android.app.NotificationManager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.viewpager.widget.ViewPager;
 
 import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.irozon.sneaker.Sneaker;
 import com.irozon.sneaker.interfaces.OnSneakerClickListener;
-import com.jaredrummler.cyanea.app.CyaneaAppCompatActivity;
 import com.michaelflisar.changelog.ChangelogBuilder;
 import com.michaelflisar.changelog.ChangelogSetup;
 import com.michaelflisar.changelog.internal.ChangelogDialogFragment;
@@ -37,11 +32,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
 
-import es.dmoral.toasty.Toasty;
-import jonathanfinerty.once.Once;
-
-
-public class MainActivity extends CyaneaAppCompatActivity implements
+public class MainActivity extends AppCompatActivity implements
         StatisticsFragment.OnFragmentInteractionListener ,
         ListingFragment.OnFragmentInteractionListener,
         OnSneakerClickListener,
@@ -52,71 +43,12 @@ public class MainActivity extends CyaneaAppCompatActivity implements
         ExperimentalFragment.OnFragmentChangeListener,
         DataFragment.OnFragmentChangeListener{
 
-    private static String DEFAULT_CHANNEL_ID = "default_channel";
-    private static String DEFAULT_CHANNEL_NAME = "Default";
-    private NotificationManager mNotificationManager;
-    int nId = 1;
-    public boolean isNotificationVisible = false;
-    public boolean isNotificationPersistant = false;
 
-
-
-    private ViewPager viewPager;
-    String changelog = "changelog";
-
-    Map<String, Fragment> map = new HashMap<String, Fragment>();
-
-    BottomNavigationBar bottomNavigationBar;
-    SharedPreferences mSharedPreferences;
-
-    MainOptionsBottomSheetDialogFragment mainOptionsBottomSheetDialogFragment;
-    CalculatorBottomSheetDialogFragment calculatorBottomSheetDialogFragment;
+    private Map<String, Fragment> map = new HashMap<>();
     private MainActivity activity;
-
 
     public void onFragmentInteraction(Uri uri){
     }
-
-//    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
-//            = new BottomNavigationView.OnNavigationItemSelectedListener() {
-//
-//        @Override
-//        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//            Fragment selectedFragment = null;
-//
-//            switch (item.getItemId()) {
-//                case R.id.navigation_home:
-//
-//                    Logger.i("MainActivity: @onNavigationItemSelected -> Home");
-//                    FragmentTransaction transaction1 = getSupportFragmentManager().beginTransaction();
-//                    selectedFragment = HomeFragment.newInstance("Param1", "Param2");
-//                    transaction1.replace(R.id.main_fragment_container, selectedFragment);
-//                    transaction1.commit();
-//                    return true;
-//                case R.id.navigation_dashboard:
-//                    //fm.beginTransaction().hide(active).show(fragment2).commit();
-//                    //active = fragment2;
-//                    Logger.i("MainActivity: @onNavigationItemSelected -> Statistics");
-//                    FragmentTransaction transaction2 = getSupportFragmentManager().beginTransaction();
-//                    selectedFragment = StatisticsFragment.newInstance("Param1", "Param2");
-//                    transaction2.replace(R.id.main_fragment_container, selectedFragment);
-//                    transaction2.commit();
-//                    return true;
-//                case R.id.navigation_listing:
-//                    //fm.beginTransaction().setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE).hide(active).show(fragment3).commit();
-//                    //active = fragment3;
-//                    Logger.i("MainActivity: @onNavigationItemSelected -> Listing");
-//                    FragmentTransaction transaction3 = getSupportFragmentManager().beginTransaction();
-//                    selectedFragment = ListingFragment.newInstance("Param1", "Param2");
-//                    transaction3.replace(R.id.main_fragment_container, selectedFragment);
-//                    transaction3.commit();
-//                    return true;
-//            }
-//            return false;
-//        }
-//    };
-
-
 
     public int getRandomColor(){
         Random rnd = new Random();
@@ -128,64 +60,24 @@ public class MainActivity extends CyaneaAppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
 
         activity = this;
-
-//        setTheme(R.style.AppThemeMint);
-//        ColorfulKt.Colorful().apply(this, true, BaseTheme.THEME_MATERIAL);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         initializeLogger();
-        Once.initialise(this);
-
         initializeFragmentMap();
-
-
-        Logger.i("LogCat Info");
-        Logger.w("LogCat Warning");
-        Logger.wtf("LogCat WTF");
-        Logger.e("LogCat Error");
-
-        String recreateFragment = "recreateFragment";
-        Log.i("TimeClock", "STARTED");
-
-
-        if (!Once.beenDone(Once.THIS_APP_VERSION, changelog)) {
-//            initializeChangelog();
-            Once.markDone(changelog);
-        }
-
         setMainStartFragment();
 
-
-        mSharedPreferences = getSharedPreferences("", Context.MODE_PRIVATE);
+        SharedPreferences mSharedPreferences = getSharedPreferences("", Context.MODE_PRIVATE);
         SharedPreferences.Editor mEditor = mSharedPreferences.edit();
 
-
-        Toolbar toolbar = (Toolbar) findViewById(R.id.action_bar);
+        Toolbar toolbar = findViewById(R.id.action_bar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
-//        toolbar.setNavigationIcon(R.drawable.ic_menu_black_24dp);
-        TextView mTitle = (TextView) toolbar.findViewById(R.id.toolbar_title);
-        toolbar.setBackgroundColor(getCyanea().getPrimary());
-        toolbar.setOnClickListener(v -> getCyanea().edit().accent(getRandomColor()).primary(getRandomColor()).apply().recreate(activity));
-
-        Logger.i("cyanea" + String.valueOf(getCyanea().getPrimary()));
-//        mTitle.setText("");
-
-        toolbar.setNavigationOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {
-                bottomSheetView(view);
-            }
-        });
+        TextView mTitle = toolbar.findViewById(R.id.toolbar_title);
+//        toolbar.setBackgroundColor(getCyanea().getPrimary());
+//        toolbar.setOnClickListener(v -> getCyanea().edit().accent(getRandomColor()).primary(getRandomColor()).apply().recreate(activity));
 
 
-//        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
-//        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
-
-
-        bottomNavigationBar = (BottomNavigationBar) findViewById(R.id.bottom_navigation_bar);
+        BottomNavigationBar bottomNavigationBar = findViewById(R.id.bottom_navigation_bar);
 
         bottomNavigationBar
                 .addItem(new BottomNavigationItem(R.drawable.home_variant_outline, "Home"))
@@ -194,7 +86,7 @@ public class MainActivity extends CyaneaAppCompatActivity implements
                 .addItem(new BottomNavigationItem(R.drawable.ic_menu_black_24dp, "Menu"))
                 .setFirstSelectedPosition(0)
                 .setBarBackgroundColor(R.color.white)
-                .setActiveColor(String.format("#%06X", (0xFFFFFF & (getCyanea().getPrimary()))))
+//                .setActiveColor(String.format("#%06X", (0xFFFFFF & (getCyanea().getPrimary()))))
                 .setInActiveColor(R.color.blue_grey)
                 .setMode(BottomNavigationBar.MODE_FIXED)
                 .initialise();
@@ -307,18 +199,6 @@ public class MainActivity extends CyaneaAppCompatActivity implements
             }
 
 
-    public void calculatorView(View view) {
-
-        calculatorBottomSheetDialogFragment = CalculatorBottomSheetDialogFragment.newInstance();
-        calculatorBottomSheetDialogFragment.show(getSupportFragmentManager(), "CalculatorBottomSheetDialogFragment");
-        mainOptionsBottomSheetDialogFragment.dismiss();
-
-        //startActivity(new Intent(this, ActivityDebugTools.class));
-
-    }
-
-
-
     private void initializeLogger() {
         FormatStrategy formatStrategy = PrettyFormatStrategy.newBuilder()
                 .showThreadInfo(false)  // (Optional) Whether to show thread info or not. Default true
@@ -336,22 +216,7 @@ public class MainActivity extends CyaneaAppCompatActivity implements
         Logger.i("MainActivity: @onDestroy");
         AppDatabase.destroyInstance();
 
-        if (!isNotificationPersistant) {
-
-            NotificationManager mNotificationManager =
-                    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-            if (mNotificationManager != null) {
-                mNotificationManager.cancel(nId);
-            }
-        }
-
         super.onDestroy();
-    }
-
-    public void bottomSheetView(View view) {
-                Toasty.info(this, "PORN", Toast.LENGTH_LONG , true).show();
-        mainOptionsBottomSheetDialogFragment = MainOptionsBottomSheetDialogFragment.newInstance();
-        mainOptionsBottomSheetDialogFragment.show(getSupportFragmentManager(), "MainOptionsBottomSheetDialogFragment");
     }
 
     @Override
