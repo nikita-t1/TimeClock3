@@ -74,8 +74,8 @@ public class MainActivity extends CyaneaAppCompatActivity implements
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         TextView mTitle = toolbar.findViewById(R.id.toolbar_title);
-        toolbar.setBackgroundColor(getCyanea().getPrimary());
         toolbar.setOnClickListener(v -> getCyanea().edit().accent(getRandomColor()).primary(getRandomColor()).apply().recreate(activity));
+        mTitle.setText("");
 
 
         BottomNavigationBar bottomNavigationBar = findViewById(R.id.bottom_navigation_bar);
@@ -101,6 +101,8 @@ public class MainActivity extends CyaneaAppCompatActivity implements
                 Logger.i("onTabSelected:" + position);
                 //Resume at the choosen position --> Save the screen somehow, to resume later
                 mEditor.putInt("NavBarPosition", position).apply();
+                mTitle.setText("");
+                toolbar.setBackgroundColor(getColor(R.color.white));
 
                 if (position == 0) {
                     Logger.i("MainActivity: @onNavigationItemSelected -> Home");
@@ -108,28 +110,25 @@ public class MainActivity extends CyaneaAppCompatActivity implements
                     selectedFragment = HomeFragment.newInstance();
                     transaction1.replace(R.id.main_fragment_container, selectedFragment);
                     transaction1.commit();
-                    mTitle.setText("Home");
                 } else if (position == 1) {
                     Logger.i("MainActivity: @onNavigationItemSelected -> Statistics");
                     FragmentTransaction transaction2 = getSupportFragmentManager().beginTransaction();
                     selectedFragment = StatisticsFragment.newInstance("Param1", "Param2");
                     transaction2.replace(R.id.main_fragment_container, selectedFragment);
                     transaction2.commit();
-                    mTitle.setText("Statistics");
                 } else if (position == 2) {
                     Logger.i("MainActivity: @onNavigationItemSelected -> Listing");
                     FragmentTransaction transaction3 = getSupportFragmentManager().beginTransaction();
                     selectedFragment = ListingFragment.newInstance("Param1", "Param2");
                     transaction3.replace(R.id.main_fragment_container, selectedFragment);
                     transaction3.commit();
-                    mTitle.setText("Listing");
+                    toolbar.setBackgroundColor(getCyanea().getPrimary());
                 }else if (position == 3) {
                     Logger.i("MainActivity: @onNavigationItemSelected -> MainOptions");
                     FragmentTransaction transaction3 = getSupportFragmentManager().beginTransaction();
                     selectedFragment = MainOptionsFragment.newInstance("Param1", "Param2");
                     transaction3.replace(R.id.main_fragment_container, selectedFragment);
                     transaction3.commit();
-                    mTitle.setText("Menu");
                 }
 
             }

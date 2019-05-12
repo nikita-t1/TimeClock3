@@ -18,6 +18,7 @@
     <release versionCode="160" versionName="0.16.0-alpha" date="12-05-2019">
         <remove>Removed AgendaCalendarView from Project</remove>
         <new>Added ViewPager2 with RecyclerView</new>
+        <new>Added TabLayout to ViewPager2</new>
     </release>
 
     <release versionCode="150" versionName="0.15.0-alpha" date="28-04-2019">

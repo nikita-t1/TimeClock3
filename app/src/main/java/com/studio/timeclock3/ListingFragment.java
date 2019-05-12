@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.google.android.material.tabs.TabLayout;
 import com.orhanobut.logger.Logger;
 import com.studio.timeclock3.Data.AppDatabase;
 import com.studio.timeclock3.Data.WorkDay;
@@ -41,6 +42,7 @@ public class ListingFragment extends Fragment{
     @BindView(R.id.viewPager2) ViewPager2 viewPager2;
     private ArrayList<String> arrayList = new ArrayList<>();
     private AppDatabase appDatabase;
+    @BindView(R.id.tabs) TabLayout tabs;
 
     private OnFragmentInteractionListener mListener;
 
@@ -123,9 +125,18 @@ public class ListingFragment extends Fragment{
         ViewPager2Adapter viewPager2Adapter= new ViewPager2Adapter(getActivity(), arrayList);
         viewPager2.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
         viewPager2.setAdapter(viewPager2Adapter);
-        viewPager2.setCurrentItem(1);
         viewPager2.setOffscreenPageLimit(0);
         Logger.i("HOLDER2: " + viewPager2.getChildCount());
+
+        tabs.setTabGravity(TabLayout.GRAVITY_FILL);
+        tabs.setTabMode(TabLayout.MODE_SCROLLABLE);
+        tabs.setSelectedTabIndicatorColor(getResources().getColor(R.color.green));
+        ArrayList finalArrayList = arrayList;
+        tabs.setTabTextColors(getResources().getColor(R.color.black), getResources().getColor(R.color.green));
+
+        TabLayoutMediator tabLayoutMediator = new TabLayoutMediator(tabs, viewPager2,
+                (tab, position) -> tab.setText("KW " + finalArrayList.get(position)));
+        tabLayoutMediator.attach();
 
         return view;
     }
