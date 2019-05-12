@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -18,6 +17,7 @@ import com.ashokvarma.bottomnavigation.BottomNavigationBar;
 import com.ashokvarma.bottomnavigation.BottomNavigationItem;
 import com.irozon.sneaker.Sneaker;
 import com.irozon.sneaker.interfaces.OnSneakerClickListener;
+import com.jaredrummler.cyanea.app.CyaneaAppCompatActivity;
 import com.michaelflisar.changelog.ChangelogBuilder;
 import com.michaelflisar.changelog.ChangelogSetup;
 import com.michaelflisar.changelog.internal.ChangelogDialogFragment;
@@ -32,7 +32,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity implements
+public class MainActivity extends CyaneaAppCompatActivity implements
         StatisticsFragment.OnFragmentInteractionListener ,
         ListingFragment.OnFragmentInteractionListener,
         OnSneakerClickListener,
@@ -72,9 +72,10 @@ public class MainActivity extends AppCompatActivity implements
 
         Toolbar toolbar = findViewById(R.id.action_bar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         TextView mTitle = toolbar.findViewById(R.id.toolbar_title);
-//        toolbar.setBackgroundColor(getCyanea().getPrimary());
-//        toolbar.setOnClickListener(v -> getCyanea().edit().accent(getRandomColor()).primary(getRandomColor()).apply().recreate(activity));
+        toolbar.setBackgroundColor(getCyanea().getPrimary());
+        toolbar.setOnClickListener(v -> getCyanea().edit().accent(getRandomColor()).primary(getRandomColor()).apply().recreate(activity));
 
 
         BottomNavigationBar bottomNavigationBar = findViewById(R.id.bottom_navigation_bar);
@@ -86,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements
                 .addItem(new BottomNavigationItem(R.drawable.ic_menu_black_24dp, "Menu"))
                 .setFirstSelectedPosition(0)
                 .setBarBackgroundColor(R.color.white)
-//                .setActiveColor(String.format("#%06X", (0xFFFFFF & (getCyanea().getPrimary()))))
+                .setActiveColor(String.format("#%06X", (0xFFFFFF & (getCyanea().getPrimary()))))
                 .setInActiveColor(R.color.blue_grey)
                 .setMode(BottomNavigationBar.MODE_FIXED)
                 .initialise();

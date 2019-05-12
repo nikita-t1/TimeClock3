@@ -8,7 +8,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+import androidx.viewpager2.widget.ViewPager2;
 
+import com.orhanobut.logger.Logger;
+import com.studio.timeclock3.Data.AppDatabase;
+import com.studio.timeclock3.Data.WorkDay;
+
+import java.util.ArrayList;
+
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
@@ -29,6 +37,10 @@ public class ListingFragment extends Fragment{
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    @BindView(R.id.viewPager2) ViewPager2 viewPager2;
+    private ArrayList<String> arrayList = new ArrayList<>();
+    private AppDatabase appDatabase;
 
     private OnFragmentInteractionListener mListener;
 
@@ -63,6 +75,27 @@ public class ListingFragment extends Fragment{
         }
     }
 
+    public static <T> ArrayList<T> removeDuplicates(ArrayList<T> list)
+    {
+
+        // Create a new ArrayList
+        ArrayList<T> newList = new ArrayList<T>();
+
+        // Traverse through the first list
+        for (T element : list) {
+
+            // If this element is not present in newList
+            // then add it
+            if (!newList.contains(element)) {
+
+                newList.add(element);
+            }
+        }
+
+        // return the new list
+        return newList;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -70,11 +103,29 @@ public class ListingFragment extends Fragment{
 
         View view = inflater.inflate(R.layout.fragment_listing, container, false);
         ButterKnife.bind(this, view);
+        appDatabase = AppDatabase.getAppDatabase(getContext());
 
 
         if (getActivity() instanceof MainActivity) {
             ((MainActivity) getActivity()).getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         }
+
+
+
+        ArrayList arrayList = new ArrayList();
+        for(WorkDay workDay: appDatabase.workDayDao().getAll()) {
+            arrayList.add(workDay.getWeekOfYear());
+        }
+        arrayList = removeDuplicates(arrayList);
+        Logger.i("arraylist: " + arrayList);
+        Logger.i("arraylist size: " + arrayList.size());
+
+        ViewPager2Adapter viewPager2Adapter= new ViewPager2Adapter(getActivity(), arrayList);
+        viewPager2.setOrientation(ViewPager2.ORIENTATION_HORIZONTAL);
+        viewPager2.setAdapter(viewPager2Adapter);
+        viewPager2.setCurrentItem(1);
+        viewPager2.setOffscreenPageLimit(0);
+        Logger.i("HOLDER2: " + viewPager2.getChildCount());
 
         return view;
     }
@@ -101,6 +152,12 @@ public class ListingFragment extends Fragment{
                     + " must implement OnFragmentInteractionListener");
         }
     }
+    @Override
+    public void onStop() {
+        super.onStop();
+        AppDatabase.destroyInstance();
+    }
+
 
     @Override
     public void onDetach() {
