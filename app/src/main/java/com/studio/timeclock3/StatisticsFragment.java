@@ -30,7 +30,6 @@ public class StatisticsFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    FirstRecyclerViewAdapter adapter;
 
     public StatisticsFragment() {
         // Required empty public constructor

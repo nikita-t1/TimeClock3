@@ -1,27 +1,23 @@
-package com.studio.timeclock3.Intro;
+package com.studio.timeclock3.intro;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.orhanobut.logger.Logger;
 import com.studio.timeclock3.R;
 
-import java.sql.Date;
-import java.sql.Time;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-
 import androidx.annotation.Nullable;
 import io.github.dreierf.materialintroscreen.SlideFragment;
 
-public class IntroSlideWorkingTime extends SlideFragment {
+
+public class IntroSlidePauseTime extends SlideFragment {
 
     private TimePicker timePicker;
     public Button setButton;
@@ -35,6 +31,8 @@ public class IntroSlideWorkingTime extends SlideFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         final View view = inflater.inflate(R.layout.intro_slide_time_picker, container, false);
+//        view.setScaleX(1.3f);
+//        view.setScaleY(1.3f);
 
         mSharedPreferences = getActivity().getSharedPreferences("", Context.MODE_PRIVATE);
         mEditor = mSharedPreferences.edit();
@@ -43,8 +41,10 @@ public class IntroSlideWorkingTime extends SlideFragment {
         timePicker = (TimePicker) view.findViewById(R.id.timePicker1);
         timePicker.setIs24HourView(true);
 
-        timePicker.setScaleX(1.3f);
-        timePicker.setScaleY(1.3f);
+        TextView mainText = (TextView) view.findViewById(R.id.timePickerMainText);
+        mainText.setText("Pause Time");
+        TextView descriptionText = (TextView) view.findViewById(R.id.timePickerMainDescription);
+        descriptionText.setText("Please enter your daily pause hours");
 
         setButton = (Button) view.findViewById(R.id.setButton);
         setButton.setOnClickListener(new View.OnClickListener() {
@@ -57,10 +57,10 @@ public class IntroSlideWorkingTime extends SlideFragment {
 
                 isButtonClicked = true;
 
-                Long WORKING_TIME_MIN = (long)hour * 60 + minute;
-                Logger.i("WORKING_TIME_MIN:" + WORKING_TIME_MIN);
+                Long PAUSE_TIME_MIN = (long)hour * 60 + minute;
+                Logger.i("PAUSE_TIME_MIN:" + PAUSE_TIME_MIN);
 
-                mEditor.putLong("WORKING_TIME_MIN", WORKING_TIME_MIN).apply();
+                mEditor.putLong("PAUSE_TIME_MIN", PAUSE_TIME_MIN).apply();
             }
         });
 
@@ -84,7 +84,7 @@ public class IntroSlideWorkingTime extends SlideFragment {
 
     @Override
     public String cantMoveFurtherErrorMessage() {
-        return "Please enter your Working Time";
+        return "Please enter your Pause Time";
     }
 
 }

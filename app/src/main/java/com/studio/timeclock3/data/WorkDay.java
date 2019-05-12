@@ -1,6 +1,4 @@
-package com.studio.timeclock3.Data;
-
-import java.util.ArrayList;
+package com.studio.timeclock3.data;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;

@@ -27,8 +27,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.orhanobut.logger.Logger;
 import com.robinhood.ticker.TickerUtils;
 import com.robinhood.ticker.TickerView;
-import com.studio.timeclock3.Data.AppDatabase;
-import com.studio.timeclock3.Data.WorkDay;
+import com.studio.timeclock3.data.AppDatabase;
+import com.studio.timeclock3.data.WorkDay;
+import com.studio.timeclock3.utils.TimeCalculations;
 
 import net.futuredrama.jomaceld.circularpblib.BarComponent;
 import net.futuredrama.jomaceld.circularpblib.CircularProgressBarView;

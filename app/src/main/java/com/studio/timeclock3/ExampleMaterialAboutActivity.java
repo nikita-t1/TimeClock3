@@ -5,11 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 
 import com.ceylonlabs.imageviewpopup.ImagePopup;
@@ -26,12 +22,10 @@ import com.michaelflisar.changelog.ChangelogSetup;
 import com.michaelflisar.changelog.internal.ChangelogDialogFragment;
 import com.mikepenz.aboutlibraries.Libs;
 import com.mikepenz.aboutlibraries.LibsBuilder;
-import com.studio.timeclock3.Intro.IntroActivity;
+import com.studio.timeclock3.intro.IntroActivity;
 
 import androidx.annotation.NonNull;
-import butterknife.BindDrawable;
-import butterknife.BindView;
-import butterknife.ButterKnife;
+
 import es.dmoral.toasty.Toasty;
 
 import static android.widget.Toast.*;

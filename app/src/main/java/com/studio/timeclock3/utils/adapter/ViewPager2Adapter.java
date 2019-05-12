@@ -1,4 +1,4 @@
-package com.studio.timeclock3;
+package com.studio.timeclock3.utils.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.orhanobut.logger.Logger;
+import com.studio.timeclock3.R;
 
 import java.util.ArrayList;
 

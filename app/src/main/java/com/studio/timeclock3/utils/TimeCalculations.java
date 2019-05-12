@@ -1,4 +1,4 @@
-package com.studio.timeclock3;
+package com.studio.timeclock3.utils;
 
 import android.content.SharedPreferences;
 import android.icu.text.SimpleDateFormat;

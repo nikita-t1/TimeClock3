@@ -1,4 +1,4 @@
-package com.studio.timeclock3.Intro;
+package com.studio.timeclock3.intro;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

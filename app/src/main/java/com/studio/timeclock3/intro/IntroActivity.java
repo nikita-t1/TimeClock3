@@ -1,17 +1,14 @@
-package com.studio.timeclock3.Intro;
+package com.studio.timeclock3.intro;
 
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import com.studio.timeclock3.MainActivity;
 import com.studio.timeclock3.R;
-import com.studio.timeclock3.SplashScreen;
 
 import androidx.annotation.Nullable;
 import androidx.preference.PreferenceManager;

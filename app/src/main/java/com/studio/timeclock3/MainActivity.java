@@ -25,7 +25,7 @@ import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.FormatStrategy;
 import com.orhanobut.logger.Logger;
 import com.orhanobut.logger.PrettyFormatStrategy;
-import com.studio.timeclock3.Data.AppDatabase;
+import com.studio.timeclock3.data.AppDatabase;
 
 import java.util.HashMap;
 import java.util.Map;

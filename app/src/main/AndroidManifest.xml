@@ -34,7 +34,7 @@
         <activity android:name=".ExampleMaterialAboutActivity"
             android:theme="@style/AppTheme.MaterialAboutActivity"/>
         <activity
-            android:name=".Intro.IntroActivity"
+            android:name=".intro.IntroActivity"
             android:label="app_intro" />
     </application>
 

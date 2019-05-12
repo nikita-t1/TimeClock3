@@ -1,23 +1,20 @@
 package com.studio.timeclock3;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.animation.AccelerateDecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.blogspot.atifsoftwares.animatoolib.Animatoo;
-import com.studio.timeclock3.Intro.IntroActivity;
-
-import java.util.logging.Logger;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceManager;
+
+import com.blogspot.atifsoftwares.animatoolib.Animatoo;
+import com.studio.timeclock3.intro.IntroActivity;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 

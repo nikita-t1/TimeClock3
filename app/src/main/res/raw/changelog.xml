@@ -19,6 +19,7 @@
         <remove>Removed AgendaCalendarView from Project</remove>
         <new>Added ViewPager2 with RecyclerView</new>
         <new>Added TabLayout to ViewPager2</new>
+        <refactor>Restructured Java Classes</refactor>
     </release>
 
     <release versionCode="150" versionName="0.15.0-alpha" date="28-04-2019">

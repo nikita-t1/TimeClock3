@@ -13,9 +13,9 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.orhanobut.logger.Logger;
-import com.studio.timeclock3.Data.AppDatabase;
-import com.studio.timeclock3.Data.DatabaseInitializer;
-import com.studio.timeclock3.Data.WorkDay;
+import com.studio.timeclock3.data.AppDatabase;
+import com.studio.timeclock3.data.DatabaseInitializer;
+import com.studio.timeclock3.data.WorkDay;
 
 import java.util.List;
 

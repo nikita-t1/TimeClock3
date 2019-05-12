@@ -12,8 +12,10 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
 import com.orhanobut.logger.Logger;
-import com.studio.timeclock3.Data.AppDatabase;
-import com.studio.timeclock3.Data.WorkDay;
+import com.studio.timeclock3.data.AppDatabase;
+import com.studio.timeclock3.data.WorkDay;
+import com.studio.timeclock3.utils.TabLayoutMediator;
+import com.studio.timeclock3.utils.adapter.ViewPager2Adapter;
 
 import java.util.ArrayList;
 
